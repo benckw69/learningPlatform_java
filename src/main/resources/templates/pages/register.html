@@ -44,13 +44,10 @@
       </form> 
       <p>已經有帳戶?請<a href="/login" id="loginAction">登入</a></p>
       
-      <% if (messages) { %>
-        <section class="messages">
-          <% messages.forEach(function(message) { %>
-            <p><b><%= message %></b></p>
-          <% }); %>
-        </section>
-      <% } %>
+      <section class="messages" th:each="message,iterStat : ${messages}">
+          <p><b th:text="${message}"></b></p>
+      </section>
+
     </div>
     <script>
       function changeType(type){

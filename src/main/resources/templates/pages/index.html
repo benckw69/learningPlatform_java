@@ -11,6 +11,8 @@
       <h1 th:text="${title}"></h1>
 
       <div th:replace="~{fragements/header}"></div> 
+
+      
       <% if (messages) { %>
         <section class="messages">
           <% messages.forEach(function(message) { %>
