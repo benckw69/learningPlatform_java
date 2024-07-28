@@ -3,34 +3,23 @@ package com.benckw69.learningPlatform_java;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class WebController {
-
-    @ModelAttribute("title")
-    public String title() {
-        Global global = new Global();
-        return global.getTitle();
-    }
-
-    @ModelAttribute("messages")
-    public List<String> messages(HttpSession session) {
-        List<String> messages = null;
-        if(session.getAttribute("messages") != null){
-            messages = (List<String>)session.getAttribute("messages");
-            session.removeAttribute("messages");
-        }
-        return messages;
-    }
+@RequestMapping("/")
+public class Web_IndexController {
 
     
-    @GetMapping("/")
+
+    @GetMapping
     public String index(HttpSession session){
         //this sentence need to be remove.  Just illustration
         session.setAttribute("user", "teacher");
@@ -58,5 +47,14 @@ public class WebController {
     public String logout(HttpSession session){
         session.removeAttribute("user");
         return "redirect:/login";
+    }
+
+    //handle login
+    @PostMapping("/login")
+    public String loginAuthentication(){
+        
+
+        if(true) return "redirect:/";
+        else return "redirect:/login";
     }
 }
