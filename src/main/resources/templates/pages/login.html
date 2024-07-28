@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title th:text="${title}+' - 登入'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
+    <link rel='stylesheet' href='/css/backgroundImage.css' th:href="@{/css/backgroundImage.css}"/>
+  </head>
+  <body>
+    <div class="content">
+      <h1 th:text="${title}"></h1>
+      <div th:replace="~{fragements/header}"></div> 
+      <p style="text-align:left;">
+        <h2 style="display: inline;">登入</h2>
+        <span style="float:right;">
+          <select name="type" id="type" onchange="changeType(this.value)">
+            <option value="student">學生</option>
+            <option value="teacher">老師</option>
+            <option value="admin">管理員</option>
+          </select>
+        </span>
+      </p> 
+      
+      <hr>
+      <form id="form" action="/login?type=student" method="post">
+          <label for="uname"><b>電郵地址</b></label>
+          <input type="text" placeholder="輸入電郵" name="email" required>
+          <br/>
+          <label for="psw"><b>密碼</b></label>
+          <input type="password" placeholder="輸入密碼" name="password" minlength="8" required>
+      
+          <button type="submit" class="registerbtn">登入</button>
+          <br/>
+          <button type="button" class="registerbtn" style="display: inline;" id="googleLogin" onclick="window.location.href='/login/google/student'">Google 登入</button>
+          <br/>
+          <p id="haveAccountText" style="display: inline;">沒有帳戶?請<a href="/register?type=student" id="registerAction">註冊</a></p>
+      </form> 
+
+      <% if (messages) { %>
+        <section class="messages">
+          <% messages.forEach(function(message) { %>
+            <p><b><%= message %></b></p>
+          <% }); %>
+        </section>
+      <% } %>
+      
+    </div>
+    <script>
+      function changeType(type){
+        if(type=="student"){
+        document.getElementById('registerAction').setAttribute("href","/register?type=student");
+        document.getElementById('form').setAttribute("action","/login?type=student");
+        document.getElementById('googleLogin').style.display = "inline";
+        document.getElementById('haveAccountText').style.display = "inline";
+        document.getElementById('googleLogin').onclick = function(){
+          window.location.href='/login/google/student';
+        }
+        } else if (type=="teacher") {
+          document.getElementById('registerAction').setAttribute("href","/register?type=teacher");
+          document.getElementById('form').setAttribute("action","/login?type=teacher");
+          document.getElementById('googleLogin').style.display = "inline";
+          document.getElementById('haveAccountText').style.display = "inline";
+          document.getElementById('googleLogin').onclick = function(){
+            window.location.href='/login/google/teacher';
+          }
+        } else if (type=="admin"){
+          document.getElementById('form').setAttribute("action","/login?type=admin");
+          document.getElementById('haveAccountText').style.display = "none";
+          document.getElementById('googleLogin').style.display = "none";
+        } 
+      }
+      changeType("student")
+    </script>
+  </body>
