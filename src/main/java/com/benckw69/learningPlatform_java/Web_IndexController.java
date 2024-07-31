@@ -6,18 +6,23 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/")
 public class Web_IndexController {
 
     
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public String index(HttpSession session){
@@ -38,9 +43,15 @@ public class Web_IndexController {
     }
 
     @GetMapping("/register")
-    public String register(HttpSession session, Model model){
+    public String form(FormRegister formRegister){
         return "pages/register";
-        
+    }
+
+    @PostMapping("/register")
+    public String RegisterFormHandle(@Valid FormRegister formRegister,BindingResult bindingResult, Model model){
+        Boolean isRegister = userService.register(formRegister,model);
+        if(bindingResult.hasErrors() || !isRegister) return "pages/register";
+        return "pages/index";
     }
 
     @GetMapping("/logout")
@@ -57,4 +68,7 @@ public class Web_IndexController {
         if(true) return "redirect:/";
         else return "redirect:/login";
     }
+
+
+    
 }

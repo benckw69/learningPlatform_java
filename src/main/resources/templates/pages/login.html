@@ -28,7 +28,7 @@
           <br/>
           <p><label for="psw"><b>密碼</b></label></p>
           <input type="password" placeholder="輸入密碼" name="password" minlength="8" required>
-      
+          <hr>
           <button type="submit" class="registerbtn">登入</button>
           <br/>
           <button type="button" class="registerbtn" style="display: inline;" id="googleLogin" onclick="window.location.href='/login/google/student'">Google 登入</button>
@@ -44,7 +44,6 @@
     <script>
       function changeType(type){
         if(type=="student"){
-        document.getElementById('registerAction').setAttribute("href","/register?type=student");
         document.getElementById('form').setAttribute("action","/login?type=student");
         document.getElementById('googleLogin').style.display = "inline";
         document.getElementById('haveAccountText').style.display = "inline";
@@ -52,7 +51,6 @@
           window.location.href='/login/google/student';
         }
         } else if (type=="teacher") {
-          document.getElementById('registerAction').setAttribute("href","/register?type=teacher");
           document.getElementById('form').setAttribute("action","/login?type=teacher");
           document.getElementById('googleLogin').style.display = "inline";
           document.getElementById('haveAccountText').style.display = "inline";
