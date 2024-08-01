@@ -10,35 +10,36 @@
     <div class="content">
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
-      <p style="text-align:left;">
-        <h2 style="display: inline;">登入</h2>
-        <span style="float:right;">
-          <select name="type" id="type" onchange="changeType(this.value)">
-            <option value="student">學生</option>
-            <option value="teacher">老師</option>
-            <option value="admin">管理員</option>
-          </select>
-        </span>
-      </p> 
       
-      <hr>
       <form id="form" action="/login" method="post">
-          <p><label for="uname"><b>電郵地址</b></label></p>
-          <input type="email" placeholder="輸入電郵" name="email" required>
-          <br/>
-          <p><label for="psw"><b>密碼</b></label></p>
-          <input type="password" placeholder="輸入密碼" name="password" minlength="8" maxlength="20" required>
-          <hr>
-          <button type="submit" class="registerbtn">登入</button>
-          <br/>
-          <button type="button" class="registerbtn" style="display: inline;" id="googleLogin" onclick="window.location.href='/login/google/student'">Google 登入</button>
-          <br/>
-          <p id="haveAccountText" style="display: inline;">沒有帳戶?請<a href="/register" id="registerAction">註冊</a></p>
+        <p style="text-align:left;">
+          <h2 style="display: inline;">登入</h2>
+          <span style="float:right;">
+            <select name="type" id="type" onchange="changeType(this.value)">
+              <option value="student">學生</option>
+              <option value="teacher">老師</option>
+              <option value="admin">管理員</option>
+            </select>
+          </span>
+        </p> 
+        <hr>
+        <p><label for="uname"><b>電郵地址</b></label></p>
+        <input type="text" placeholder="輸入電郵" name="email" required>
+        <br/>
+        <p><label for="psw"><b>密碼</b></label></p>
+        <input type="password" placeholder="輸入密碼" name="password" minlength="0" maxlength="20" required>
+        <section class="error" >
+          <p><b th:if="${param.error}">電郵地址或密碼輸入錯誤</b></p>
+        </section>
+        <hr>
+        <button type="submit" class="registerbtn">登入</button>
+        <br/>
+        <button type="button" class="registerbtn" style="display: inline;" id="googleLogin" onclick="window.location.href='/login/google/student'">Google 登入</button>
+        <br/>
+        <p id="haveAccountText" style="display: inline;">沒有帳戶?請<a href="/register" id="registerAction">註冊</a></p>
       </form> 
 
-      <section class="error" th:if="${param.login}">
-        <p><b th:text="${message}"></b></p>
-      </section>
+      
       
     </div>
     <script>

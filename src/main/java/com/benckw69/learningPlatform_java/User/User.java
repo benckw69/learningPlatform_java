@@ -128,16 +128,7 @@ public class User {
         return isDeleted;
     }
 
-
     public User(){}
-
-    public User(Type type, String email, String username, String password, LoginMethod loginMethod){
-        this.type = type;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.loginMethod = loginMethod;
-    }
 
     @Override
     public String toString() {
