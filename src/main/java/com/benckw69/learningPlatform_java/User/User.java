@@ -16,16 +16,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Type type;
-    @Column(nullable = true, length = 256)
+    @Column(nullable = false, length = 256)
     private String email;
-    @Column(nullable = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String username;
-    @Column(nullable = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String password;
     @Enumerated(EnumType.STRING)
-    @Column(name="login_method", nullable = true)
+    @Column(name="login_method", nullable = false)
     private LoginMethod loginMethod;
     @Column(name="specific_id", length = 64)
     private String specificId = null;
@@ -33,10 +33,10 @@ public class User {
     private int balance = 0;
     @Column(name = "is_deleted", nullable = false, columnDefinition="tinyint(1) default 0")
     private Boolean isDeleted = false;
-    @Column(columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
+    @Column(nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
     @CreationTimestamp
     private Timestamp created_time;
-    @Column(columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @UpdateTimestamp
     private Timestamp updated_time;
     

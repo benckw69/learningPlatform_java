@@ -1,4 +1,4 @@
-package com.benckw69.learningPlatform_java;
+package com.benckw69.learningPlatform_java.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-
-import com.benckw69.learningPlatform_java.User.LoginMethod;
-import com.benckw69.learningPlatform_java.User.User;
 
 
 @Service
@@ -30,8 +27,7 @@ public class UserService {
         userRepository.findByEmail(user.getEmail());
     }
 
-    @Transactional
-    public Boolean register(FormRegister formRegister,Model model){
+    public Boolean register(RegisterRequest formRegister,Model model){
         Boolean isRegister = true;
         //Validation: confirm password and email existance
         if(!formRegister.getPassword().equals(formRegister.getPassword_repeat())) {

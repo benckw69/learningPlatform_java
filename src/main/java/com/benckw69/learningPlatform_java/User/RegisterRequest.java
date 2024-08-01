@@ -1,13 +1,11 @@
-package com.benckw69.learningPlatform_java;
-
-import com.benckw69.learningPlatform_java.User.Type;
+package com.benckw69.learningPlatform_java.User;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class FormRegister {
+public class RegisterRequest {
     
     @NotNull(message = "用戶類型不能為空")
     private Type type;

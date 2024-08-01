@@ -1,4 +1,4 @@
-package com.benckw69.learningPlatform_java;
+package com.benckw69.learningPlatform_java.User;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user")
-public class Web_UserController {
+public class UserController {
 
     @GetMapping("/")
     public String showUserInfomation(){
