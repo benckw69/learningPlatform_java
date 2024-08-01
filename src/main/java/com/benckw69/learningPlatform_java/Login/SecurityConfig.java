@@ -1,4 +1,4 @@
-package com.benckw69.learningPlatform_java;
+package com.benckw69.learningPlatform_java.Login;
 
 import java.util.List;
 
@@ -43,8 +43,7 @@ public class SecurityConfig{
                         .passwordParameter("password")
                         .loginProcessingUrl("/login")
                         .successHandler(securityAuthSuccessHandler)
-                        .defaultSuccessUrl("/")
-                        //
+                        //.defaultSuccessUrl("/")
                         )
                         .logout((logout) -> logout.logoutUrl("/logout")
                                 .logoutSuccessUrl("/login")

@@ -1,4 +1,4 @@
-package com.benckw69.learningPlatform_java;
+package com.benckw69.learningPlatform_java.Login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;

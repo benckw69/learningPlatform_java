@@ -1,4 +1,4 @@
-package com.benckw69.learningPlatform_java;
+package com.benckw69.learningPlatform_java.Login;
 
 import java.io.IOException;
 
@@ -32,7 +32,9 @@ public class SecurityAuthSuccessHandler implements AuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res, Authentication aut) throws IOException, ServletException {
+        System.out.println("successfully login");
         httpSession.setAttribute("user", "student");
+        res.sendRedirect("/");
     }
 }
   
