@@ -25,9 +25,6 @@ public class SecurityConfig{
         @Autowired
         LogoutHandler CustomLogoutHandler;
 
-        @Autowired
-        SecurityAuthSuccessHandler securityAuthSuccessHandler;
-
         @Bean
         public PasswordEncoder passwordEncoder() {
                 return new BCryptPasswordEncoder();
@@ -42,15 +39,13 @@ public class SecurityConfig{
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .loginProcessingUrl("/login")
-                        .successHandler(securityAuthSuccessHandler)
-                        //.defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/")
                         )
                         .logout((logout) -> logout.logoutUrl("/logout")
                                 .logoutSuccessUrl("/login")
                                 .addLogoutHandler(CustomLogoutHandler))
                         .authorizeHttpRequests(requests -> requests
-                                .requestMatchers(HttpMethod.GET, "/register").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/register").permitAll()
+                                .requestMatchers("/register").permitAll() //allowed for both get and post request
                                 .requestMatchers(HttpMethod.GET, "/").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/login").permitAll()
                                 .requestMatchers("/css/**", "/images/**","/members").permitAll()
@@ -59,6 +54,7 @@ public class SecurityConfig{
                                 .requestMatchers(HttpMethod.GET, "/members").hasAuthority("ADMIN")
                                 .anyRequest().authenticated()
                         )
+                        
                         .csrf().disable()
                         .build();
         }

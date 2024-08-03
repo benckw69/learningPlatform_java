@@ -12,16 +12,7 @@
       <div th:replace="~{fragements/header}"></div> 
       
       <form id="form" action="/login" method="post">
-        <p style="text-align:left;">
-          <h2 style="display: inline;">登入</h2>
-          <span style="float:right;">
-            <select name="type" id="type" onchange="changeType(this.value)">
-              <option value="student">學生</option>
-              <option value="teacher">老師</option>
-              <option value="admin">管理員</option>
-            </select>
-          </span>
-        </p> 
+        <h2>登入</h2>
         <hr>
         <p><label for="uname"><b>電郵地址</b></label></p>
         <input type="text" placeholder="輸入電郵" name="email" required>

@@ -9,11 +9,19 @@ import org.springframework.stereotype.Service;
 
 import com.benckw69.learningPlatform_java.User.UserRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    private HttpSession httpSession;
+
+    public UserDetailsServiceImpl (HttpSession httpSession){
+        this.httpSession = httpSession;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -21,6 +29,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("Can't find member: " + username);
         }
+        
+        httpSession.setAttribute("user", user);
+        httpSession.setAttribute("userType", user.getType().name());
 
         return User
                 .withUsername(username)
