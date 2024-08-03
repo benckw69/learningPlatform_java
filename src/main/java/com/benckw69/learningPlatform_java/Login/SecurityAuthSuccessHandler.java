@@ -2,10 +2,8 @@ package com.benckw69.learningPlatform_java.Login;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.ServletException;
@@ -26,6 +24,7 @@ public class SecurityAuthSuccessHandler implements AuthenticationSuccessHandler 
      */
 
     private HttpSession httpSession;
+
     public SecurityAuthSuccessHandler(HttpSession httpSession){
         this.httpSession = httpSession;
     }
