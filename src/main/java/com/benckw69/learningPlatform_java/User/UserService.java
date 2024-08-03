@@ -25,11 +25,6 @@ public class UserService {
         User newUser = userRepository.save(user);
         return newUser;
     }
-    //check whether email exist
-    public void addNewUser(User user){
-
-        userRepository.findByEmail(user.getEmail());
-    }
 
     public Boolean register(RegisterRequest formRegister,Model model){
         Boolean isRegister = true;
@@ -53,7 +48,7 @@ public class UserService {
         newUser.setPassword(passwordEncoder.encode(formRegister.getPassword()));
         newUser.setLoginMethod(LoginMethod.email);
 
-        //check email
+        //save new user
         newUser = userRepository.save(newUser);
         System.out.println(newUser.getId());
         return true;

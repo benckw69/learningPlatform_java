@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title th:text="${title}+' - 搜尋學生'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
+    <link rel='stylesheet' href='/css/backgroundImage.css' th:href="@{/css/backgroundImage.css}"/>
+    <link rel='stylesheet' href='/css/showCourses.css' th:href="@{/css/showCourses.css}"/>
+    <style>
+      #submit{
+        height: 35px;
+        width:75px;
+      }
+      .inputFields{
+        border-style:none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h1 th:text="${title}"></h1>
+      <div th:replace="~{fragements/header}"></div> 
+      <div id="form">
+        <form action="/search/students" method="post">
+          <select id="searchMethod" name="searchMethod" class="inputFields">
+            <option value="username">用戶名稱</option>
+            <option value="email">電郵地址</option>
+          </select>
+          <input type="text" id="searchWords" name="searchWords" class="inputFields">
+          
+          <input type="submit" value="提交" id="submit" class="inputFields">
+        </form> 
+      </div>
+      <ul id="courses"><% students.forEach(students=> { %>
+        <li><ul class="course">
+          <li style="font-size: 26px;"><%= students.username %></li>
+          <li>電郵地址： <%= students.email %></li>
+        </ul></li>
+        <% }); %></ul>
+    </div>
+  </body>
+</html>

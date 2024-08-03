@@ -22,6 +22,7 @@
         <section class="error" >
           <p><b th:if="${param.error}">電郵地址或密碼輸入錯誤</b></p>
         </section>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <hr>
         <button type="submit" class="registerbtn">登入</button>
         <br/>
@@ -29,31 +30,8 @@
         <br/>
         <p id="haveAccountText" style="display: inline;">沒有帳戶?請<a href="/register" id="registerAction">註冊</a></p>
       </form> 
-
-      
-      
     </div>
     <script>
-      function changeType(type){
-        if(type=="student"){
-        document.getElementById('googleLogin').style.display = "inline";
-        document.getElementById('haveAccountText').style.display = "inline";
-        document.getElementById('googleLogin').onclick = function(){
-          window.location.href='/login/google/student';
-        }
-        } else if (type=="teacher") {
-          document.getElementById('googleLogin').style.display = "inline";
-          document.getElementById('haveAccountText').style.display = "inline";
-          document.getElementById('googleLogin').onclick = function(){
-            window.location.href='/login/google/teacher';
-          }
-        } else if (type=="admin"){
-          document.getElementById('haveAccountText').style.display = "none";
-          document.getElementById('googleLogin').style.display = "none";
-        } 
-      }
-      changeType("student")
-
       const urlParams = new URLSearchParams(window.location.search);
       const register_param = urlParams.get('register');
       if(register_param == "true") alert("創建帳戶成功。請登入以使用服務");

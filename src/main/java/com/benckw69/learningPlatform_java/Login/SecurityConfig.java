@@ -1,29 +1,17 @@
 package com.benckw69.learningPlatform_java.Login;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig{
-
-
-        @Autowired
-        LogoutHandler CustomLogoutHandler;
 
         @Bean
         public PasswordEncoder passwordEncoder() {
@@ -42,8 +30,7 @@ public class SecurityConfig{
                         .defaultSuccessUrl("/")
                         )
                         .logout((logout) -> logout.logoutUrl("/logout")
-                                .logoutSuccessUrl("/login")
-                                .addLogoutHandler(CustomLogoutHandler))
+                                .logoutSuccessUrl("/login"))
                         .authorizeHttpRequests(requests -> requests
                                 .requestMatchers("/register").permitAll() //allowed for both get and post request
                                 .requestMatchers(HttpMethod.GET, "/").permitAll()
@@ -52,6 +39,8 @@ public class SecurityConfig{
                                 .requestMatchers(HttpMethod.GET, "/selected-courses").hasAuthority("student")
                                 .requestMatchers(HttpMethod.GET, "/course-feedback").hasAnyAuthority("TEACHER", "ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/members").hasAuthority("ADMIN")
+                                .requestMatchers("/search/teachers").hasAuthority("student")
+                                .requestMatchers("/search/students").hasAuthority("teacher")
                                 .anyRequest().authenticated()
                         )
                         

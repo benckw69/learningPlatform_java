@@ -31,6 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         
         httpSession.setAttribute("user", user);
+        httpSession.setAttribute("userId", user.getId());
+        httpSession.setAttribute("userUsername", user.getUsername());
         httpSession.setAttribute("userType", user.getType().name());
 
         return User

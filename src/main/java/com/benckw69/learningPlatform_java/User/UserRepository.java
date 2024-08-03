@@ -15,13 +15,14 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query(value = "select * from users where email = ?1 && login_method = 'email'",nativeQuery = true)
     User findUserExist(String email);
 
-    //List<Users> findUsersByEmail(String email);
+    List<User> findByEmailContainsAndType(String email,Type type);
+    List<User> findByUsernameContainsAndType(String username,Type type);
+
 
     Optional<User> findById(Integer id);
 
     List<User> findBySpecificId(String specificId);
 
-    Optional<User> findByEmail(String email);
 
     @Transactional
     @Modifying

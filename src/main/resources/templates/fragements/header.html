@@ -1,26 +1,26 @@
 <ul class="menubar" th:if="${session.userType == 'student'}">
-    <li class="menuitem"><span th:text="'你好，'+${session.user.username}"></span> </li>
+    <li class="menuitem"><span th:if="${session.userUsername}" th:text="'你好，'+${session.userUsername}"></span> </li>
     <li class="menuitem"><a href="/">主頁</a> </li>
     <li class="menuitem"><a href="/courses">瀏覽所有課程</a> </li>
     <li class="menuitem"><a href="/courses/paid">瀏覽已付費課程</a> </li>
-    <li class="menuitem"><a href="/searchTeachers">搜尋老師</a> </li>
+    <li class="menuitem"><a href="/search/teachers">搜尋老師</a> </li>
     <li class="menuitem"><a href="/users">個人資料</a> </li>
     <li class="menuitem"><a href="/moneyTickets/insert">輸入現金卷</a> </li>
     <li class="menuitem" style="float:right"><a href="/logout">登出</a></li>
 </ul>
 
 <ul class="menubar" th:if="${session.userType == 'teacher'}">
-    <li class="menuitem"><span th:text="'你好，'+${session.user.username}"></span> </li>
+    <li class="menuitem"><span th:if="${session.userUsername}" th:text="'你好，'+${session.userUsername}"></span> </li>
     <li class="menuitem"><a href="/">主頁</a> </li>
     <li class="menuitem"><a href="/courses/newCourse">新増課程</a> </li>
     <li class="menuitem"><a href="/courses/myCourses">管理課程</a> </li>
-    <li class="menuitem"><a href="/searchStudents">搜尋學生</a> </li>
+    <li class="menuitem"><a href="/search/students">搜尋學生</a> </li>
     <li class="menuitem"><a href="/users">個人資料</a> </li>
     <li class="menuitem" style="float:right"><a href="/logout">登出</a> </li>
 </ul>
 
 <ul class="menubar" th:if="${session.userType == 'admin'}">
-    <li class="menuitem"><span th:text="'你好，'+${session.user.username}"></span></li>
+    <li class="menuitem"><span th:if="${session.userUsername}" th:text="'你好，'+${session.userUsername}"></span></li>
     <li class="menuitem"><a href="/">主頁</a> </li>
     <li class="menuitem"><a href="/moneyTickets/view">查看現金卷</a> </li>
     <li class="menuitem"><a href="/moneyTickets/new">輸入現金卷</a> </li>
