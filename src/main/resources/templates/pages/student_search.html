@@ -21,22 +21,22 @@
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
       <div id="form">
-        <form action="/search/students" method="post">
-          <select id="searchMethod" name="searchMethod" class="inputFields">
+        <form action="/search/students" method="post" th:object="${searchUserRequest}">
+          <select id="searchMethod" name="searchMethod" class="inputFields" th:field="*{searchMethod}">
             <option value="username">用戶名稱</option>
             <option value="email">電郵地址</option>
           </select>
-          <input type="text" id="searchWords" name="searchWords" class="inputFields">
+          <input type="text" id="searchWords" name="searchWords" class="inputFields" th:field="*{searchWords}">
           
           <input type="submit" value="提交" id="submit" class="inputFields">
         </form> 
       </div>
-      <ul id="courses"><% students.forEach(students=> { %>
+      <ul id="courses" th:each="student:${result}">
         <li><ul class="course">
-          <li style="font-size: 26px;"><%= students.username %></li>
-          <li>電郵地址： <%= students.email %></li>
+          <li style="font-size: 26px;" th:text="${student.username}"></li>
+          <li th:text="'電郵地址：'+${student.email}"></li>
         </ul></li>
-        <% }); %></ul>
+      </ul>
     </div>
   </body>
 </html>

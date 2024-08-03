@@ -1,7 +1,5 @@
 package com.benckw69.learningPlatform_java.SearchUser;
 
-import javax.naming.directory.SearchResult;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +18,17 @@ public class SearchController {
     UserRepository userRepository;
 
     @GetMapping("/students")
-    public String searchStudents(){
+    public String searchStudents(SearchUserRequest searchUserRequest){
+        return "pages/student_search";
+    }
+
+    @PostMapping("/students")
+    public String searchStudents(SearchUserRequest searchUserRequest, Model model){
+        if(searchUserRequest.getSearchMethod()==SearchMethod.email){
+            model.addAttribute("result", userRepository.findByEmailContainsAndType(searchUserRequest.getSearchWords(),Type.student));
+        } else {
+            model.addAttribute("result", userRepository.findByUsernameContainsAndType(searchUserRequest.getSearchWords(),Type.student));
+        }
         return "pages/student_search";
     }
 

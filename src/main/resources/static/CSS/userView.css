@@ -3,34 +3,34 @@
     padding: 16px;
   }
 
-  /* Full-width input fields */
-  input[type=text], input[type=password], input[type=email], input[type=number] {
-    padding: 15px;
-    margin: 5px 0 10px 0;
-    width: 100%;
-    display: inline-block;
-    border: none;
-    background: #f1f1f1;
-    box-sizing: border-box;
-  }
+/* Full-width input fields */
+input[type=text], input[type=password], input[type=email], input[type=number] {
+  padding: 15px;
+  margin: 5px 0 10px 0;
+  width: 100%;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+  box-sizing: border-box;
+}
 
-  input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus {
-    background-color: #ddd;
-    outline: none;
-  }
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus {
+  background-color: #ddd;
+  outline: none;
+}
 
-  /* Set a style for the submit/register button */
-  .registerbtn {
-    background-color: green;
-    color: white;
-    padding: 16px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    opacity: 1;
-  }
+/* Set a style for the submit/register button */
+.registerbtn {
+  background-color: green;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 1;
+}
 
-  .registerbtn:hover {
-    opacity:1;
-  }
+.registerbtn:hover {
+  opacity:1;
+}
