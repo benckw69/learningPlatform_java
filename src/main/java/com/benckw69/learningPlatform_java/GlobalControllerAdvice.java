@@ -30,8 +30,6 @@ public class GlobalControllerAdvice {
             User user = userRepository.findById((Integer)httpSession.getAttribute("userId")).orElse(null);
             if(user != null){
                 httpSession.setAttribute("user", user);
-                httpSession.setAttribute("userUsername", user.getUsername());
-                httpSession.setAttribute("userType", user.getType().name());
             } else {
                 this.logoutHandler.logout(request,response,authentication);
             }

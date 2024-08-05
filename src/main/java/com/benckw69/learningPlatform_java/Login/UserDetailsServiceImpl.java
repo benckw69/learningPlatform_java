@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.benckw69.learningPlatform_java.User.LoginMethod;
 import com.benckw69.learningPlatform_java.User.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -25,15 +26,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.benckw69.learningPlatform_java.User.User user = userRepository.findUserExist(username);
+        com.benckw69.learningPlatform_java.User.User user = userRepository.findByEmailAndLoginMethodAndIsDeleted(username,LoginMethod.email,false);
         if (user == null) {
             throw new UsernameNotFoundException("Can't find member: " + username);
         }
         
         httpSession.setAttribute("user", user);
         httpSession.setAttribute("userId", user.getId());
-        httpSession.setAttribute("userUsername", user.getUsername());
-        httpSession.setAttribute("userType", user.getType().name());
 
         return User
                 .withUsername(username)

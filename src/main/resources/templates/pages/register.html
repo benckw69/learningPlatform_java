@@ -31,7 +31,7 @@
 
         <p><label for="email"><b>電郵地址</b></label></p>
         <input type="email" placeholder="輸入電郵" name="email" th:field="*{email}" maxlength="256" required>
-        <ul class="error"><li th:each="err : ${#fields.errors('email')}" th:text="${err}" >Email Error</li><li th:if="${email_error} != null" th:text="${email_error}"></li></ul>
+        <ul class="error"><li th:each="err : ${#fields.errors('email')}" th:text="${err}" >Email Error</li><li th:if="${email_error}" th:text="${email_error}"></li></ul>
 
         <p><label for="username"><b>用戶名稱</b></label></p>
         <input type="text" placeholder="輸入用戶名稱" name="username" th:field="*{username}" minlength="4" maxlength="20" required>
@@ -43,10 +43,10 @@
 
         <p><label for="psw-repeat"><b>重覆輸入密碼</b></label></p>
         <input type="password" placeholder="輸入密碼" name="password_repeat" th:field="*{password_repeat}" minlength="8" maxlength="20" required>
-        <ul class="error"><li th:each="err : ${#fields.errors('password_repeat')}" th:text="${err}" >Repeat password Error</li><li th:if="${password_repeat_error} != null" th:text="${password_repeat_error}"></li></ul>
+        <ul class="error"><li th:each="err : ${#fields.errors('password_repeat')}" th:text="${err}" >Repeat password Error</li><li th:if="${password_repeat_error}" th:text="${password_repeat_error}"></li></ul>
         
         <p><label for="psw-repeat"><b>推薦碼</b></label></p>
-        <input type="text" placeholder="推薦碼" th:text="${param.ref}" name="referral" id="referral" th:field="*{referral}">
+        <input type="text" placeholder="推薦碼" th:field="*{referral}" name="referral" id="referral">
 
         <hr>
 

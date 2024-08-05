@@ -19,6 +19,10 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, inp
   outline: none;
 }
 
+textarea {
+  resize: none;
+}
+
 /* Set a style for the submit/register button */
 .registerbtn {
   background-color: green;

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
@@ -24,7 +25,7 @@ public class IndexController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
+    @GetMapping({"/","/index"})
     public String index(HttpSession session){
         return "pages/index";
     }
@@ -35,7 +36,8 @@ public class IndexController {
     }
 
     @GetMapping("/register")
-    public String form(RegisterRequest registerRequest){
+    public String form(RegisterRequest registerRequest,@RequestParam(required = false) String ref){
+        registerRequest.setReferral(ref);
         return "pages/register";
     }
 
