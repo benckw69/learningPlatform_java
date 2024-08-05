@@ -64,8 +64,17 @@ public class UserController {
     }
 
     @GetMapping("/pw/edit")
-    public String editPassword(){
+    public String editPassword(PasswordEdit passwordEdit){
         return "pages/user_pw_edit";
+    }
+
+    @PostMapping("/pw/edit")
+    public String editPassword(PasswordEdit passwordEdit, BindingResult bindingResult, Model model, HttpSession httpSession){
+        User user = (User)httpSession.getAttribute("user");
+        Boolean validation = userService.validNewPassword(passwordEdit,user.getPassword(),model);
+        if(!validation || bindingResult.hasErrors()) return "pages/user_pw_edit";
+        userService.updatePassword(passwordEdit,httpSession);
+        return "redirect:/user/pw/edit?edit=true";
     }
 
 }

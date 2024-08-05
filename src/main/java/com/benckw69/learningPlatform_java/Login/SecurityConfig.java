@@ -36,7 +36,7 @@ public class SecurityConfig{
                                 .requestMatchers("/error").permitAll()
                                 .requestMatchers("/register").permitAll() //allowed for both get and post request
                                 .requestMatchers(HttpMethod.GET, "/").permitAll()
-                                .requestMatchers("/login","/error").permitAll()
+                                .requestMatchers("/login").permitAll()
                                 .requestMatchers("/css/**", "/images/**","/members").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/selected-courses").hasAuthority("student")
                                 .requestMatchers(HttpMethod.GET, "/course-feedback").hasAnyAuthority("TEACHER", "ADMIN")

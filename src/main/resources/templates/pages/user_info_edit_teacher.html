@@ -29,8 +29,8 @@
           <ul class="error"><li th:each="err : ${#fields.errors('introduction')}" th:text="${err}" >Introduction Error</li></ul>
 
           <label for="username" id="passwordText"><b>密碼</b></label>
-          <input type="password" th:field="*{password}" minlength="8" maxlength="20" required>
-          <ul class="error"><li th:each="err : ${#fields.errors('password')}" th:text="${err}" >Password Error</li><li th:if="${password_error}" th:text="${password_error}"></li></ul>
+          <input type="password" th:field="*{password}" required>
+          <ul class="error"><li th:if="${passwordError}" th:text="${passwordError}"></li></ul>
 
           <p class="success" th:if="${ChangeSuccess}"><b th:text="${ChangeSuccess}"></b></p>
           <button type="submit" class="registerbtn">更改資料</button>

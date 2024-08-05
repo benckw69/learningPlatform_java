@@ -21,7 +21,7 @@ public class UserService {
 
     public Boolean isSamePassword(String password, String password_repeat, Model model){
         if(!password.equals(password_repeat)) {
-            model.addAttribute("password_repeat_error", "確認密碼與密碼不一樣");
+            model.addAttribute("passwordRepeatError", "確認密碼與密碼不一樣");
             return false;
         }
         return true;
@@ -30,10 +30,18 @@ public class UserService {
     public Boolean emailExist(String email,Model model){
         User existEmail = userRepository.findByEmailAndLoginMethod(email,LoginMethod.email);
         if(existEmail != null) {
-            model.addAttribute("email_error", "此電郵地址已被註冊");
+            model.addAttribute("emailError", "此電郵地址已被註冊");
             return true;
         }
         return false;
+    }
+
+    public Boolean passwordMatch(String matchingPassword, String password, Model model){
+        if(!passwordEncoder.matches(matchingPassword, password)) {
+            model.addAttribute("passwordError", "密碼錯誤");
+            return false;
+        }
+        return true;
     }
 
     public Boolean register(RegisterRequest registerRequest,Model model){
@@ -95,19 +103,28 @@ public class UserService {
         String password = studentOrAdminEdit.getPassword();
         User user = getUserBySession(httpSession);
         //check valid password and whether the email address has been used
-        Boolean valid = true;
-        if(!passwordEncoder.matches(password, user.getPassword())) {
-            model.addAttribute("password_error", "密碼錯誤");
-            valid = false;
-        }
+        Boolean validation = true;
+        validation = passwordMatch(password, user.getPassword(), model);
         if(!studentOrAdminEdit.getEmail().equals(user.getEmail()) && emailExist(studentOrAdminEdit.getEmail(), model)) return false;
-        return valid==false? false: true;
+        return validation;
     }
 
     public void updateInfoStudentOrAdmin(StudentOrAdminEdit studentOrAdminEdit, HttpSession httpSession){
         User user = getUserBySession(httpSession);
         user.setEmail(studentOrAdminEdit.getEmail());
         user.setUsername(studentOrAdminEdit.getUsername());
+        userRepository.save(user);
+    }
+
+    public Boolean validNewPassword(PasswordEdit passwordEdit,String hashPassword, Model model){
+        Boolean validation = isSamePassword(passwordEdit.getNewPassword(), passwordEdit.getNewPasswordRepeat(), model);
+        if(passwordMatch(passwordEdit.getOldPassword(), hashPassword, model)) return false;
+        return validation;
+    }
+
+    public void updatePassword(PasswordEdit passwordEdit,HttpSession httpSession){
+        User user = getUserBySession(httpSession);
+        user.setPassword(passwordEncoder.encode(passwordEdit.getNewPassword()));
         userRepository.save(user);
     }
 }

@@ -17,15 +17,15 @@
       
           <label for="email"><b>電郵地址</b></label>
           <input type="email" th:field="*{email}" maxlength="256" required>
-          <ul class="error"><li th:each="err : ${#fields.errors('email')}" th:text="${err}" >Email Error</li><li th:if="${email_error}" th:text="${email_error}"></li></ul>
+          <ul class="error"><li th:each="err : ${#fields.errors('email')}" th:text="${err}" >Email Error</li><li th:if="${emailError}" th:text="${emailError}"></li></ul>
       
           <label for="username"><b>用戶名稱</b></label>
           <input type="text" th:field="*{username}" minlength="4" maxlength="20" required>
           <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li></ul>
 
           <label for="username" id="passwordText"><b>密碼</b></label>
-          <input type="password" th:field="*{password}" minlength="8" maxlength="20" required>
-          <ul class="error"><li th:each="err : ${#fields.errors('password')}" th:text="${err}" >Password Error</li><li th:if="${password_error}" th:text="${password_error}"></li></ul>
+          <input type="password" th:field="*{password}" required>
+          <ul class="error"><li th:if="${passwordError}" th:text="${passwordError}"></li></ul>
 
           <p class="success" th:if="${ChangeSuccess}"><b th:text="${ChangeSuccess}"></b></p>
           <button type="submit" class="registerbtn">更改資料</button>

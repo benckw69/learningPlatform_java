@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title th:text="${title}+' - 更改密碼'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
+    <link rel='stylesheet' href='/css/backgroundImage.css' th:href="@{/css/backgroundImage.css}"/>
+  </head>
+  <body>
+    <div class="content">
+      <h1 th:text="${title}"></h1>
+      <div th:replace="~{fragements/header}"></div> 
+      <form action="/user/pw/edit" method="post" th:object="${passwordEdit}">
+        <div class="container">
+          <h1>更改密碼</h1>
+          <hr>
+      
+          <label for="email"><b>原始密碼</b></label>
+          <input type="password" th:field="*{oldPassword}" required>
+          <ul class="error"><li th:if="${passwordError}" th:text="${passwordError}"></li></ul>
+      
+          <label for="username"><b>新密碼</b></label>
+          <input type="password" th:field="*{newPassword}" minlength="8" maxlength="20" required>
+          <ul class="error"><li th:each="err : ${#fields.errors('newPassword')}" th:text="${err}" >Password Error</li></ul>
+
+          <label for="username"><b>再輸入新密碼</b></label>
+          <input type="password" th:field="*{newPasswordRepeat}" minlength="8" maxlength="20" required>
+          <ul class="error"><li th:each="err : ${#fields.errors('newPasswordRepeat')}" th:text="${err}" >Repeat password Error</li><li th:if="${passwordRepeatError}" th:text="${passwordRepeatError}"></li></ul>
+
+          <button type="submit" class="registerbtn">更改密碼</button>
+
+          <button type="button" class="registerbtn" style="background-color:blue" onclick="window.location.href='/users'">回到上一頁</button>
+        
+        </div>
+      
+      </form>
+      <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const edit_param = urlParams.get('edit');
+        if(edit_param == "true") alert("更改密碼成功");
+      </script>
+    </div>
+  </body>
+</html>
