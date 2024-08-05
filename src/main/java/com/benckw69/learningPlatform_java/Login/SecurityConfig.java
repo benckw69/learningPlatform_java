@@ -32,7 +32,7 @@ public class SecurityConfig{
                         .logout((logout) -> logout.logoutUrl("/logout")
                                 .logoutSuccessUrl("/login"))
                         .authorizeHttpRequests(requests -> requests
-                                .shouldFilterAllDispatcherTypes(false)
+                                //.shouldFilterAllDispatcherTypes(false)
                                 .requestMatchers("/error").permitAll()
                                 .requestMatchers("/register").permitAll() //allowed for both get and post request
                                 .requestMatchers(HttpMethod.GET, "/").permitAll()

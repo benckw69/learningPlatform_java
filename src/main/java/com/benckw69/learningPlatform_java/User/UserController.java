@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -30,7 +29,7 @@ public class UserController {
         return "pages/user_info_view";
     }
 
-    @GetMapping("/info/edit")
+    @GetMapping({"/info/edit","/info/edit/teacher","/info/edit/studentOrAdmin"})
     public String editUserInfomation(StudentOrAdminEdit studentOrAdminEdit, TeacherEdit teacherEdit, HttpSession httpSession){
         User user = (User)httpSession.getAttribute("user");
         Type type = user.getType();

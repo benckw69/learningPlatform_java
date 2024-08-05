@@ -1,7 +1,5 @@
 package com.benckw69.learningPlatform_java.User;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -97,12 +95,13 @@ public class UserService {
         String password = studentOrAdminEdit.getPassword();
         User user = getUserBySession(httpSession);
         //check valid password and whether the email address has been used
+        Boolean valid = true;
         if(!passwordEncoder.matches(password, user.getPassword())) {
             model.addAttribute("password_error", "密碼錯誤");
-            return false;
+            valid = false;
         }
         if(!studentOrAdminEdit.getEmail().equals(user.getEmail()) && emailExist(studentOrAdminEdit.getEmail(), model)) return false;
-        return true;
+        return valid==false? false: true;
     }
 
     public void updateInfoStudentOrAdmin(StudentOrAdminEdit studentOrAdminEdit, HttpSession httpSession){
