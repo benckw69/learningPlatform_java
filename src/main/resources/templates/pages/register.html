@@ -35,7 +35,7 @@
 
         <p><label for="username"><b>用戶名稱</b></label></p>
         <input type="text" placeholder="輸入用戶名稱" name="username" th:field="*{username}" minlength="4" maxlength="20" required>
-        <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li></ul>
+        <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li><li th:if="${usernameError}" th:text="${usernameError}"></li></ul>
 
         <p><label for="psw"><b>密碼（必須等於或長於8位字元）</b></label></p>
         <input type="password" placeholder="輸入密碼" name="password" th:field="*{password}" minlength="8" maxlength="20" required>

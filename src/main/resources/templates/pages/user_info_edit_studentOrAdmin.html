@@ -21,7 +21,7 @@
       
           <label for="username"><b>用戶名稱</b></label>
           <input type="text" th:field="*{username}" minlength="4" maxlength="20" required>
-          <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li></ul>
+          <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li><li th:if="${usernameError}" th:text="${usernameError}"></li></ul>
 
           <label for="username" id="passwordText"><b>密碼</b></label>
           <input type="password" th:field="*{password}" required>

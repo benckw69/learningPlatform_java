@@ -21,7 +21,7 @@
       
           <label for="username"><b>用戶名稱</b></label>
           <input type="text" th:field="*{username}" minlength="4" maxlength="20" required>
-          <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li></ul>
+          <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li><li th:if="${usernameError}" th:text="${usernameError}"></li></ul>
 
           <label for="username"><b>個人簡介</b></label>
           <p><textarea rows="4" cols="50" style="width: 100%;"  th:field="*{introduction}" required>

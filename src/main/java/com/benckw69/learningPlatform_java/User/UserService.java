@@ -50,6 +50,14 @@ public class UserService {
         return true;
     }
 
+    public Boolean usernameBlank(String username, Model model){
+        if(username.trim().equals("")) {
+            model.addAttribute("usernameError", "用戶名稱不能為空");
+            return true;
+        }
+        return false;
+    }
+
     public Introduction getIntroductionBySession(HttpSession httpSession){
         return introductionRepository.findById((Integer)httpSession.getAttribute("userId")).orElse(null);
     }
@@ -60,10 +68,10 @@ public class UserService {
 
     public Boolean validRegister(RegisterRequest registerRequest,Model model){
         //Validation: confirm password and email existance
-        Boolean validation = !emailExist(registerRequest.getEmail(), model);
-        validation = isSamePassword(registerRequest.getPassword(), registerRequest.getPassword_repeat(), model) && validation? true:false;
-        if(!validation) return false;
-        return true;
+        Boolean validation1 = !emailExist(registerRequest.getEmail(), model);
+        Boolean validation2 = isSamePassword(registerRequest.getPassword(), registerRequest.getPassword_repeat(), model);
+        Boolean validation3 = !usernameBlank(registerRequest.getUsername(), model);
+        return validation1 && validation2 && validation3;
     }
         
 
@@ -71,8 +79,8 @@ public class UserService {
         //Set new user
         User newUser = new User();
         newUser.setType(registerRequest.getType());
-        newUser.setEmail(registerRequest.getEmail());
-        newUser.setUsername(registerRequest.getUsername());
+        newUser.setEmail(registerRequest.getEmail().trim());
+        newUser.setUsername(registerRequest.getUsername().trim());
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         newUser.setLoginMethod(LoginMethod.email);
 
@@ -108,18 +116,18 @@ public class UserService {
         //get the entity for edit use
         String password = studentOrAdminEdit.getPassword();
         User user = getUserBySession(httpSession);
-        //check valid password and whether the email address has been used
-        Boolean validation = true;
-        validation = passwordMatch(password, user.getPassword(), model);
-        if(!studentOrAdminEdit.getEmail().equals(user.getEmail()) && emailExist(studentOrAdminEdit.getEmail(), model)) return false;
-        return validation;
+        //check valid password, whether the email address has been used and trimmed username are blank or not
+        Boolean validation1 = passwordMatch(password, user.getPassword(), model);
+        Boolean validation2 = (!studentOrAdminEdit.getEmail().equals(user.getEmail()) && emailExist(studentOrAdminEdit.getEmail(), model))? false:true;
+        Boolean validation3 = !usernameBlank(studentOrAdminEdit.getUsername(), model);
+        return validation1 && validation2 && validation3;
     }
 
     public void updateInfoTeacher(TeacherEdit teacherEdit, HttpSession httpSession){
         Introduction introduction = getIntroductionBySession(httpSession);
         User user = getUserBySession(httpSession);
-        user.setEmail(teacherEdit.getEmail());
-        user.setUsername(teacherEdit.getUsername());
+        user.setEmail(teacherEdit.getEmail().trim());
+        user.setUsername(teacherEdit.getUsername().trim());
         introduction.setIntrodution(teacherEdit.getIntroduction());
         userRepository.save(user);
         introductionRepository.save(introduction);
@@ -127,8 +135,8 @@ public class UserService {
 
     public void updateInfoStudentOrAdmin(StudentOrAdminEdit studentOrAdminEdit, HttpSession httpSession){
         User user = getUserBySession(httpSession);
-        user.setEmail(studentOrAdminEdit.getEmail());
-        user.setUsername(studentOrAdminEdit.getUsername());
+        user.setEmail(studentOrAdminEdit.getEmail().trim());
+        user.setUsername(studentOrAdminEdit.getUsername().trim());
         userRepository.save(user);
     }
 
