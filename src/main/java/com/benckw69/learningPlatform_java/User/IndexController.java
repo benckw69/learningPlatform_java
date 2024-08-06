@@ -43,8 +43,9 @@ public class IndexController {
 
     @PostMapping("/register")
     public String RegisterFormHandle(@Valid RegisterRequest registerRequest,BindingResult bindingResult, Model model){
-        Boolean isRegister = userService.register(registerRequest,model);
-        if(bindingResult.hasErrors() || !isRegister) return "pages/register";
+        Boolean validation = userService.validRegister(registerRequest,model);
+        if(bindingResult.hasErrors() || !validation) return "pages/register";
+        userService.register(registerRequest);
         return "redirect:/login?register=true";
     }
 

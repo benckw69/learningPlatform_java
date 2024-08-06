@@ -38,12 +38,10 @@ public class SecurityConfig{
                                 .requestMatchers(HttpMethod.GET, "/").permitAll()
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/css/**", "/images/**","/members").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/selected-courses").hasAuthority("student")
-                                .requestMatchers(HttpMethod.GET, "/course-feedback").hasAnyAuthority("TEACHER", "ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/members").hasAuthority("ADMIN")
                                 .requestMatchers("/search/teachers").hasAuthority("student")
                                 .requestMatchers("/search/students").hasAuthority("teacher")
                                 .requestMatchers("/user","/user/info/edit","user/pw/edit").hasAnyAuthority("teacher", "admin","student")
+                                .requestMatchers("/admin**").hasAuthority( "admin")
                                 .anyRequest().authenticated()
                         )
                         

@@ -5,19 +5,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.benckw69.learningPlatform_java.AdminConfig.Referral;
+import com.benckw69.learningPlatform_java.AdminConfig.ReferralRepository;
+
 import jakarta.servlet.http.HttpSession;
 
 
 @Service
 public class UserService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    IntroductionRepository introductionRepository;
+    private IntroductionRepository introductionRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private ReferralRepository referralRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public Boolean isSamePassword(String password, String password_repeat, Model model){
         if(!password.equals(password_repeat)) {
@@ -44,12 +50,24 @@ public class UserService {
         return true;
     }
 
-    public Boolean register(RegisterRequest registerRequest,Model model){
+    public Introduction getIntroductionBySession(HttpSession httpSession){
+        return introductionRepository.findById((Integer)httpSession.getAttribute("userId")).orElse(null);
+    }
+
+    public User getUserBySession(HttpSession httpSession){
+        return (User)httpSession.getAttribute("user");
+    }
+
+    public Boolean validRegister(RegisterRequest registerRequest,Model model){
         //Validation: confirm password and email existance
         Boolean validation = !emailExist(registerRequest.getEmail(), model);
         validation = isSamePassword(registerRequest.getPassword(), registerRequest.getPassword_repeat(), model) && validation? true:false;
         if(!validation) return false;
+        return true;
+    }
+        
 
+    public void register(RegisterRequest registerRequest){
         //Set new user
         User newUser = new User();
         newUser.setType(registerRequest.getType());
@@ -58,14 +76,20 @@ public class UserService {
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         newUser.setLoginMethod(LoginMethod.email);
 
-        //referral system. Default both users get the price
+        //referral system. Get the settings at database first, then apply the settings
         if(registerRequest.getReferral()!=null && registerRequest.getReferral()!=""){
             Integer referralId = Integer.parseInt(registerRequest.getReferral());
             User referral = userRepository.findByIdAndIsDeleted(referralId,false).orElse(null);
-            Integer balance = 10;
             if(referral != null) {
-                userRepository.updateBalance(balance, referralId);
-                newUser.setBalance(balance);
+                Referral referralSetting = referralRepository.findById(1).orElse(null);
+                Integer newUserAmount = referralSetting.getNewUserAmount();
+                Integer referralAmount = referralSetting.getNewUserAmount();
+                if(referralSetting.getReferralGet()){
+                    userRepository.updateBalance(referralAmount, referralId);
+                }
+                if(referralSetting.getNewUserGet()){
+                    newUser.setBalance(newUserAmount);
+                }
             }
         }
 
@@ -77,25 +101,7 @@ public class UserService {
             newIntroduction.setIntrodution("Hello I am "+registerRequest.getUsername()+".");
             introductionRepository.save(newIntroduction);
         }
-        return true;
-    }
-
-    public Introduction getIntroductionBySession(HttpSession httpSession){
-        return introductionRepository.findById((Integer)httpSession.getAttribute("userId")).orElse(null);
-    }
-
-    public User getUserBySession(HttpSession httpSession){
-        return (User)httpSession.getAttribute("user");
-    }
-
-    public void updateInfoTeacher(TeacherEdit teacherEdit, HttpSession httpSession){
-        Introduction introduction = getIntroductionBySession(httpSession);
-        User user = getUserBySession(httpSession);
-        user.setEmail(teacherEdit.getEmail());
-        user.setUsername(teacherEdit.getUsername());
-        introduction.setIntrodution(teacherEdit.getIntroduction());
-        userRepository.save(user);
-        introductionRepository.save(introduction);
+        
     }
 
     public Boolean validInfoEdit(StudentOrAdminEdit studentOrAdminEdit, Model model, HttpSession httpSession){
@@ -107,6 +113,16 @@ public class UserService {
         validation = passwordMatch(password, user.getPassword(), model);
         if(!studentOrAdminEdit.getEmail().equals(user.getEmail()) && emailExist(studentOrAdminEdit.getEmail(), model)) return false;
         return validation;
+    }
+
+    public void updateInfoTeacher(TeacherEdit teacherEdit, HttpSession httpSession){
+        Introduction introduction = getIntroductionBySession(httpSession);
+        User user = getUserBySession(httpSession);
+        user.setEmail(teacherEdit.getEmail());
+        user.setUsername(teacherEdit.getUsername());
+        introduction.setIntrodution(teacherEdit.getIntroduction());
+        userRepository.save(user);
+        introductionRepository.save(introduction);
     }
 
     public void updateInfoStudentOrAdmin(StudentOrAdminEdit studentOrAdminEdit, HttpSession httpSession){

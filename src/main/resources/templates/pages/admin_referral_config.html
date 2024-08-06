@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title th:text="${title}+' - 更改密碼'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
+    <link rel='stylesheet' href='/css/backgroundImage.css' th:href="@{/css/backgroundImage.css}"/>
+  </head>
+  <body>
+    <div class="content">
+      <h1 th:text="${title}"></h1>
+      <div th:replace="~{fragements/header}"></div> 
+      <form action="/admin/referral" method="post" th:object="${referral}">
+        <div class="container">
+          <h1>更改介紹獎勵設定</h1>
+          <hr>
+      
+          
+      
+          <label for="newUserReward"><b>新用戶可獲得的獎勵</b></label>
+          <input type="number" th:field="*{newUserAmount}" min="0" required>
+          <label for="checkbox"><b>允許新用戶獲得獎勵</b></label>
+          <input type="checkbox"th:field="*{newUserGet}">
+          <ul class="error"><li th:each="err : ${#fields.errors('newUserAmount')}" th:text="${err}" >New User Reward Error</li></ul>
+
+      
+          <label for="newUserReward"><b>推薦用戶可獲得的獎勵</b></label>
+          <input type="number" th:field="*{referralAmount}" min="0" required>
+          <label for="checkbox"><b>允許推薦用戶獲得獎勵</b></label>
+          <input type="checkbox" th:field="*{referralGet}">
+          <ul class="error"><li th:each="err : ${#fields.errors('referralAmount')}" th:text="${err}" >New User Reward Error</li></ul>
+
+          <button type="submit" class="registerbtn">更改資料</button>
+          <button type="button" class="registerbtn" style="background-color:blue" onclick="window.location.href='/users'">回到上一頁</button>
+        
+        </div>
+      
+      </form>
+      <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const edit_param = urlParams.get('edit');
+        if(edit_param == "true") alert("更改設定成功");
+      </script>
+    </div>
+  </body>
+</html>
