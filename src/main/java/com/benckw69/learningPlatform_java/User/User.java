@@ -2,9 +2,12 @@ package com.benckw69.learningPlatform_java.User;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecord;
 
 import jakarta.persistence.*;
 
@@ -43,6 +46,9 @@ public class User implements Serializable{
     @OneToOne(targetEntity = Introduction.class, mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Introduction introduction;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<MoneyRecord> moneyRecords;
     
     public Introduction getIntroduction() {
         return introduction;
