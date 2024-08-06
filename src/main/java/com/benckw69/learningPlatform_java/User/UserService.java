@@ -98,7 +98,7 @@ public class UserService {
         if(registerRequest.getType() == Type.teacher){
             Introduction newIntroduction = new Introduction();
             newIntroduction.setUser(newUser);
-            newIntroduction.setIntrodution("Hello I am "+registerRequest.getUsername()+".");
+            newIntroduction.setDefaultIntroduction(newUser);
             introductionRepository.save(newIntroduction);
         }
         

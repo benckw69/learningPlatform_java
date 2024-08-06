@@ -33,6 +33,9 @@ public class Introduction {
     public void setIntrodution(String introdution) {
         this.introduction = introdution;
     }
+    public void setDefaultIntroduction(User user) {
+        this.introduction = "Hello I am "+user.getUsername()+".";
+    }
     public User getUser() {
         return user;
     }
