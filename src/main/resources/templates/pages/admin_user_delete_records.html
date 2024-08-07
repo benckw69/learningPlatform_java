@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title th:text="${title}+' - 刪除帳戶紀錄'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
+    <link rel='stylesheet' href='/css/backgroundImage.css' th:href="@{/css/backgroundImage.css}"/>
+  </head>
+  <body>
+    <div class="content">
+      <h1 th:text="${title}"></h1>
+      <div th:replace="~{fragements/header}"></div> 
+      <h2>刪除帳戶紀錄</h2>
+      <table>
+        <thead>
+          <tr>
+            <td>用戶編號</td>
+            <td>用戶電郵地址</td>
+            <td>用戶名稱</td>
+            <td>餘額</td>
+            <td>帳戶創建時間</td>
+            <td>帳戶最近更新時間</td>
+            <td>刪除狀態</td>
+            <td>解除刪除狀況</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="deleteAcRecord : ${deleteAcRecords}">
+            
+            <td th:text="${deleteAcRecord.id}"></td>
+            <td th:text="${deleteAcRecord.email}"></td>
+            <td th:text="${deleteAcRecord.username}"></td>
+            <td th:text="${deleteAcRecord.balance}"></td>
+            <td th:text="${deleteAcRecord.createdTime}"></td>
+            <td th:text="${deleteAcRecord.updatedTime}"></td>
+            <td th:text="${deleteAcRecord.isDeleted == true}? '是' : '否'"></td>
+            <td><button th:onclick="reverseDelete([[${deleteAcRecord.id}]],[[${deleteAcRecord.username}]])">回復</button></td>
+          
+          </tr>
+          <tr th:if="${deleteAcRecords.size() == 0}"><td colspan="8" style="text-align: center;" th:text="現在沒有任何用戶刪除帳戶紀錄"></td></tr>
+      </tbody>
+      </table>
+    </div>
+    <script>
+      function reverseDelete(id,username){
+        if(confirm("你確定要回復 "+username+" 的帳戶嗎？")){
+          postData("/admin/userDeleteRecords/"+id,{},"post");
+        };
+      }
+      function postData(path, params, method) { 
+  
+        // Create form 
+        const hidden_form = document.createElement('form'); 
+
+        // Set method to post by default 
+        hidden_form.method = method || 'post'; 
+          
+        // Set path 
+        hidden_form.action = path; 
+          
+        for (const key in params) { 
+            if (params.hasOwnProperty(key)) { 
+                const hidden_input = document.createElement 
+                    ('input'); 
+                hidden_input.type = 'hidden'; 
+                hidden_input.name = key; 
+                hidden_input.value = params[key]; 
+
+                hidden_form.appendChild(hidden_input); 
+            } 
+        } 
+
+        document.body.appendChild(hidden_form); 
+        hidden_form.submit(); 
+      } 
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const reset_param = urlParams.get('reset');
+      if(reset_param == "true") alert("重設刪除帳戶成功");
+    </script>
+  </body>
+</html>

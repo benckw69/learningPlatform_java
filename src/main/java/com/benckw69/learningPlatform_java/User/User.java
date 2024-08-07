@@ -38,10 +38,10 @@ public class User implements Serializable{
     private Boolean isDeleted = false;
     @Column(nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
     @CreationTimestamp
-    private Timestamp created_time;
+    private Timestamp createdTime;
     @Column(nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @UpdateTimestamp
-    private Timestamp updated_time;
+    private Timestamp updatedTime;
 
     @OneToOne(targetEntity = Introduction.class, mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -58,20 +58,20 @@ public class User implements Serializable{
         this.introduction = introduction;
     }
 
-    public Timestamp getCreated_time() {
-        return created_time;
+    public Timestamp getCreatedTime() {
+        return createdTime;
     }
 
-    public void setCreated_time(Timestamp created_time) {
-        this.created_time = created_time;
+    public void setCreatedTime(Timestamp createdTime) {
+        this.createdTime = createdTime;
     }
 
-    public Timestamp getUpdated_time() {
-        return updated_time;
+    public Timestamp getUpdatedTime() {
+        return updatedTime;
     }
 
-    public void setUpdated_time(Timestamp updated_time) {
-        this.updated_time = updated_time;
+    public void setUpdatedTime(Timestamp updatedTime) {
+        this.updatedTime = updatedTime;
     }
 
     public void setId(Integer id) {
@@ -152,7 +152,7 @@ public class User implements Serializable{
     public String toString() {
         return "User [id=" + id + ", type=" + type + ", email=" + email + ", username=" + username + ", password="
                 + password + ", loginMethod=" + loginMethod + ", specificId=" + specificId + ", balance=" + balance
-                + ", isDeleted=" + isDeleted + ", created_time=" + created_time + ", updated_time=" + updated_time
+                + ", isDeleted=" + isDeleted + ", createdTime=" + createdTime + ", updatedTime=" + updatedTime
                 + "]";
     }
 

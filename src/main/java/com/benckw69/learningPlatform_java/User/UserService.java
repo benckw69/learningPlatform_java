@@ -1,5 +1,7 @@
 package com.benckw69.learningPlatform_java.User;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -70,6 +72,16 @@ public class UserService {
 
     public User getUserBySession(HttpSession httpSession){
         return (User)httpSession.getAttribute("user");
+    }
+
+    public List<User> getDeletedUsersOrderByDate(){
+        return userRepository.findByIsDeletedOrderByUpdatedTimeDesc(true);
+    }
+
+    public void resetDeletedUser(Integer id){
+        User user = userRepository.findById(id).orElse(null);
+        user.setIsDeleted(false);
+        userRepository.save(user);
     }
 
     public Boolean validRegister(RegisterRequest registerRequest,Model model){

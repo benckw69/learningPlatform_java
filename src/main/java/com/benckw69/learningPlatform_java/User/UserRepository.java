@@ -12,17 +12,23 @@ import jakarta.transaction.Transactional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Integer> {
+    //login and register uses
     User findByEmailAndLoginMethod(String email,LoginMethod loginMethod);
     User findByEmailAndLoginMethodAndIsDeleted(String email, LoginMethod loginMethod, Boolean isDeleted);
 
+    //searching
     List<User> findByEmailContainsAndType(String email,Type type);
     List<User> findByUsernameContainsAndType(String username,Type type);
 
-
+    //register: check for referral
     Optional<User> findByIdAndIsDeleted(Integer id,Boolean isDeleted);
 
     List<User> findBySpecificId(String specificId);
 
+    //admin: check accounts that are deleted
+    List<User> findByIsDeletedOrderByUpdatedTimeDesc(Boolean isDeleted);
+    List<User> findByUsernameAndIsDeletedOrderByUpdatedTimeDesc(String username, Boolean isDeleted);
+    List<User> findByEmailAndIsDeletedOrderByUpdatedTimeDesc(String email, Boolean isDeleted);
 
     @Transactional
     @Modifying
