@@ -78,6 +78,18 @@ public class UserService {
         return userRepository.findByIsDeletedOrderByUpdatedTimeDesc(true);
     }
 
+    public List<User> getDeletedUsersByIdOrderByDate(Integer id){
+        return userRepository.findByIdAndIsDeletedOrderByUpdatedTimeDesc(id, true);
+    }
+
+    public List<User> getDeletedUsersByUsernameOrderByDate(String username){
+        return userRepository.findByUsernameContainsAndIsDeletedOrderByUpdatedTimeDesc(username, true);
+    }
+
+    public List<User> getDeletedUsersByEmailOrderByDate(String email){
+        return userRepository.findByEmailContainsAndIsDeletedOrderByUpdatedTimeDesc(email, true);
+    }
+
     public void resetDeletedUser(Integer id){
         User user = userRepository.findById(id).orElse(null);
         user.setIsDeleted(false);

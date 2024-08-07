@@ -11,6 +11,18 @@
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
       <h2>刪除帳戶紀錄</h2>
+      <div id="form">
+        <form action="/admin/userDeleteRecords" method="post" th:object="${searchUserRequest}">
+          <select id="searchMethod" name="searchMethod" class="inputFields" th:field="*{searchUserMethod}">
+            <option value="username">用戶名稱</option>
+            <option value="email">電郵地址</option>
+            <option value="id">用戶編號</option>
+          </select>
+          <input type="text" id="searchWords" name="searchWords" class="inputFields" th:field="*{searchWords}">
+          
+          <input type="submit" value="提交" id="submit" class="inputFields">
+        </form> 
+      </div>
       <table>
         <thead>
           <tr>
@@ -37,7 +49,7 @@
             <td><button th:onclick="reverseDelete([[${deleteAcRecord.id}]],[[${deleteAcRecord.username}]])">回復</button></td>
           
           </tr>
-          <tr th:if="${deleteAcRecords.size() == 0}"><td colspan="8" style="text-align: center;" th:text="現在沒有任何用戶刪除帳戶紀錄"></td></tr>
+          <tr th:if="${deleteAcRecords.size() == 0}"><td colspan="8" style="text-align: center;" th:text="沒有任何用戶刪除帳戶紀錄"></td></tr>
       </tbody>
       </table>
     </div>

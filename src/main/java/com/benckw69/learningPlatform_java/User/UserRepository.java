@@ -27,12 +27,13 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     //admin: check accounts that are deleted
     List<User> findByIsDeletedOrderByUpdatedTimeDesc(Boolean isDeleted);
-    List<User> findByUsernameAndIsDeletedOrderByUpdatedTimeDesc(String username, Boolean isDeleted);
-    List<User> findByEmailAndIsDeletedOrderByUpdatedTimeDesc(String email, Boolean isDeleted);
+    List<User> findByUsernameContainsAndIsDeletedOrderByUpdatedTimeDesc(String username, Boolean isDeleted);
+    List<User> findByEmailContainsAndIsDeletedOrderByUpdatedTimeDesc(String email, Boolean isDeleted);
+    List<User> findByIdAndIsDeletedOrderByUpdatedTimeDesc(Integer id, Boolean isDeleted);
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE User c set c.balance = c.balance+?1 WHERE c.id = ?2",nativeQuery = true)
+    @Query(value = "UPDATE User c set c.balance = ?1+c.balance WHERE c.id = ?2",nativeQuery = true)
     Integer updateBalance(Integer balance, Integer id);
 
 }

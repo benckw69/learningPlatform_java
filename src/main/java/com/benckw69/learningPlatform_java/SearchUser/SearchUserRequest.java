@@ -3,14 +3,14 @@ package com.benckw69.learningPlatform_java.SearchUser;
 public class SearchUserRequest {
     
 
-    public SearchMethod searchMethod;
-    public String searchWords;
+    private SearchUserMethod searchUserMethod;
+    private String searchWords;
 
-    public SearchMethod getSearchMethod() {
-        return searchMethod;
+    public SearchUserMethod getSearchUserMethod() {
+        return searchUserMethod;
     }
-    public void setSearchMethod(SearchMethod searchMethod) {
-        this.searchMethod = searchMethod;
+    public void setSearchUserMethod(SearchUserMethod searchUserMethod) {
+        this.searchUserMethod = searchUserMethod;
     }
     public String getSearchWords() {
         return searchWords;

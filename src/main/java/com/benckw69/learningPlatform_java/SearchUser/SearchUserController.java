@@ -12,7 +12,7 @@ import com.benckw69.learningPlatform_java.User.UserRepository;
 
 @Controller
 @RequestMapping("/search")
-public class SearchController {
+public class SearchUserController {
 
     @Autowired
     UserRepository userRepository;
@@ -24,7 +24,7 @@ public class SearchController {
 
     @PostMapping("/students")
     public String searchStudents(SearchUserRequest searchUserRequest, Model model){
-        if(searchUserRequest.getSearchMethod()==SearchMethod.email){
+        if(searchUserRequest.getSearchUserMethod()==SearchUserMethod.email){
             model.addAttribute("result", userRepository.findByEmailContainsAndType(searchUserRequest.getSearchWords(),Type.student));
         } else {
             model.addAttribute("result", userRepository.findByUsernameContainsAndType(searchUserRequest.getSearchWords(),Type.student));
@@ -39,7 +39,7 @@ public class SearchController {
 
     @PostMapping("/teachers")
     public String searchTeachers(SearchUserRequest searchUserRequest, Model model){
-        if(searchUserRequest.getSearchMethod()==SearchMethod.email){
+        if(searchUserRequest.getSearchUserMethod()==SearchUserMethod.email){
             model.addAttribute("result", userRepository.findByEmailContainsAndType(searchUserRequest.getSearchWords(),Type.teacher));
         } else {
             model.addAttribute("result", userRepository.findByUsernameContainsAndType(searchUserRequest.getSearchWords(),Type.teacher));
