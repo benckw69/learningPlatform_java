@@ -58,11 +58,7 @@ public class IndexController {
 
     @GetMapping("/moneyRecords")
     public String moneyRecords(HttpSession httpSession, Model model){
-        //ModelAndView modelAndView = new ModelAndView();
-        // modelAndView.getModelMap().addAttribute(null, MoneyRecordHelper.getInstance());
-
-        List <MoneyRecord> result = moneyRecordService.getMoneyRecordByUserId(httpSession);
-        model.addAttribute("moneyRecords", result);
+        model.addAttribute("moneyRecords", moneyRecordService.getMoneyRecordByUserId(httpSession));
         return "pages/money_records";
     }
     
