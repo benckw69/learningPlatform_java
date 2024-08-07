@@ -25,7 +25,7 @@ textarea {
 
 /* Set a style for the submit/register button */
 .registerbtn {
-  background-color: green;
+  background-color: rgb(56, 55, 55);
   color: white;
   padding: 16px 20px;
   margin: 8px 0;

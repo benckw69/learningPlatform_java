@@ -1,5 +1,5 @@
-<span th:if="${session.user}">
-    <ul class="menubar" th:if="${session.user.type.name()} eq 'student'">
+
+    <ul class="menubar" th:if="${session.user != null} and ${session.user.type.name()} eq 'student'">
         <li class="menuitem"><span th:if="${session.user}" th:text="'你好，'+${session.user.username}"></span> </li>
         <li class="menuitem"><a href="/">主頁</a> </li>
         <li class="menuitem"><a href="/courses">瀏覽所有課程(之後登場)</a> </li>
@@ -8,25 +8,22 @@
         <li class="menuitem"><a href="/user">個人資料</a> </li>
         <li class="menuitem"><a href="/moneyTickets/insert">輸入現金卷(之後登場)</a> </li>
         <li class="menuitem" style="float:right"><a href="/logout">登出</a></li>
-        <li class="menuitem" style="float:right"><a href="/moneyRecords">用戶金錢紀錄(之後登場)</a> </li>
+        <li class="menuitem" style="float:right"><a href="/moneyRecords">用戶金錢紀錄</a> </li>
     </ul>
-</span>
 
-<span th:if="${session.user}">
-    <ul class="menubar" th:if="${session.user.type.name()} eq 'teacher'">
+    <ul class="menubar" th:if="${session.user != null} and ${session.user.type.name()} eq 'teacher'">
         <li class="menuitem"><span th:if="${session.user}" th:text="'你好，'+${session.user.username}"></span> </li>
         <li class="menuitem"><a href="/">主頁</a> </li>
         <li class="menuitem"><a href="/courses/newCourse">新増課程(之後登場)</a> </li>
         <li class="menuitem"><a href="/courses/myCourses">管理課程(之後登場)</a> </li>
         <li class="menuitem"><a href="/search/students">搜尋學生</a> </li>
+        <li class="menuitem"><a href="/teacher/moneySeperation">課程分成</a> </li>
         <li class="menuitem"><a href="/user">個人資料</a> </li>
         <li class="menuitem" style="float:right"><a href="/logout">登出</a> </li>
-        <li class="menuitem" style="float:right"><a href="/moneyRecords">用戶金錢紀錄(之後登場)</a> </li>
+        <li class="menuitem" style="float:right"><a href="/moneyRecords">用戶金錢紀錄</a> </li>
     </ul>
-</span>
 
-<span th:if="${session.user}">
-    <ul class="menubar" th:if="${session.user.type.name()} eq 'admin'">
+    <ul class="menubar" th:if="${session.user != null} and ${session.user.type.name()} eq 'admin'">
         <li class="menuitem"><span th:if="${session.user}" th:text="'你好，'+${session.user.username}"></span></li>
         <li class="menuitem"><a href="/">主頁</a> </li>
         <li class="menuitem"><a href="/moneyTickets/view">查看現金卷(之後登場)</a> </li>
@@ -37,8 +34,8 @@
         <li class="menuitem"><a href="/admin/referral">管理推薦獎勵</a> </li>
         <li class="menuitem"><a href="/user">個人資料</a> </li>
         <li class="menuitem" style="float:right"><a href="/logout">登出</a> </li>
+        <li class="menuitem" style="float:right"><a href="/moneyRecords">用戶金錢紀錄</a> </li>
     </ul>
-</span>
 
 <ul class="menubar" th:if="${session.user == null}">
     <li class="menuitem"><a href="/">主頁</a></li>

@@ -5,9 +5,13 @@ html {
 body {
   padding-left: 50px;
   padding-right: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /* font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; */
   height: 100%;
   
+  background-image: url('../images/learning.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 a {
@@ -25,11 +29,10 @@ a {
 
 /* Add some content at the bottom of the video/page */
 .content {
-  background: #98FB98;
-  color: #f1f1f1;
+  background: white;
   padding: 20px;
   opacity:0.9;
-  text-shadow: 1px 1px 1px black;
+  /* text-shadow: 1px 1px 1px black; */
   min-height: calc(100% - 8px); 
   box-sizing: border-box; 
 }
@@ -39,23 +42,16 @@ a {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: rgb(124, 242, 28);
+  background-color: rgb(161, 125, 125);
 }
 
 .menuitem {
   float: left;
 }
 
-.menuitem a {
+.menuitem a,span {
   display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-.menuitem span {
-  display: block;
-  color: white;
+  color: black;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -63,7 +59,7 @@ a {
 
 
 .menuitem a:hover:not(.active) {
-  background-color: #111;
+  background-color: #634242;
 }
 
 a:link { 
@@ -78,4 +74,8 @@ a:link {
 
 .success {
   color: green;
+}
+
+table, th, td {
+  border: 1px solid black;
 }
