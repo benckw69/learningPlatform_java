@@ -33,7 +33,7 @@
         
           <button type="button" class="registerbtn" onclick="window.location.href='/user/info/edit'">編輯資料</button>
           <button type="button" class="registerbtn" th:if="${session.user.loginMethod.name()} eq 'email'" onclick="window.location.href='/user/pw/edit'">更改密碼</button>
-          <button type="button" class="registerbtn" style="background-color: red;" onclick="deleteUser()">刪除帳戶</button>
+          <button type="button" class="registerbtn" style="background-color: red;" th:if="${session.user.type.name()} != 'admin'" onclick="deleteUser()">刪除帳戶</button>
         </div>
       </form>
     </div>
