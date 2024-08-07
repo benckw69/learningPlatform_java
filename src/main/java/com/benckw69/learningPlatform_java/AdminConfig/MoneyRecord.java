@@ -32,7 +32,7 @@ public class MoneyRecord {
     @Enumerated(EnumType.STRING)
     @Column(name = "event_category", nullable = false)
     private EventCategory eventCategory;
-    @Column(nullable = false, length=1000)
+    @Column(name = "event_text", nullable = false, length=1000)
     private String eventText;
     @ManyToOne
     @JoinColumn(name="user_id",nullable = false)
@@ -124,7 +124,7 @@ public class MoneyRecord {
     //
     public void setEventText(EventCategory eventCategory, User user, MoneyTicket moneyTicket){
         if(eventCategory == EventCategory.ADD_MONEY){
-            this.eventText = "用戶 "+user.getUsername()+" 増值 $"+moneyTicket.getAmount()+"，卷為 "+moneyTicket.getTicketString()+"。";
+            this.eventText = "用戶 "+user.getUsername()+" 増值 $"+moneyTicket.getAmount()+"，號碼為 "+moneyTicket.getTicketString()+"。";
         }
     }
 

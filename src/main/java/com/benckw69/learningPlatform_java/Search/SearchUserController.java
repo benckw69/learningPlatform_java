@@ -1,4 +1,4 @@
-package com.benckw69.learningPlatform_java.SearchUser;
+package com.benckw69.learningPlatform_java.Search;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

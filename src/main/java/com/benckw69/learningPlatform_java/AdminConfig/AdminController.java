@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.benckw69.learningPlatform_java.SearchUser.SearchUserMethod;
-import com.benckw69.learningPlatform_java.SearchUser.SearchUserRequest;
+import com.benckw69.learningPlatform_java.MoneyTicket.MoneyTicket;
+import com.benckw69.learningPlatform_java.MoneyTicket.MoneyTicketService;
+import com.benckw69.learningPlatform_java.Search.SearchUserMethod;
+import com.benckw69.learningPlatform_java.Search.SearchUserRequest;
 import com.benckw69.learningPlatform_java.User.UserService;
 
 import jakarta.validation.Valid;
@@ -27,6 +29,9 @@ public class AdminController {
 
     @Autowired
     MoneyRecordService moneyRecordService;
+
+    @Autowired
+    MoneyTicketService moneyTicketsService;
 
     @GetMapping("/referral")
     public String referralConfig(Referral referral){
@@ -74,4 +79,30 @@ public class AdminController {
         return "redirect:/admin/userDeleteRecords?reset=true";
     }
 
+    @GetMapping("/moneyTickets/view")
+    public String moneyTicketsView(Model model, SearchUserRequest searchUserRequest){
+        model.addAttribute("moneyTickets", moneyTicketsService.findAllAvailableMoneyTickets());
+        return "pages/admin_money_tickets_view";
+    }
+
+    @PostMapping("/moneyTickets/delete/{id}")
+    public String moneyTicketsDelete(@PathVariable Integer id){
+        moneyTicketsService.deleteMoneyTicket(id);
+        return "redirect:/admin/moneyTickets/view?delete=true";
+    }
+
+    @GetMapping("/moneyTickets/insert")
+    public String moneyTicketsInsert(MoneyTicket moneyTicket){
+        return "pages/admin_money_tickets_insert";
+    }
+
+    @PostMapping("/moneyTickets/insert")
+    public String moneyTicketsInsert(@Valid MoneyTicket moneyTicket, BindingResult bindingResult, Model model){
+        Boolean validation = moneyTicketsService.validInsertMoneyTicket(moneyTicket, model);
+        if(bindingResult.hasErrors() || !validation) return "pages/admin_money_tickets_insert";
+        moneyTicketsService.insertMoneyTickets(moneyTicket);
+        return "redirect:/admin/moneyTickets/insert?insert=true";
+    }
+
+    
 }

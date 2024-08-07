@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title th:text="${title}+' - 填寫現金卷'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
+  </head>
+  <body>
+    <div class="content">
+      <h1 th:text="${title}"></h1>
+      <div th:replace="~{fragements/header}"></div> 
+      
+      <form action="/user/moneyTicket/use" method="post" th:object="${moneyTicket}">
+        <div class="container">
+          <h1>輸入現金卷</h1>
+          <hr>
+      
+          <label for="email"><b>現金卷號碼</b></label>
+          <input type="text" placeholder="輸入現金卷號碼" th:field="*{ticketString}" required>
+          <ul class="error"><li th:if="${ticketStringError}" th:text="${ticketStringError}"></li></ul>
+        
+          <button type="submit" class="registerbtn">送出</button>
+        </div>
+      
+      </form>
+    </div>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+        const use_param = urlParams.get('use');
+        if(use_param == "true") alert("使用現金卷成功");
+    </script>
+  </body>
+</html>

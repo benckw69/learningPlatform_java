@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title th:text="${title}+' - 可使用的現金卷'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+  </head>
+  <body>
+    <div class="content">
+      <h1 th:text="${title}"></h1>
+      <div th:replace="~{fragements/header}"></div> 
+      <h2>可使用的現金卷</h2>
+      <hr>
+      <table>
+        <thead>
+          <tr>
+            <td>編號</td>
+            <td>面額</td>
+            <td>號碼</td>
+            <td>新增日期</td>
+            <td>刪除</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="moneyticket : ${moneyTickets}">
+            
+            <td th:text="${moneyticket.id}"></td>
+            <td th:text="${moneyticket.amount}"></td>
+            <td th:text="${moneyticket.ticketString}"></td>
+            <td th:text="${moneyticket.createdTime}"></td>
+            <td><button th:onclick="deleteMoneyTicket([[${moneyticket.id}]],[[${moneyticket.amount}]],[[${moneyticket.ticketString}]])">刪除</button></td>
+          
+          </tr>
+          <tr th:if="${moneyTickets.size() == 0}"><td colspan="8" style="text-align: center;" th:text="沒有任何現金卷"></td></tr>
+      </tbody>
+      </table>
+    </div>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const delete_param = urlParams.get('delete');
+      if(delete_param == "true") alert("刪除使用卷成功");
+
+      function deleteMoneyTicket(id,amount,ticketString){
+        if(confirm(`你確定要刪除編號為 ${id}，面額為 ${amount}，號碼為 ${ticketString} 的使用卷嗎？`)){
+          postData('/admin/moneyTickets/delete/'+id,{},"post");
+        }
+      }
+      function postData(path, params, method) { 
+  
+        // Create form 
+        const hidden_form = document.createElement('form'); 
+
+        // Set method to post by default 
+        hidden_form.method = method || 'post'; 
+          
+        // Set path 
+        hidden_form.action = path; 
+          
+        for (const key in params) { 
+            if (params.hasOwnProperty(key)) { 
+                const hidden_input = document.createElement 
+                    ('input'); 
+                hidden_input.type = 'hidden'; 
+                hidden_input.name = key; 
+                hidden_input.value = params[key]; 
+
+                hidden_form.appendChild(hidden_input); 
+            } 
+        } 
+
+        document.body.appendChild(hidden_form); 
+        hidden_form.submit(); 
+      } 
+    
+    </script>
+  </body>
+</html>

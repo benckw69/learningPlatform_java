@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecord;
+import com.benckw69.learningPlatform_java.MoneyTicket.MoneyTicket;
 
 import jakarta.persistence.*;
 
@@ -49,6 +50,9 @@ public class User implements Serializable{
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<MoneyRecord> moneyRecords;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<MoneyTicket> moneyTickets;
     
     public Introduction getIntroduction() {
         return introduction;

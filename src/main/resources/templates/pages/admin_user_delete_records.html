@@ -11,6 +11,7 @@
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
       <h2>刪除帳戶紀錄</h2>
+      <hr>
       <div id="form">
         <form action="/admin/userDeleteRecords" method="post" th:object="${searchUserRequest}">
           <select id="searchMethod" name="searchMethod" class="inputFields" th:field="*{searchUserMethod}">
@@ -19,10 +20,10 @@
             <option value="id">用戶編號</option>
           </select>
           <input type="text" id="searchWords" name="searchWords" class="inputFields" th:field="*{searchWords}">
-          
           <input type="submit" value="提交" id="submit" class="inputFields">
         </form> 
       </div>
+      <hr>
       <table>
         <thead>
           <tr>

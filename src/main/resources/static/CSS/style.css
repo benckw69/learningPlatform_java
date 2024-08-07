@@ -29,7 +29,7 @@ a {
 
 /* Add some content at the bottom of the video/page */
 .content {
-  background: white;
+  background: rgb(173, 172, 172);
   padding: 20px;
   opacity:0.9;
   /* text-shadow: 1px 1px 1px black; */
@@ -76,7 +76,7 @@ a:link {
   color: green;
 }
 
-table, th, td {
+table, td {
   border: 1px solid black;
   text-align: center;
 }

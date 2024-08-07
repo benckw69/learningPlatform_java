@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title th:text="${title}+' - 新増現金卷'"></title>
+        <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+        <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
+    </head>
+    <body>
+        <div class="content">
+            <h1 th:text="${title}"></h1>
+            <div th:replace="~{fragements/header}"></div> 
+            <form action="/admin/moneyTickets/insert" method="post" th:object="${moneyTicket}">
+                <div class="container">
+                <h2>添加使用卷</h2>
+                <hr>
+                <label for="email"><b>換領代碼</b></label>
+                <input type="button" name="randomCode" value="隨機生成字串" id="checkbox" onclick="codebox()">
+                <input type="text" id="code" th:field="*{ticketString}" required>
+                <ul class="error"><li th:each="err : ${#fields.errors('ticketString')}" th:text="${err}" >Ticket String Error</li><li th:if="${ticketStringError}" th:text="${ticketStringError}"></li></ul>
+        
+                <label for="name"><b>面額</b></label>
+                <input type="button" value="100" onclick="changeValue(100)">
+                <input type="button" value="200" onclick="changeValue(200)">
+                <input type="button" value="500" onclick="changeValue(500)">
+                <input type="button" value="1000" onclick="changeValue(1000)">
+                <input type="number" min="0" id="money" th:field="*{amount}" onchange="rangeChecks(this.value,this.id);" required>
+                <ul class="error"><li th:each="err : ${#fields.errors('amount')}" th:text="${err}" >Value Error</li></ul>
+                <hr>
+                <button type="submit" class="registerbtn" >添加使用卷</button>
+                </div>
+            </form>
+        </div>
+    </body>
+    <script>
+        function changeValue(amount){
+            document.getElementById('money').value = amount;
+        }
+        function codebox(){
+            document.getElementById('code').value = generateRandomString();
+        }
+        function generateRandomString() {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var uppercaseChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var lowercaseChar = "abcdefghijklmnopqrstuvwxyz";
+            var numberChar = "0123456789";
+            var randomString = "";
+            //首先从每个字符集中选择一个字符
+            randomString += uppercaseChar.charAt(Math.floor(Math.random() * uppercaseChar.length));
+            randomString += lowercaseChar.charAt(Math.floor(Math.random() * lowercaseChar.length));
+            randomString += numberChar.charAt(Math.floor(Math.random() * numberChar.length));
+            //随机选择其他字符
+            for (var i = 3; i < 10; i++) {
+            var randomIndex = Math.floor(Math.random() * chars.length);
+            randomString += chars.charAt(randomIndex);
+            }
+            //对字符串进行随机排序
+            randomString = randomString.split('').sort(function(){
+            return 0.5-Math.random();
+            }).join('');
+            return randomString;
+        }
+        const urlParams = new URLSearchParams(window.location.search);
+        const insert_param = urlParams.get('insert');
+        if(insert_param == "true") alert("插入代用卷成功");
+    </script>
+
+</html>
