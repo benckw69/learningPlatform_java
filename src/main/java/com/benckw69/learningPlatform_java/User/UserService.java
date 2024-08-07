@@ -185,4 +185,11 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(passwordEdit.getNewPassword()));
         userRepository.save(user);
     }
+
+    public void deleteUser(HttpSession httpSession){
+        Integer userId = (Integer)httpSession.getAttribute("userId");
+        User user = userRepository.findById(userId).orElse(null);
+        user.setIsDeleted(true);
+        userRepository.save(user);
+    }
 }

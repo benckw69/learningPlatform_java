@@ -40,10 +40,37 @@
     <script>
       function deleteUser(){
         if(confirm("你確定要刪除帳戶嗎？")){
-          window.location.href='/users/delete';
+          if(confirm("你的帳戶將會無法登入，如果想登入回現有帳戶，則需要向管理員提出解鎖請求。你同意嗎？")){
+            postData("/user/delete",{},"post")
+          }
         }
       }
-      
+      function postData(path, params, method) { 
+  
+        // Create form 
+        const hidden_form = document.createElement('form'); 
+
+        // Set method to post by default 
+        hidden_form.method = method || 'post'; 
+          
+        // Set path 
+        hidden_form.action = path; 
+          
+        for (const key in params) { 
+            if (params.hasOwnProperty(key)) { 
+                const hidden_input = document.createElement 
+                    ('input'); 
+                hidden_input.type = 'hidden'; 
+                hidden_input.name = key; 
+                hidden_input.value = params[key]; 
+
+                hidden_form.appendChild(hidden_input); 
+            } 
+        } 
+
+        document.body.appendChild(hidden_form); 
+        hidden_form.submit(); 
+      } 
       
     </script>
   </body>

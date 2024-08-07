@@ -47,6 +47,13 @@ public class UserController {
         }
     }
 
+    @PostMapping("/delete")
+    public String deleteUser(HttpSession httpSession){
+        //set user's delete flag to true
+        userService.deleteUser(httpSession);
+        return "redirect:/logout";
+    }
+
     @PostMapping("/info/edit/teacher")
     public String editUserInfoTeacher(@Valid TeacherEdit teacherEdit, BindingResult bindingResult, Model model, HttpSession httpSession){
         Boolean validation = userService.validInfoEdit(teacherEdit,model,httpSession);
