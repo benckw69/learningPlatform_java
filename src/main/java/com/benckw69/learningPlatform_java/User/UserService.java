@@ -5,6 +5,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.benckw69.learningPlatform_java.AdminConfig.EventCategory;
+import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecord;
+import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecordRepository;
 import com.benckw69.learningPlatform_java.AdminConfig.Referral;
 import com.benckw69.learningPlatform_java.AdminConfig.ReferralRepository;
 
@@ -24,6 +27,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MoneyRecordRepository moneyRecordRepository;
 
     public Boolean isSamePassword(String password, String password_repeat, Model model){
         if(!password.equals(password_repeat)) {
@@ -85,6 +91,8 @@ public class UserService {
         newUser.setLoginMethod(LoginMethod.email);
 
         //referral system. Get the settings at database first, then apply the settings
+        MoneyRecord moneyRecord2 = new MoneyRecord();
+        Boolean moneyRecord2Set = false;
         if(registerRequest.getReferral()!=null && registerRequest.getReferral()!=""){
             Integer referralId = Integer.parseInt(registerRequest.getReferral());
             User referral = userRepository.findByIdAndIsDeleted(referralId,false).orElse(null);
@@ -93,21 +101,47 @@ public class UserService {
                 Integer newUserAmount = referralSetting.getNewUserAmount();
                 Integer referralAmount = referralSetting.getNewUserAmount();
                 if(referralSetting.getReferralGet()){
+                    //Set money record
+                    MoneyRecord moneyRecord = new MoneyRecord();
+                    moneyRecord.setEventConsequence(1);
+                    moneyRecord.setEventCategory(EventCategory.REFERRAL_BONUS);
+                    moneyRecord.setEventText(EventCategory.REFERRAL_BONUS, referral, referralSetting, newUser);
+                    moneyRecord.setMoneyChange(referralSetting.getReferralAmount());
+                    moneyRecord.setUser(referral);
+
                     userRepository.updateBalance(referralAmount, referralId);
+                    moneyRecordRepository.save(moneyRecord);
                 }
                 if(referralSetting.getNewUserGet()){
+                    //Set money record
+                    Integer consequence = referralSetting.getReferralGet()? 2:1;
+                    moneyRecord2.setEventConsequence(consequence);
+                    moneyRecord2.setEventCategory(EventCategory.REFERRAL_BONUS);
+                    moneyRecord2.setEventText(EventCategory.REFERRAL_BONUS,newUser,referral,referralSetting);
+                    moneyRecord2.setMoneyChange(referralSetting.getNewUserAmount());
+                    moneyRecord2.setUser(newUser);
+
                     newUser.setBalance(newUserAmount);
+                    moneyRecord2Set = true;
                 }
             }
         }
 
         //save new user
         newUser = userRepository.save(newUser);
+
+        //save introduction
         if(registerRequest.getType() == Type.teacher){
             Introduction newIntroduction = new Introduction();
             newIntroduction.setUser(newUser);
             newIntroduction.setDefaultIntroduction(newUser);
             introductionRepository.save(newIntroduction);
+        }
+
+        //save money record(s)
+        if(moneyRecord2Set){
+            moneyRecord2.setUser(newUser);
+            moneyRecordRepository.save(moneyRecord2);
         }
         
     }

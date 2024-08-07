@@ -8,12 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecord;
 import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecordService;
 import com.benckw69.learningPlatform_java.User.RegisterRequest;
 import com.benckw69.learningPlatform_java.User.UserService;
@@ -58,9 +58,12 @@ public class IndexController {
 
     @GetMapping("/moneyRecords")
     public String moneyRecords(HttpSession httpSession, Model model){
-        model.addAttribute("moneyRecords", moneyRecordService.getMoneyRecordByUserId(httpSession));
+        //ModelAndView modelAndView = new ModelAndView();
+        // modelAndView.getModelMap().addAttribute(null, MoneyRecordHelper.getInstance());
+
+        List <MoneyRecord> result = moneyRecordService.getMoneyRecordByUserId(httpSession);
+        model.addAttribute("moneyRecords", result);
         return "pages/money_records";
     }
-
     
 }

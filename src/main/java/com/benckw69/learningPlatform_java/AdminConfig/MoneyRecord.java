@@ -1,5 +1,10 @@
 package com.benckw69.learningPlatform_java.AdminConfig;
 
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.benckw69.learningPlatform_java.MoneyTicket.MoneyTicket;
 import com.benckw69.learningPlatform_java.User.User;
 
@@ -34,7 +39,31 @@ public class MoneyRecord {
     private User user;
     @Column(nullable = false, columnDefinition="tinyint(1) default 0")
     private Boolean reverse = false;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
+    @CreationTimestamp
+    private Timestamp created_time;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @UpdateTimestamp
+    private Timestamp updated_time;
 
+    @Override
+    public String toString() {
+        return "MoneyRecord [id=" + id + ", moneyChange=" + moneyChange + ", eventConsequence=" + eventConsequence
+                + ", eventCategory=" + eventCategory + ", eventText=" + eventText + ", user.id=" + user.getId() + ", reverse="
+                + reverse + ", created_time=" + created_time + ", updated_time=" + updated_time + "]";
+    }
+    public Timestamp getCreated_time() {
+        return created_time;
+    }
+    public void setCreated_time(Timestamp created_time) {
+        this.created_time = created_time;
+    }
+    public Timestamp getUpdated_time() {
+        return updated_time;
+    }
+    public void setUpdated_time(Timestamp updated_time) {
+        this.updated_time = updated_time;
+    }
     public Integer getId() {
         return id;
     }

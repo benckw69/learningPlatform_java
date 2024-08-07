@@ -33,7 +33,7 @@ public class SecurityConfig{
                                 .logoutSuccessUrl("/login"))
                         .authorizeHttpRequests(requests -> requests
                                 //.shouldFilterAllDispatcherTypes(false)
-                                .requestMatchers("/error").permitAll()
+                                .requestMatchers("/error","/iteration").permitAll()
                                 .requestMatchers("/register").permitAll() //allowed for both get and post request
                                 .requestMatchers(HttpMethod.GET, "/").permitAll()
                                 .requestMatchers("/login").permitAll()
@@ -42,6 +42,7 @@ public class SecurityConfig{
                                 .requestMatchers("/search/students").hasAuthority("teacher")
                                 .requestMatchers("/user","/user/info/edit","user/pw/edit").hasAnyAuthority("teacher", "admin","student")
                                 .requestMatchers("/admin**").hasAuthority( "admin")
+                                .requestMatchers("/moneyRecords").hasAnyAuthority("teacher", "admin","student")
                                 .anyRequest().authenticated()
                         )
                         
