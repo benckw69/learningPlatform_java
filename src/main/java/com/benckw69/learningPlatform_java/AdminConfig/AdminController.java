@@ -14,11 +14,11 @@ import jakarta.validation.Valid;
 public class AdminController {
 
     @Autowired
-    AdminService adminService;
+    ReferralService referralServiceService;
 
     @GetMapping("/referral")
     public String referralConfig(Referral referral){
-        Referral referralDatabase = adminService.getReferralConfig();
+        Referral referralDatabase = referralServiceService.getReferralConfig();
         referral.setId(referralDatabase.getId());
         referral.setNewUserAmount(referralDatabase.getNewUserAmount());
         referral.setNewUserGet(referralDatabase.getNewUserGet());
@@ -31,7 +31,7 @@ public class AdminController {
     public String referralConfig(@Valid Referral referral, BindingResult bindingResult){
         if(bindingResult.hasErrors()) return "pages/admin_referral_config";
         referral.setId(1);
-        adminService.saveReferral(referral);
+        referralServiceService.saveReferral(referral);
         return "redirect:/admin/referral?edit=true";
     }
 
