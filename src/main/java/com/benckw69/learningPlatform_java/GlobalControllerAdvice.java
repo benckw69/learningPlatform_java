@@ -39,18 +39,4 @@ public class GlobalControllerAdvice {
         Global global = new Global();
         return global.getTitle();
     }
-
-    @ModelAttribute("messages")
-    public List<String> messages(HttpSession session) {
-        List<String> messages = null;
-        if(session.getAttribute("messages") != null){
-            messages = (List<String>)session.getAttribute("messages");
-            session.removeAttribute("messages");
-        }
-        return messages;
-    }
-
-    public void setSession(HttpSession session){
-        System.out.println("Hello");
-    }
 }

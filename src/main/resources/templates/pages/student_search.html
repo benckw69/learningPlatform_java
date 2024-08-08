@@ -21,7 +21,7 @@
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
       <div id="form">
-        <form action="/search/students" method="post" th:object="${searchUserRequest}">
+        <form action="/teacher/search/students" method="post" th:object="${searchUserRequest}">
           <select id="searchMethod" name="searchMethod" class="inputFields" th:field="*{searchUserMethod}">
             <option value="username">用戶名稱</option>
             <option value="email">電郵地址</option>
