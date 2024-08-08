@@ -33,6 +33,9 @@ public class AdminController {
     @Autowired
     MoneyTicketService moneyTicketsService;
 
+    @Autowired
+    MoneySeperationService moneySeperationRepository;
+
     @GetMapping("/referral")
     public String referralConfig(Referral referral){
         Referral referralDatabase = referralServiceService.getReferralConfig();
@@ -103,6 +106,19 @@ public class AdminController {
         moneyTicketsService.insertMoneyTickets(moneyTicket);
         return "redirect:/admin/moneyTickets/insert?insert=true";
     }
+    
+    @GetMapping("/moneySeperation")
+    public String moneySeperationEdit(MoneySeperation moneySeperation, Model model){
+        model.addAttribute("moneySeperation", moneySeperationRepository.getMoneySeperation());
+        moneySeperation.setTeacherMoneyPercentage(moneySeperationRepository.getMoneySeperation().getTeacherMoneyPercentage());
+        return "pages/admin_money_seperation";
+    }
 
+    @PostMapping("/moneySeperation")
+    public String moneySeperationEdit(@Valid MoneySeperation moneySeperation, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()) return "pages/admin_money_seperation";
+        moneySeperationRepository.editMoneySeperation(moneySeperation);
+        return "redirect:/admin/moneySeperation?edit=true";
+    }
     
 }

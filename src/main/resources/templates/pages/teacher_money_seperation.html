@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title th:text="${title}+' - 課程分成'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
+  </head>
+  <body>
+    <div class="content">
+        <h1 th:text="${title}"></h1>
+        <div th:replace="~{fragements/header}"></div> 
+        <h2>課程分成</h2>
+        <hr>
+        <p th:text="'導師可以獲得的百分比（％）為 '+${moneySeperation.teacherMoneyPercentage}+'。'"></p>
+    </div>
+    </body>
+    
+</html>
