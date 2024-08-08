@@ -1,6 +1,5 @@
 package com.benckw69.learningPlatform_java.User;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
 
@@ -8,13 +7,15 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecord;
+import com.benckw69.learningPlatform_java.Course.BuyRecord;
+import com.benckw69.learningPlatform_java.Course.Course;
 import com.benckw69.learningPlatform_java.MoneyTicket.MoneyTicket;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user")
-public class User implements Serializable{
+public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +55,12 @@ public class User implements Serializable{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<MoneyTicket> moneyTickets;
     
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Course> course;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<BuyRecord> buyRecord;
+
     public Introduction getIntroduction() {
         return introduction;
     }
