@@ -99,8 +99,10 @@ public class UserController {
     public String useMoneyTickets(MoneyTicket moneyTicket, Model model, HttpSession httpSession){
         Boolean validation = moneyTicketService.validMoneyTicket(moneyTicket, model);
         if(!validation) return "pages/user_money_ticket_use";
-        moneyTicketService.useMoneyTicket(moneyTicket,httpSession);
-        return "redirect:/user/moneyTicket/use?use=true";
+        Boolean success = moneyTicketService.useMoneyTicket(moneyTicket,httpSession);
+        if(success) return "redirect:/user/moneyTicket/use?use=true";
+        else return "redirect:/logout";
+        
     }
 
 }

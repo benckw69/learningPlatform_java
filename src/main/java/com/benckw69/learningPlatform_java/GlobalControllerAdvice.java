@@ -27,7 +27,7 @@ public class GlobalControllerAdvice {
     public String title(HttpSession httpSession, Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
         //
         if(httpSession.getAttribute("userId") != null){
-            User user = userRepository.findById((Integer)httpSession.getAttribute("userId")).orElse(null);
+            User user = userRepository.findByIdAndIsDeleted((Integer)httpSession.getAttribute("userId"),false).orElse(null);
             if(user != null){
                 httpSession.setAttribute("user", user);
             } else {

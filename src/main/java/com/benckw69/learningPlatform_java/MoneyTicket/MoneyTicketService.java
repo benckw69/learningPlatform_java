@@ -55,11 +55,13 @@ public class MoneyTicketService {
         }
     }
 
-    public void useMoneyTicket(MoneyTicket moneyTickets, HttpSession httpSession){
+    public Boolean useMoneyTicket(MoneyTicket moneyTickets, HttpSession httpSession){
         //set the ticket to used.  Set new balance for the user.  Set message for money transaction.
         MoneyTicket moneyTicket = moneyTicketRepository.findByTicketStringAndIsUsed(moneyTickets.getTicketString(), false);
         moneyTicket.setIsUsed(true);
-        User user = (User)httpSession.getAttribute("user");
+        Integer userId = (Integer)httpSession.getAttribute("userId");
+        User user = userRepository.findById(userId).orElse(null);
+        if(user==null) return false;
         moneyTicket.setUser(user);
         user.setBalance(user.getBalance()+moneyTicket.getAmount());
 
@@ -73,5 +75,6 @@ public class MoneyTicketService {
         moneyTicketRepository.save(moneyTicket);
         userRepository.save(user);
         moneyRecordRepository.save(moneyRecord);
+        return true;
     }
 }
