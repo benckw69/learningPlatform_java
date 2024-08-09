@@ -2,10 +2,10 @@
     <ul class="menubar" th:if="${session.user != null} and ${session.user.type.name()} eq 'student'">
         <li class="menuitem"><span th:if="${session.user}" th:text="'你好，'+${session.user.username}"></span> </li>
         <li class="menuitem"><a href="/">主頁</a> </li>
-        <li class="menuitem"><a href="/courses">瀏覽所有課程(之後登場)</a> </li>
-        <li class="menuitem"><a href="/courses/paid">瀏覽已付費課程(之後登場)</a> </li>
-        <li class="menuitem"><a href="/student/search/teachers">搜尋老師</a> </li>
-        <li class="menuitem"><a href="/user/moneyTicket/use">輸入現金卷</a> </li>
+        <li class="menuitem"><a href="/student/course/search">瀏覽所有課程</a> </li>
+        <li class="menuitem"><a href="/student/course/own">瀏覽已付費課程</a> </li>
+        <li class="menuitem"><a href="/student/teacherSearch">搜尋老師</a> </li>
+        <li class="menuitem"><a href="/student/moneyTicket/use">輸入現金卷</a> </li>
         <li class="menuitem" style="float:right"><a href="/logout">登出</a></li>
         <li class="menuitem" style="float:right"><a href="/user">個人資料</a> </li>
         <li class="menuitem" style="float:right"><a href="/moneyRecords">用戶金錢紀錄</a> </li>
@@ -16,7 +16,7 @@
         <li class="menuitem"><a href="/">主頁</a> </li>
         <li class="menuitem"><a href="/courses/newCourse">新増課程(之後登場)</a> </li>
         <li class="menuitem"><a href="/courses/myCourses">管理課程(之後登場)</a> </li>
-        <li class="menuitem"><a href="/teacher/search/students">搜尋學生</a> </li>
+        <li class="menuitem"><a href="/teacher/studentSearch">搜尋學生</a> </li>
         <li class="menuitem"><a href="/teacher/moneySeperation">課程分成</a> </li>
         <li class="menuitem" style="float:right"><a href="/logout">登出</a> </li>
         <li class="menuitem" style="float:right"><a href="/user">個人資料</a> </li>

@@ -63,6 +63,9 @@ public class Course {
     @UpdateTimestamp
     private Timestamp updatedTime;
     
+    @Column(name = "is_deleted", nullable = false, columnDefinition="tinyint(1) default 0")
+    private Boolean isDeleted;
+    
     @ManyToOne
     @JoinColumn(name = "teacher_id", nullable = false)
     private User user;
@@ -149,4 +152,10 @@ public class Course {
     public void setUpdatedTime(Timestamp updatedTime) {
         this.updatedTime = updatedTime;
     }
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }   
 }

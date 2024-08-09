@@ -17,12 +17,12 @@ public class SearchUserController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/teacher/search/students")
+    @GetMapping("/teacher/studentSearch")
     public String searchStudents(SearchUserRequest searchUserRequest){
         return "pages/student_search";
     }
 
-    @PostMapping("/teacher/search/students")
+    @PostMapping("/teacher/studentSearch")
     public String searchStudents(SearchUserRequest searchUserRequest, Model model){
         if(searchUserRequest.getSearchUserMethod()==SearchUserMethod.EMAIL){
             model.addAttribute("result", userRepository.findByEmailContainsAndType(searchUserRequest.getSearchWords(),Type.student));
@@ -32,12 +32,12 @@ public class SearchUserController {
         return "pages/student_search";
     }
 
-    @GetMapping("/student/search/teachers")
+    @GetMapping("/student/teacherSearch")
     public String searchTeachers(SearchUserRequest searchUserRequest){
         return "pages/teacher_search";
     }
 
-    @PostMapping("/student/search/teachers")
+    @PostMapping("/student/teacherSearch")
     public String searchTeachers(SearchUserRequest searchUserRequest, Model model){
         if(searchUserRequest.getSearchUserMethod()==SearchUserMethod.EMAIL){
             model.addAttribute("result", userRepository.findByEmailContainsAndType(searchUserRequest.getSearchWords(),Type.teacher));

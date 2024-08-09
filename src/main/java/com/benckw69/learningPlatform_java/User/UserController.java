@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.benckw69.learningPlatform_java.MoneyTicket.MoneyTicket;
-import com.benckw69.learningPlatform_java.MoneyTicket.MoneyTicketService;
-
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -20,11 +17,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    MoneyTicketService moneyTicketService;
     
-
     @GetMapping
     public String showUserInfomation(Model model,HttpSession httpSession){
         //retrive introduction if user type is teacher
@@ -88,21 +81,6 @@ public class UserController {
         if(!validation || bindingResult.hasErrors()) return "pages/user_pw_edit";
         userService.updatePassword(passwordEdit,httpSession);
         return "redirect:/user/pw/edit?edit=true";
-    }
-
-    @GetMapping("/moneyTicket/use")
-    public String useMoneyTickets(MoneyTicket moneyTicket){
-        return "pages/user_money_ticket_use";
-    }
-
-    @PostMapping("/moneyTicket/use")
-    public String useMoneyTickets(MoneyTicket moneyTicket, Model model, HttpSession httpSession){
-        Boolean validation = moneyTicketService.validMoneyTicket(moneyTicket, model);
-        if(!validation) return "pages/user_money_ticket_use";
-        Boolean success = moneyTicketService.useMoneyTicket(moneyTicket,httpSession);
-        if(success) return "redirect:/user/moneyTicket/use?use=true";
-        else return "redirect:/logout";
-        
     }
 
 }
