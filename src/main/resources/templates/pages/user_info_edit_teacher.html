@@ -31,7 +31,6 @@
           <input type="password" th:field="*{password}" required>
           <ul class="error"><li th:if="${passwordError}" th:text="${passwordError}"></li></ul>
 
-          <p class="success" th:if="${ChangeSuccess}"><b th:text="${ChangeSuccess}"></b></p>
           <button type="submit" class="registerbtn">更改資料</button>
           <button type="button" class="registerbtn" style="background-color:blue" onclick="window.location.href='/user'">回到上一頁</button>
         
