@@ -35,6 +35,9 @@ public class Course {
     @Column(nullable = false)
     private Category category;
 
+    @Column(name = "people_suite")
+    private String peopleSuite;
+
     @Column(length = 4096)
     private String introduction;
 
@@ -49,9 +52,8 @@ public class Course {
     @Column(name="photo_type")
     private PhotoType photoType;
 
-    @ManyToOne
-    @JoinColumn(name = "teacher_id")
-    private User user;
+    @Column(nullable = false)
+    private Integer price = 0;
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
     @CreationTimestamp
@@ -61,9 +63,26 @@ public class Course {
     @UpdateTimestamp
     private Timestamp updatedTime;
     
+    @ManyToOne
+    @JoinColumn(name = "teacher_id", nullable = false)
+    private User user;
+    
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<BuyRecord> buyRecord;
    
+    public String getPeopleSuite() {
+        return peopleSuite;
+    }
+    public void setPeopleSuite(String peopleSuite) {
+        this.peopleSuite = peopleSuite;
+    }
+    public Integer getPrice() {
+        return price;
+    }
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
     public Set<BuyRecord> getBuyRecord() {
         return buyRecord;
     }
