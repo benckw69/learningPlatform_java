@@ -21,16 +21,6 @@ ul.course li, ul#courses{
     
   }
   
-  #searchWords, #category{
-    width: 300px;
-    padding: 5px;
-    margin-right: 10px;
-  }
-  #searchMethod, #submit{
-    padding: 5px;
-    margin-right: 10px;
-  }
-  
   .course li a {
     font-size: 20px;
   }

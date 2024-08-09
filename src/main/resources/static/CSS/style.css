@@ -18,15 +18,6 @@ a {
   color: #00B7FF;
 }
 
-#myVideo {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-  opacity: 0.8
-}
-
 /* Add some content at the bottom of the video/page */
 .content {
   background: rgb(173, 172, 172);
@@ -79,4 +70,20 @@ a:link {
 table, td {
   border: 1px solid black;
   text-align: center;
+}
+
+.searchUser input[type=submit]{
+  height: 35px;
+  width: 75px;
+}
+
+.searchUser select{
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.searchUser input[type=text]{
+  width: 300px;
+  padding: 5px;
+  margin-right: 10px;
 }
