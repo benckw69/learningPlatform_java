@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title th:text="${title}+' - 新増課程'"></title>
+        <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+        <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
+        <link rel='stylesheet' href='/css/showCourses.css' th:href="@{/css/showCourses.css}"/>
+        <style>
+            video {
+                max-width: 500px;
+                max-height: 500px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <h1 th:text="${title}"></h1>
+            <div th:replace="~{fragements/header}"></div> 
+            
+            <form action="/teacher/course/insert" method="post" th:object="${course}">
+                <div class="container">
+                    <h1 id="registerText">新増課程</h1>
+                    <hr>
+                    
+                    <label for="name"><b>課程名稱</b></label>
+                    <input type="text" placeholder="名稱" th:field="*{title}" required>
+                    <ul class="error"><li th:each="err : ${#fields.errors('title')}" th:text="${err}" >Title Error</li></ul>
+                    
+                    <p><label for="name"><b>簡介</b></label></p>
+                    <textarea rows = "5" cols = "60" maxlength="1000" th:field="*{introduction}"></textarea> <br/>
+
+                    <p><label for="name"><b>內容</b></label></p>
+                    <textarea rows = "5" cols = "60" maxlength="4000000" th:field="*{content}"></textarea> <br/>
+
+                    <p><label for="name"><b>學習人群</b></label></p>
+                    <textarea rows = "5" cols = "60" maxlength="200" placeholder="學習人群" th:field="*{peopleSuite}"></textarea> <br/>
+
+                    <p>圖片可於新増課程後添加</p>
+                    <br><br><label for="name"><b>上傳圖片</b></label><br>
+                    <input type="file" accept="image/jpg,image/jpeg,image/png" name="photoLink" id="imageUpload">
+                    <button type="button" onclick="resetImage()">重設圖片</button><br>
+                    <div id="image"><img src="" style="max-width: 500px;max-height: 500px;" id="imagePreview"></div>
+
+                    <p>影片可於新増課程後添加</p>
+                    <br><label for="name"><b>上傳影片</b></label><br>
+                    <input type="file" accept="video/*" name="videoLink" id="videoUpload">
+                    <button type="button" onclick="resetVideo()">重設影片</button><br>
+                    <div id="video"><video controls id="videoPreview" src=""></video></div>
+
+                    <br><br><label for="name"><b>課程價錢</b></label><br/>
+                    <input type="number" placeholder="價錢" min="0" step="1" th:field="*{price}" required><br/>
+                
+                    <label for="name"><b>課程分類</b></label><br>
+                    <select th:field="*{category}" required>
+                        <option value="PROGRAMMING">程式</option>
+                        <option value="MUSIC">音樂</option>
+                        <option value="INVESTMENT">投資</option>
+                        <option value="LANGUAGE">語言</option>
+                        <option value="ART">藝術</option>
+                        <option value="DESIGN">設計</option>
+                        <option value="MARKETING">市場營銷</option>
+                    </select>
+                    <ul class="error"><li th:each="err : ${#fields.errors('category')}" th:text="${err}" >Category Error</li></ul>
+                    <hr>
+                    <button type="submit" class="registerbtn">新增課程</button>
+                </div>
+                
+            </form> 
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            
+            const imageInput = document.getElementById("imageUpload");
+            const imagePreview = document.getElementById('imagePreview');
+            function resetImage(){
+                imageInput.value=null;
+                $("#imagePreview").attr('src', '');
+            }
+            $ ("#imageUpload").change(()=> {
+                const file = imageInput.files;
+                if(imageInput.files){
+                    const fileUrl = window.URL.createObjectURL(imageInput.files[0]);
+                    $("#imagePreview").attr("src", fileUrl);
+                }
+            });
+
+            const videoInput = document.getElementById("videoUpload");
+            const videoPreview = document.getElementById('videoPreview');        
+            $ ("#videoUpload").change(function () {
+                const fileUrl = window.URL.createObjectURL(videoInput.files[0]);
+                $("#videoPreview").attr("src", fileUrl);
+            });
+
+            function resetVideo(){
+                videoInput.value=null;
+                $("#videoPreview").attr("src", "");
+            }
+        </script>
+    </body>
+    </html>

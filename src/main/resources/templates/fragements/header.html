@@ -14,8 +14,8 @@
     <ul class="menubar" th:if="${session.user != null} and ${session.user.type.name()} eq 'teacher'">
         <li class="menuitem"><span th:if="${session.user}" th:text="'你好，'+${session.user.username}"></span> </li>
         <li class="menuitem"><a href="/">主頁</a> </li>
-        <li class="menuitem"><a href="/courses/newCourse">新増課程(之後登場)</a> </li>
-        <li class="menuitem"><a href="/courses/myCourses">管理課程(之後登場)</a> </li>
+        <li class="menuitem"><a href="/teacher/course/insert">新増課程</a> </li>
+        <li class="menuitem"><a href="/teacher/course/own">管理課程</a> </li>
         <li class="menuitem"><a href="/teacher/studentSearch">搜尋學生</a> </li>
         <li class="menuitem"><a href="/teacher/moneySeperation">課程分成</a> </li>
         <li class="menuitem" style="float:right"><a href="/logout">登出</a> </li>

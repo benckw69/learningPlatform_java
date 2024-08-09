@@ -35,6 +35,8 @@ public class SecurityConfig{
                                 //.shouldFilterAllDispatcherTypes(false)
                                 .requestMatchers("/error").permitAll()
                                 .requestMatchers("/teacher/moneySeperation").hasAuthority("teacher")
+                                .requestMatchers("/student/course/search","/student/course/own").hasAuthority("student")
+                                .requestMatchers("/teacher/course/own").hasAuthority("teacher")
                                 .requestMatchers("/register","login").permitAll() //allowed for both get and post request
                                 .requestMatchers(HttpMethod.GET, "/").permitAll()
                                 .requestMatchers("/css/**", "/images/**","/members").permitAll()
@@ -44,7 +46,8 @@ public class SecurityConfig{
                                 .requestMatchers("/user/info/edit/teacher").hasAuthority("teacher")
                                 .requestMatchers("/user/info/edit/studentOrAdmin").hasAnyAuthority("admin", "student")
                                 .requestMatchers(HttpMethod.POST, "/user/delete").hasAnyAuthority("teacher", "student")
-                                .requestMatchers("/admin**").hasAuthority("admin")
+                                .requestMatchers("/admin/referral","/admin/userDeleteRecords","/admin/userDeleteRecords/*").hasAuthority("admin")
+                                .requestMatchers("/admin/moneyTickets/view","/admin/moneyTickets/delete/*","/admin/moneyTickets/insert","/admin/moneySeperation").hasAuthority("admin")
                                 .requestMatchers("/moneyRecords").hasAnyAuthority("teacher", "admin","student")
                                 .anyRequest().authenticated()
                         )

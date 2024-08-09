@@ -6,6 +6,7 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.benckw69.learningPlatform_java.Constrain.NotSameTitle;
 import com.benckw69.learningPlatform_java.User.User;
 
 import jakarta.persistence.CascadeType;
@@ -20,6 +21,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "course")
@@ -28,14 +31,16 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 256)
+    @Column(nullable = false, length = 512)
+    @NotEmpty
     private String title;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @NotNull
     private Category category;
 
-    @Column(name = "people_suite")
+    @Column(name = "people_suite", length = 1024)
     private String peopleSuite;
 
     @Column(length = 4096)
@@ -64,7 +69,7 @@ public class Course {
     private Timestamp updatedTime;
     
     @Column(name = "is_deleted", nullable = false, columnDefinition="tinyint(1) default 0")
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
     
     @ManyToOne
     @JoinColumn(name = "teacher_id", nullable = false)
@@ -73,6 +78,13 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<BuyRecord> buyRecord;
    
+    @Override
+    public String toString() {
+        return "Course [id=" + id + ", title=" + title + ", category=" + category + ", peopleSuite=" + peopleSuite
+                + ", introduction=" + introduction + ", content=" + content + ", videoType=" + videoType
+                + ", photoType=" + photoType + ", price=" + price + ", createdTime=" + createdTime + ", updatedTime="
+                + updatedTime + ", isDeleted=" + isDeleted + ", user=" + user + ", buyRecord=" + buyRecord + "]";
+    }
     public String getPeopleSuite() {
         return peopleSuite;
     }
