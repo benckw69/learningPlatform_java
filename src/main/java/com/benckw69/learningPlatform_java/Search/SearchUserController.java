@@ -24,7 +24,7 @@ public class SearchUserController {
 
     @PostMapping("/teacher/search/students")
     public String searchStudents(SearchUserRequest searchUserRequest, Model model){
-        if(searchUserRequest.getSearchUserMethod()==SearchUserMethod.email){
+        if(searchUserRequest.getSearchUserMethod()==SearchUserMethod.EMAIL){
             model.addAttribute("result", userRepository.findByEmailContainsAndType(searchUserRequest.getSearchWords(),Type.student));
         } else {
             model.addAttribute("result", userRepository.findByUsernameContainsAndType(searchUserRequest.getSearchWords(),Type.student));
@@ -39,7 +39,7 @@ public class SearchUserController {
 
     @PostMapping("/student/search/teachers")
     public String searchTeachers(SearchUserRequest searchUserRequest, Model model){
-        if(searchUserRequest.getSearchUserMethod()==SearchUserMethod.email){
+        if(searchUserRequest.getSearchUserMethod()==SearchUserMethod.EMAIL){
             model.addAttribute("result", userRepository.findByEmailContainsAndType(searchUserRequest.getSearchWords(),Type.teacher));
         } else {
             model.addAttribute("result", userRepository.findByUsernameContainsAndType(searchUserRequest.getSearchWords(),Type.teacher));

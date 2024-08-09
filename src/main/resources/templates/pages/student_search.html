@@ -20,17 +20,19 @@
     <div class="content">
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
+      <h2>搜尋老師</h2> 
       <div id="form">
         <form action="/teacher/search/students" method="post" th:object="${searchUserRequest}">
           <select id="searchMethod" name="searchMethod" class="inputFields" th:field="*{searchUserMethod}">
-            <option value="username">用戶名稱</option>
-            <option value="email">電郵地址</option>
+            <option value="USERNAME">用戶名稱</option>
+            <option value="EMAIL">電郵地址</option>
           </select>
           <input type="text" id="searchWords" name="searchWords" class="inputFields" th:field="*{searchWords}">
           
           <input type="submit" value="提交" id="submit" class="inputFields">
         </form> 
       </div>
+      <hr>
       <ul id="courses" th:each="student:${result}">
         <li><ul class="course">
           <li style="font-size: 26px;" th:text="${student.username}"></li>
