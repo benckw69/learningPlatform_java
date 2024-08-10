@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title th:text="${title}+' - 自己的課程'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+  </head>
+  <body>
+    <div class="content">
+      <h1 th:text="${title}"></h1>
+      <div th:replace="~{fragements/header}"></div> 
+      <div class="container">
+        <h2>自己的課程</h2>
+        <form action="/teacher/course/own" method="post" class="searchCourse" th:object="${searchCourseRequest}">
+
+          <select th:field="*{searchCourseMethod}" id="searchMethod" onchange="changeSearch()">
+            <option value="NAME">課程名稱</option>
+            <option value="CATEGORY">課程類別</option>
+          </select>
+
+          <input type="text" th:field="*{searchWords}" id="searchWords" style="display: none;">
+          
+          <select th:field="*{category}" id="searchCategory"  style="display: none;">
+            <option th:each="categoryStatic : ${T(com.benckw69.learningPlatform_java.Course.Category).values()}" 
+                th:value="${categoryStatic}" th:text="${categoryStatic.name}"></option>
+          </select>
+
+          <input type="submit" value="提交" class="searchUser">
+
+        </form>
+        <hr>
+        <ul th:each="course:${courses}" id="courses">
+        <li><ul class="course">
+          <li><a th:text="${course.title}+' - '+${course.category.name}" th:href="'/teacher/course/'+${course.id}"></a></li>
+          <li th:text="'作者：'+${course.user.username}"></li>
+          <li th:text="'價錢：'+${course.price}"></li>
+          <!-- rating, number of students and delete course.  need edit -->
+          <li th:text="'評價：'"></li>
+          <li th:text="'上課人數：'"></li>
+        </ul></li>
+        </ul>
+      </div>
+    </div>
+  </body>
+  <script>
+    function undoDeleteCourse(id){
+      if(confirm("你確定要取消刪除課程嗎？")){
+        window.location.href='/courses/myCourses/'+id+'/undoDelete';
+        console.log(courseId)
+      }
+    }
+    function changeSearch(){
+      if(document.getElementById('searchMethod').value=="NAME"){
+        document.getElementById('searchWords').style.display = 'initial';
+        document.getElementById('searchCategory').style.display = 'none';
+      }
+      else if(document.getElementById('searchMethod').value=="CATEGORY"){
+      document.getElementById('searchCategory').style.display = 'initial';
+      document.getElementById('searchWords').style.display = 'none';
+      }
+    }
+    changeSearch();
+  </script>
+</html>

@@ -63,11 +63,11 @@ public class AdminController {
 
     @PostMapping("/userDeleteRecords")
     public String userDeleteRecordsSearchView(Model model, SearchUserRequest searchUserRequest){
-        if(searchUserRequest.getSearchUserMethod() == SearchUserMethod.email){
+        if(searchUserRequest.getSearchUserMethod() == SearchUserMethod.EMAIL){
             model.addAttribute("deleteAcRecords", userService.getDeletedUsersByEmailOrderByDate(searchUserRequest.getSearchWords().trim()));
-        } else if (searchUserRequest.getSearchUserMethod() == SearchUserMethod.id && AdminService.isInteger(searchUserRequest.getSearchWords())){
+        } else if (searchUserRequest.getSearchUserMethod() == SearchUserMethod.ID && AdminService.isInteger(searchUserRequest.getSearchWords())){
             model.addAttribute("deleteAcRecords", userService.getDeletedUsersByIdOrderByDate(Integer.parseInt(searchUserRequest.getSearchWords())));
-        } else if (searchUserRequest.getSearchUserMethod() == SearchUserMethod.username){
+        } else if (searchUserRequest.getSearchUserMethod() == SearchUserMethod.USERNAME){
             model.addAttribute("deleteAcRecords", userService.getDeletedUsersByUsernameOrderByDate(searchUserRequest.getSearchWords().trim()));
         } else {
             model.addAttribute("deleteAcRecords", userService.getDeletedUsersOrderByDate());

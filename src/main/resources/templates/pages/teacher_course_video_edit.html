@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title th:text="${title}+' - 編輯影片'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+    <style>
+      video {
+        max-width: 500px;
+        max-height: 500px;
+      }
+  </style>
+  </head>
+  <body>
+    <div class="content">
+      <h1 th:text="${title}"></h1>
+      <div th:replace="~{fragements/header}"></div> 
+      <div class="container">
+        <h2>編輯影片</h2>
+        <hr>
+        <form action="#" method="post" enctype="multipart/form-data">
+          <p><label for="name"><b>上傳影片</b></label></p>
+          <input type="file" accept="video/*" name="videoLink" id="videoUpload">
+          <button type="button" onclick="resetVideo()">重設影片</button>
+          <div id="video">
+            <video th:if="${course.videoType}" th:src="'media/'+${session.userId}+'.'+${course.videoType}" controls id="videoPreview" ></video>
+            <video th:unless="${course.videoType}" th:src="''" controls id="videoPreview"></video>
+          </div>
+          <hr>
+          <button type="submit" class="registerbtn">更新影片</button>
+          <button type="button" class="registerbtn" style="background-color: rgb(9, 9, 112);" th:onclick="changePage([[${course.id}]])">回到上一頁</button>
+        </form>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+      const videoInput = document.getElementById("videoUpload");
+      const videoPreview = document.getElementById('videoPreview');        
+      $ ("#videoUpload").change(function () {
+          const fileUrl = window.URL.createObjectURL(videoInput.files[0]);
+          $("#videoPreview").attr("src", fileUrl);
+      });
+
+      function resetVideo(){
+          videoInput.value=null;
+          $("#videoPreview").attr("src", "");
+      }
+      function changePage(id) {
+        window.location.href='/teacher/course/'+id;
+      }
+    </script>
+    
+  </body>
+
+   
+</html>

@@ -28,39 +28,76 @@ public class CourseTeacherController {
     //check whether it is the owner of the course
     @GetMapping({"/{id}","/{id}/info/view"})
     public String viewCourse(@PathVariable Integer id, Model model, HttpSession httpSession){
-        model.addAttribute("course", courseService.findCourseById(id));
+        Course course = courseService.findCourseById(id);
+        //not stable.  need check
+        if(course == null || (course != null && course.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        model.addAttribute("course", course);
         model.addAttribute("introduction", userService.getIntroductionBySession(httpSession).getIntrodution());
         return "pages/teacher_course_view";
     }
 
     @GetMapping("/{id}/info/edit")
-    public String editCourseInfo(@PathVariable Integer id){
-        return "pages/teacher_course_info";
+    public String editCourseInfo(@PathVariable Integer id, HttpSession httpSession, Course course, Model model){
+        //check id and check whether it is the course owner
+        Course validCourse = courseService.findCourseById(id);
+        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        course.setCategory(validCourse.getCategory());
+        course.setContent(validCourse.getContent());
+        course.setIntroduction(validCourse.getIntroduction());
+        course.setPeopleSuite(validCourse.getPeopleSuite());
+        course.setPrice(validCourse.getPrice());
+        course.setTitle(validCourse.getTitle());
+        model.addAttribute("course", validCourse);
+        return "pages/teacher_course_info_edit";
     }
 
     @PostMapping("/{id}/info/edit")
-    public String editCourseInfo(@PathVariable Integer id, BindingResult bindingResult){
-        return "pages/teacher_course_info";
+    public String editCourseInfo(@PathVariable Integer id, @Valid Course course, Model model, HttpSession httpSession, BindingResult bindingResult){
+        //check id and check whether it is the course owner
+        Course validCourse = courseService.findCourseById(id);
+        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        
+        //check validation
+        Boolean validation = validCourse.getTitle().equals(course.getTitle()) || !courseService.sameTitle(course.getTitle(), model);
+        if(!validation || bindingResult.hasErrors()) return "pages/teacher_course_info_edit";
+        
+        //set new value
+        courseService.editCourse(validCourse, course);
+        return "redirect:/teacher/course/"+id+"/info/edit?edit=true";
     }
 
     @GetMapping("/{id}/photo/edit")
-    public String editCoursePhoto(@PathVariable Integer id){
-        return "pages/teacher_course_info";
+    public String editCoursePhoto(@PathVariable Integer id, Model model, HttpSession httpSession){
+        //check id and check whether it is the course owner
+        Course validCourse = courseService.findCourseById(id);
+        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        model.addAttribute("course", validCourse);
+        return "pages/teacher_course_photo_edit";
     }
 
     @PostMapping("/{id}/photo/edit")
-    public String editCoursePhotoPost(@PathVariable Integer id){
-        return "pages/teacher_course_info";
+    public String editCoursePhotoPost(@PathVariable Integer id, HttpSession httpSession){
+        //check id and check whether it is the course owner
+        Course validCourse = courseService.findCourseById(id);
+        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        return "pages/teacher_course_photo_edit";
     }
 
     @GetMapping("/{id}/video/edit")
-    public String editCourseVideo(@PathVariable Integer id){
-        return "pages/teacher_course_info";
+    public String editCourseVideo(@PathVariable Integer id, Model model, HttpSession httpSession){
+        //check id and check whether it is the course owner
+        Course validCourse = courseService.findCourseById(id);
+        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        model.addAttribute("course", validCourse);
+        return "pages/teacher_course_video_edit";
     }
 
     @PostMapping("/{id}/video/edit")
-    public String editCourseVideoPost(@PathVariable Integer id){
-        return "pages/teacher_course_info";
+    public String editCourseVideoPost(@PathVariable Integer id, HttpSession httpSession){
+        //check id and check whether it is the course owner
+        Course validCourse = courseService.findCourseById(id);
+        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        return "pages/teacher_course_video_edit";
     }
 
     @GetMapping("/insert")
@@ -69,8 +106,9 @@ public class CourseTeacherController {
     }
 
     @PostMapping("/insert")
-    public String insertCourse(@Valid Course course, BindingResult bindingResult,HttpSession httpSession){
-        if(bindingResult.hasErrors()) return "pages/teacher_course_insert";
+    public String insertCourse(@Valid Course course, BindingResult bindingResult, Model model, HttpSession httpSession){
+        Boolean validation = !courseService.sameTitle(course.getTitle(),model);
+        if(bindingResult.hasErrors() || !validation) return "pages/teacher_course_insert";
         User user = (User)httpSession.getAttribute("user");
         course.setUser(user);
         course = courseService.insertCourse(course);

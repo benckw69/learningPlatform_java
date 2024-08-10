@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title th:text="${title}+' - 編輯圖片'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+  </head>
+  <body>
+    <div class="content">
+      <h1 th:text="${title}"></h1>
+      <div th:replace="~{fragements/header}"></div> 
+      <div class="container">
+        <h2>編輯圖片</h2>
+        <hr>
+        <form action="#" method="post" enctype="multipart/form-data">
+          <p><label for="name"><b>上傳圖片</b></label></p>
+          <input type="file" accept="image/jpg,image/jpeg,image/png" name="photoLink" id="imageUpload">
+          <button type="button" onclick="resetImage()">重設圖片</button><br>
+          <div id="image">
+            <img th:if="${course.photoType}" th:src="'media/'+${session.userId}+'.'+${course.photoType}" style="max-width: 500px;max-height: 500px;" id="imagePreview">
+            <img th:unless="${course.photoType}" th:src="''" style="max-width: 500px;max-height: 500px;" id="imagePreview">
+          </div>
+          <hr>
+          <button type="submit" class="registerbtn">更新圖片</button>
+          <button type="button" class="registerbtn" style="background-color: rgb(9, 9, 112);" th:onclick="changePage([[${course.id}]])">回到上一頁</button>
+        </form>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        
+      const imageInput = document.getElementById("imageUpload");
+      const imagePreview = document.getElementById('imagePreview');
+      function resetImage(){
+        imageInput.value=null;
+        $("#imagePreview").attr('src', '');
+      }
+      $ ("#imageUpload").change(()=> {
+        const file = imageInput.files;
+        if(imageInput.files){
+          const fileUrl = window.URL.createObjectURL(imageInput.files[0]);
+          $("#imagePreview").attr("src", fileUrl);
+        }
+      });
+      function changePage(id) {
+        window.location.href='/teacher/course/'+id;
+      }
+    </script>
+  </body>
+</html>

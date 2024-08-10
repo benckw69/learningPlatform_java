@@ -1,28 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title th:text="${title}"></title>
+    <title th:text="${title}+' 觀看課程'"></title>
     <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
-    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
   </head>
   <body>
     <div class="content">
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div>
-      <table>
-        <tr><td colspan="2">
-          <img th:if="${course.photoType}" th:src="'media/'+${session.userId}+'.'+${course.photoType.name()}" style="max-width: 500px;max-height: 500px;">
-        </td></tr>
-        <tr><td>課程名稱</td><td th:if="${course}" th:text="${course.title}"></td> </li>
-        <tr><td>簡介</td><td th:if="${course}" th:text="${course.introduction}"></td>
-        <tr><td>作者</td><td th:text="${course.user.username}"></td></tr>
-        <tr><td>作者介紹</td><td th:text="${introduction}"></td></tr>
-        <tr><td>學習人群</td><td th:if="${course}" th:text="${course.peopleSuite}"></td></tr>
-        <tr><td>內容</td><td th:if="${course}" th:text="${course.content}"></td>
-        <tr><td>影片</td><td th:if="${course.videoType}"><video  controls><source th:src="'media/'+${session.userId}+'.'+${course.videoType.name()}"></video></td></tr>
-        <tr><td>課程價錢</td><td th:if="${course}" th:text="'$'+${course.price}"></td></tr>
-        <tr th:if="${course}"><td><button type="button" th:onclick="changePage([[${course.id}]],'photo')">編輯圖片</button></td><td><button type="button" th:onclick="changePage([[${course.id}]],'video')">編輯影片</button></td></tr>
-      </table>
+      <div class="container">
+        <h2>課程</h2>
+        <hr>
+        <table>
+          <tr th:if="${course.photoType}"><td colspan="2">
+            <img th:src="'media/'+${session.userId}+'.'+${course.photoType.name()}" style="max-width: 500px;max-height: 500px;">
+          </td></tr>
+          <tr><td>課程名稱</td><td th:if="${course}" th:text="${course.title}"></td> </li>
+          <tr><td>簡介</td><td th:if="${course}" th:text="${course.introduction}"></td>
+          <tr><td>作者</td><td th:text="${course.user.username}"></td></tr>
+          <tr><td>作者介紹</td><td th:text="${introduction}"></td></tr>
+          <tr><td>學習人群</td><td th:if="${course}" th:text="${course.peopleSuite}"></td></tr>
+          <tr><td>內容</td><td th:if="${course}" th:text="${course.content}"></td>
+          <tr th:if="${course.videoType}"><td>影片</td><td><video controls><source th:src="'media/'+${session.userId}+'.'+${course.videoType.name()}"></video></td><td th:unless="${course.videoType}"></td></tr>
+          <tr><td>課程價錢</td><td th:if="${course}" th:text="'$'+${course.price}"></td></tr>
+          <tr th:if="${course}"><td><button type="button" th:onclick="changePage([[${course.id}]],'photo')">編輯圖片</button></td><td><button type="button" th:onclick="changePage([[${course.id}]],'video')">編輯影片</button></td></tr>
+        </table>
+        <hr>
+        <button type="button" th:onclick="changePage([[${course.id}]],'info')" class="registerbtn">編輯資料</button>
+        <button type="button" class="registerbtn" style="background-color: rgb(9, 9, 112);" onclick="window.location.href='/teacher/course/own'">回到上一頁</button>
+      </div>
     </div>
     <script>
       function redirectExpired(date) {
@@ -34,7 +40,8 @@
       }
       function changePage(id,type) {
         if(type=='photo') window.location.href='/teacher/course/'+id+'/photo/edit';
-        else window.location.href='/teacher/course/'+id+'/video/edit';
+        else if(type=='video') window.location.href='/teacher/course/'+id+'/video/edit';
+        else window.location.href='/teacher/course/'+id+'/info/edit';
       }
       
       
