@@ -3,21 +3,22 @@
   <head>
     <title th:text="${title}+' - 調整分成'"></title>
     <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
-    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
   </head>
   <body>
     <div class="content">
         <h1 th:text="${title}"></h1>
         <div th:replace="~{fragements/header}"></div> 
-        <h2>調整分成</h2>
-        <hr>
-        <p th:text="'導師可以獲得的百分比（％）為 '+${moneySeperation.teacherMoneyPercentage}+'。'"></p>
-        <p>調整百分比（％）</p>
-        <form action="/admin/moneySeperation" method="post" th:object="${moneySeperation}">
+        <div class="container">
+          <h2>調整分成</h2>
+          <hr>
+          <p th:text="'導師可以獲得的百分比（％）為 '+${moneySeperation.teacherMoneyPercentage}+'。'"></p>
+          <p>調整百分比（％）</p>
+          <form action="/admin/moneySeperation" method="post" th:object="${moneySeperation}">
             <input type="number" min="0" max="100" th:field="*{teacherMoneyPercentage}" required>
             <ul class="error"><li th:each="err : ${#fields.errors('teacherMoneyPercentage')}" th:text="${err}" >Value Error</li></ul>
             <input type="submit" class="registerbtn" value="提交">
-        </form>
+          </form>
+        </div>
     </div>
     <script>
         const urlParams = new URLSearchParams(window.location.search);

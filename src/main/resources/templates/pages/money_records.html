@@ -3,41 +3,42 @@
   <head>
     <title th:text="${title}+' - 金錢紀錄'"></title>
     <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
-    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
   </head>
   <body>
     <div class="content">
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
-      <h2>金錢紀錄</h2>
-      <hr>
-      <table>
-        <thead>
-          <tr>
-            <td>事件編號</td>
-            <td>事件類型</td>
-            <td>事件詳情</td>
-            <td>金錢改變</td>
-            <td>發生時間</td>
-            <td>更改時間</td>
-            <td>重置</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="moneyRecord : ${moneyRecords}">
-            <td th:text="${moneyRecord.id}"></td>
-            <td th:text="${moneyRecord.eventCategory.name() == 'REFERRAL_BONUS'} ? '推薦獎勵' : (${moneyRecord.eventCategory.name() == 'ADD_MONEY'} ? '帳戶增值' : (${moneyRecord.eventCategory.name() == 'BUY_COURSE'} ? '購買課程' : '提取餘額'))"></td>
-            <td th:text="${moneyRecord.eventText}"></td>
-            <td th:text="${moneyRecord.moneyChange}"></td>
-            <td th:text="${moneyRecord.created_time}"></td>
-            <td th:text="${moneyRecord.updated_time}"></td>
-            <td th:text="${moneyRecord.reverse} ? '已重置' : '沒有重置' "></td>
-          </tr>
-          <tr>
-            <td colspan="7" style="text-align: center;" th:if="${moneyRecords.size() == 0}">你的帳戶沒有任何金錢紀錄！</td>
-          </tr>
-      </tbody>
-      </table>
+      <div class="container">
+        <h2>金錢紀錄</h2>
+        <hr>
+        <table>
+          <thead>
+            <tr>
+              <td>事件編號</td>
+              <td>事件類型</td>
+              <td>事件詳情</td>
+              <td>金錢改變</td>
+              <td>發生時間</td>
+              <td>更改時間</td>
+              <td>重置</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="moneyRecord : ${moneyRecords}">
+              <td th:text="${moneyRecord.id}"></td>
+              <td th:text="${moneyRecord.eventCategory.name() == 'REFERRAL_BONUS'} ? '推薦獎勵' : (${moneyRecord.eventCategory.name() == 'ADD_MONEY'} ? '帳戶增值' : (${moneyRecord.eventCategory.name() == 'BUY_COURSE'} ? '購買課程' : '提取餘額'))"></td>
+              <td th:text="${moneyRecord.eventText}"></td>
+              <td th:text="${moneyRecord.moneyChange}"></td>
+              <td th:text="${moneyRecord.created_time}"></td>
+              <td th:text="${moneyRecord.updated_time}"></td>
+              <td th:text="${moneyRecord.reverse} ? '已重置' : '沒有重置' "></td>
+            </tr>
+            <tr>
+              <td colspan="7" style="text-align: center;" th:if="${moneyRecords.size() == 0}">你的帳戶沒有任何金錢紀錄！</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </body>
 </html>

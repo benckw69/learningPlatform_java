@@ -3,35 +3,35 @@
   <head>
     <title th:text="${title}+' - 更改個人資料'"></title>
     <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
-    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
   </head>
   <body>
     <div class="content">
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
-      <form action="/user/info/edit/studentOrAdmin" method="post" th:object="${studentOrAdminEdit}">
-        <div class="container">
-          <h2>更改個人資料</h2>
-          <hr>
-      
-          <label for="email"><b>電郵地址</b></label>
-          <input type="email" th:field="*{email}" maxlength="256" required>
-          <ul class="error"><li th:each="err : ${#fields.errors('email')}" th:text="${err}" >Email Error</li><li th:if="${emailError}" th:text="${emailError}"></li></ul>
-      
-          <label for="username"><b>用戶名稱</b></label>
-          <input type="text" th:field="*{username}" minlength="4" maxlength="20" required>
-          <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li><li th:if="${usernameError}" th:text="${usernameError}"></li></ul>
-
-          <label for="username" id="passwordText"><b>密碼</b></label>
-          <input type="password" th:field="*{password}" required>
-          <ul class="error"><li th:if="${passwordError}" th:text="${passwordError}"></li></ul>
-
-          <p class="success" th:if="${ChangeSuccess}"><b th:text="${ChangeSuccess}"></b></p>
-          <button type="submit" class="registerbtn">更改資料</button>
-          <button type="button" class="registerbtn" style="background-color:blue" onclick="window.location.href='/user'">回到上一頁</button>
+      <div class="container">
+        <form action="/user/info/edit/studentOrAdmin" method="post" th:object="${studentOrAdminEdit}" class="form">
+          <div class="container">
+            <h2>更改個人資料</h2>
+            <hr>
         
-        </div>
-      </form>
+            <label for="email"><b>電郵地址</b></label>
+            <input type="email" th:field="*{email}" maxlength="256" required>
+            <ul class="error"><li th:each="err : ${#fields.errors('email')}" th:text="${err}" >Email Error</li><li th:if="${emailError}" th:text="${emailError}"></li></ul>
+        
+            <label for="username"><b>用戶名稱</b></label>
+            <input type="text" th:field="*{username}" minlength="4" maxlength="20" required>
+            <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li><li th:if="${usernameError}" th:text="${usernameError}"></li></ul>
+
+            <label for="username" id="passwordText"><b>密碼</b></label>
+            <input type="password" th:field="*{password}" required>
+            <ul class="error"><li th:if="${passwordError}" th:text="${passwordError}"></li></ul>
+
+            <p class="success" th:if="${ChangeSuccess}"><b th:text="${ChangeSuccess}"></b></p>
+            <button type="submit" class="registerbtn">更改資料</button>
+            <button type="button" class="registerbtn" style="background-color:blue" onclick="window.location.href='/user'">回到上一頁</button>
+          </div>
+        </form>
+      </div>
     </div>
     <script>
       const urlParams = new URLSearchParams(window.location.search);

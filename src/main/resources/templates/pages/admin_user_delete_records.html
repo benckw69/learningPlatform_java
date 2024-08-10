@@ -3,56 +3,54 @@
   <head>
     <title th:text="${title}+' - 刪除帳戶紀錄'"></title>
     <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
-    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
-    <link rel='stylesheet' href='/css/showCourses.css' th:href="@{/css/showCourses.css}"/>
   </head>
   <body>
     <div class="content">
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
-      <h2>刪除帳戶紀錄</h2>
-      <hr>
-      <div id="form">
-        <form action="/admin/userDeleteRecords" method="post" th:object="${searchUserRequest}">
-          <select id="searchMethod" name="searchMethod" class="inputFields" th:field="*{searchUserMethod}">
-            <option value="USERNAME">用戶名稱</option>
-            <option value="EMAIL">電郵地址</option>
-            <option value="ID">用戶編號</option>
-          </select>
-          <input type="text" id="searchWords" name="searchWords" class="inputFields" th:field="*{searchWords}">
-          <input type="submit" value="提交" id="submit" class="inputFields">
-        </form> 
+      <div class="container">
+        <h2>刪除帳戶紀錄</h2>
+        <hr>
+        <div id="form">
+          <form action="/admin/userDeleteRecords" method="post" th:object="${searchUserRequest}">
+            <select id="searchMethod" name="searchMethod" class="inputFields" th:field="*{searchUserMethod}">
+              <option value="USERNAME">用戶名稱</option>
+              <option value="EMAIL">電郵地址</option>
+              <option value="ID">用戶編號</option>
+            </select>
+            <input type="text" id="searchWords" name="searchWords" class="inputFields" th:field="*{searchWords}">
+            <input type="submit" value="提交" id="submit" class="inputFields">
+          </form> 
+        </div>
+        <hr>
+        <table>
+          <thead>
+            <tr>
+              <td>用戶編號</td>
+              <td>用戶電郵地址</td>
+              <td>用戶名稱</td>
+              <td>餘額</td>
+              <td>帳戶創建時間</td>
+              <td>帳戶最近更新時間</td>
+              <td>刪除狀態</td>
+              <td>解除刪除狀況</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="deleteAcRecord : ${deleteAcRecords}">
+              <td th:text="${deleteAcRecord.id}"></td>
+              <td th:text="${deleteAcRecord.email}"></td>
+              <td th:text="${deleteAcRecord.username}"></td>
+              <td th:text="${deleteAcRecord.balance}"></td>
+              <td th:text="${deleteAcRecord.createdTime}"></td>
+              <td th:text="${deleteAcRecord.updatedTime}"></td>
+              <td th:text="${deleteAcRecord.isDeleted == true}? '是' : '否'"></td>
+              <td><button th:onclick="reverseDelete([[${deleteAcRecord.id}]],[[${deleteAcRecord.username}]])">回復</button></td>
+            </tr>
+            <tr th:if="${deleteAcRecords.size() == 0}"><td colspan="8" style="text-align: center;" th:text="沒有任何用戶刪除帳戶紀錄"></td></tr>
+        </tbody>
+        </table>
       </div>
-      <hr>
-      <table>
-        <thead>
-          <tr>
-            <td>用戶編號</td>
-            <td>用戶電郵地址</td>
-            <td>用戶名稱</td>
-            <td>餘額</td>
-            <td>帳戶創建時間</td>
-            <td>帳戶最近更新時間</td>
-            <td>刪除狀態</td>
-            <td>解除刪除狀況</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="deleteAcRecord : ${deleteAcRecords}">
-            
-            <td th:text="${deleteAcRecord.id}"></td>
-            <td th:text="${deleteAcRecord.email}"></td>
-            <td th:text="${deleteAcRecord.username}"></td>
-            <td th:text="${deleteAcRecord.balance}"></td>
-            <td th:text="${deleteAcRecord.createdTime}"></td>
-            <td th:text="${deleteAcRecord.updatedTime}"></td>
-            <td th:text="${deleteAcRecord.isDeleted == true}? '是' : '否'"></td>
-            <td><button th:onclick="reverseDelete([[${deleteAcRecord.id}]],[[${deleteAcRecord.username}]])">回復</button></td>
-          
-          </tr>
-          <tr th:if="${deleteAcRecords.size() == 0}"><td colspan="8" style="text-align: center;" th:text="沒有任何用戶刪除帳戶紀錄"></td></tr>
-      </tbody>
-      </table>
     </div>
     <script>
       function reverseDelete(id,username){

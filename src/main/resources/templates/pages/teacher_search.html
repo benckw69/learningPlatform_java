@@ -3,30 +3,30 @@
   <head>
     <title th:text="${title}+' - 搜尋老師'"></title>
     <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
-    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
-    <link rel='stylesheet' href='/css/showCourses.css' th:href="@{/css/showCourses.css}"/>
   </head>
   <body>
     <div class="content">
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div>
-      <h2>搜尋學生</h2> 
-      <form action="/student/teacherSearch" method="post" th:object="${searchUserRequest}">
-        <select th:field="*{searchUserMethod}">
-          <option value="USERNAME">用戶名稱</option>
-          <option value="EMAIL">電郵地址</option>
-        </select>
-        <input type="text" th:field="*{searchWords}">
-        
-        <input type="submit" value="提交">
-      </form> 
-      <hr>
-      <ul id="courses" th:each="teacher:${result}">
-        <li><ul class="course">
-          <li style="font-size: 26px;" th:text="${teacher.username}"></li>
-          <li th:text="'電郵地址：'+${teacher.email}"></li>
-        </ul></li>
-      </ul>
+      <div class="container">
+        <h2>搜尋學生</h2> 
+        <form action="/student/teacherSearch" method="post" th:object="${searchUserRequest}">
+          <select th:field="*{searchUserMethod}">
+            <option value="USERNAME">用戶名稱</option>
+            <option value="EMAIL">電郵地址</option>
+          </select>
+          <input type="text" th:field="*{searchWords}">
+          
+          <input type="submit" value="提交">
+        </form> 
+        <hr>
+        <ul id="courses" th:each="teacher:${result}">
+          <li><ul class="course">
+            <li style="font-size: 26px;" th:text="${teacher.username}"></li>
+            <li th:text="'電郵地址：'+${teacher.email}"></li>
+          </ul></li>
+        </ul>
+      </div>
     </div>
   </body>
 </html>

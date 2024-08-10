@@ -8,31 +8,31 @@
     <div class="content">
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
-      <h2>可使用的現金卷</h2>
-      <hr>
-      <table>
-        <thead>
-          <tr>
-            <td>編號</td>
-            <td>面額</td>
-            <td>號碼</td>
-            <td>新增日期</td>
-            <td>刪除</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="moneyticket : ${moneyTickets}">
-            
-            <td th:text="${moneyticket.id}"></td>
-            <td th:text="${moneyticket.amount}"></td>
-            <td th:text="${moneyticket.ticketString}"></td>
-            <td th:text="${moneyticket.createdTime}"></td>
-            <td><button th:onclick="deleteMoneyTicket([[${moneyticket.id}]],[[${moneyticket.amount}]],[[${moneyticket.ticketString}]])">刪除</button></td>
-          
-          </tr>
-          <tr th:if="${moneyTickets.size() == 0}"><td colspan="8" style="text-align: center;" th:text="沒有任何現金卷"></td></tr>
-      </tbody>
-      </table>
+      <div class="container">
+        <h2>可使用的現金卷</h2>
+        <hr>
+        <table>
+          <thead>
+            <tr>
+              <td>編號</td>
+              <td>面額</td>
+              <td>號碼</td>
+              <td>新增日期</td>
+              <td>刪除</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="moneyticket : ${moneyTickets}">
+              <td th:text="${moneyticket.id}"></td>
+              <td th:text="${moneyticket.amount}"></td>
+              <td th:text="${moneyticket.ticketString}"></td>
+              <td th:text="${moneyticket.createdTime}"></td>
+              <td><button th:onclick="deleteMoneyTicket([[${moneyticket.id}]],[[${moneyticket.amount}]],[[${moneyticket.ticketString}]])">刪除</button></td>
+            </tr>
+            <tr th:if="${moneyTickets.size() == 0}"><td colspan="8" style="text-align: center;" th:text="沒有任何現金卷"></td></tr>
+        </tbody>
+        </table>
+      </div>
     </div>
     <script>
       const urlParams = new URLSearchParams(window.location.search);

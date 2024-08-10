@@ -3,32 +3,32 @@
   <head>
     <title th:text="${title}+' - 登入'"></title>
     <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
-    <link rel='stylesheet' href='/css/userView.css' th:href="@{/css/userView.css}"/>
   </head>
   <body>
     <div class="content">
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
-      
-      <form id="form" action="/login" method="post">
-        <h2>登入</h2>
-        <hr>
-        <p><label for="uname"><b>電郵地址</b></label></p>
-        <input type="text" placeholder="輸入電郵" name="email" required>
-        <br/>
-        <p><label for="psw"><b>密碼</b></label></p>
-        <input type="password" placeholder="輸入密碼" name="password" minlength="0" maxlength="20" required>
-        <section class="error" >
-          <p><b th:if="${param.error}">電郵地址或密碼輸入錯誤</b></p>
-        </section>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <hr>
-        <button type="submit" class="registerbtn">登入</button>
-        <br/>
-        <button type="button" class="registerbtn" style="display: inline;" id="googleLogin" onclick="window.location.href='/login/google/student'">Google 登入</button>
-        <br/>
-        <p id="haveAccountText" style="display: inline;">沒有帳戶?請<a href="/register" id="registerAction">註冊</a></p>
-      </form> 
+      <div class="container">
+        <form id="form" action="/login" method="post" class="form">
+          <h2>登入</h2>
+          <hr>
+          <p><label for="uname"><b>電郵地址</b></label></p>
+          <input type="text" placeholder="輸入電郵" name="email" required>
+          <br/>
+          <p><label for="psw"><b>密碼</b></label></p>
+          <input type="password" placeholder="輸入密碼" name="password" minlength="0" maxlength="20" required>
+          <section class="error" >
+            <p><b th:if="${param.error}">電郵地址或密碼輸入錯誤</b></p>
+          </section>
+          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+          <hr>
+          <button type="submit" class="registerbtn">登入</button>
+          <br/>
+          <button type="button" class="registerbtn" style="display: inline;" id="googleLogin" onclick="window.location.href='/login/google/student'">Google 登入</button>
+          <br/>
+          <p id="haveAccountText" style="display: inline;">沒有帳戶?請<a href="/register" id="registerAction">註冊</a></p>
+        </form> 
+      </div>
     </div>
     <script>
       const urlParams = new URLSearchParams(window.location.search);
