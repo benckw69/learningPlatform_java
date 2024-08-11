@@ -130,7 +130,7 @@ ul.course li, ul#courses{
 }
 
 /* Full-width input fields */
-.form input[type=text], input[type=password], input[type=email], input[type=number] {
+.form input[type=text], .form input[type=password], .form input[type=email], .form input[type=number] {
   padding: 15px;
   margin: 5px 0 10px 0;
   width: 100%;
@@ -140,7 +140,7 @@ ul.course li, ul#courses{
   box-sizing: border-box;
 }
 
-.form input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus {
+.form input[type=text]:focus, .form input[type=password]:focus, .form input[type=email]:focus, .form input[type=number]:focus {
   background-color: #ddd;
   outline: none;
 }

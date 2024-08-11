@@ -10,7 +10,7 @@
       <div th:replace="~{fragements/header}"></div>
       <div class="container">
         <h2>搜尋學生</h2> 
-        <form action="/student/teacherSearch" method="post" th:object="${searchUserRequest}">
+        <form action="/student/teacherSearch" method="post" class="searchUser" th:object="${searchUserRequest}">
           <select th:field="*{searchUserMethod}">
             <option value="USERNAME">用戶名稱</option>
             <option value="EMAIL">電郵地址</option>
