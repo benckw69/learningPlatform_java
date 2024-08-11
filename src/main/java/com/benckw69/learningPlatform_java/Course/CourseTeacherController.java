@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.benckw69.learningPlatform_java.User.User;
 import com.benckw69.learningPlatform_java.User.UserService;
+import com.benckw69.learningPlatform_java.storage.FileType;
+import com.benckw69.learningPlatform_java.storage.StorageService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -24,6 +28,9 @@ public class CourseTeacherController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    StorageService storageService;
 
     //check whether it is the owner of the course
     @GetMapping({"/{id}","/{id}/info/view"})
@@ -76,11 +83,16 @@ public class CourseTeacherController {
     }
 
     @PostMapping("/{id}/photo/edit")
-    public String editCoursePhotoPost(@PathVariable Integer id, HttpSession httpSession){
+    public String editCoursePhotoPost(@PathVariable Integer id, HttpSession httpSession, @RequestParam("file") MultipartFile file){
         //check id and check whether it is the course owner
         Course validCourse = courseService.findCourseById(id);
         if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
-        return "pages/teacher_course_photo_edit";
+        Integer userId = (Integer)httpSession.getAttribute("userId");
+        Boolean successful = storageService.store(file,FileType.PHOTO,userId+"");
+        String fileName = file.getOriginalFilename();
+        String extension = fileName.substring(fileName.lastIndexOf(".")+1).toUpperCase();
+        if(successful) courseService.update(validCourse,PhotoType.valueOf(extension));
+        return successful? "redirect:/teacher/course/"+id+"/photo/edit?edit=true" : "redirect:/teacher/course/"+id+"/photo/edit?edit=false";
     }
 
     @GetMapping("/{id}/video/edit")
@@ -93,11 +105,16 @@ public class CourseTeacherController {
     }
 
     @PostMapping("/{id}/video/edit")
-    public String editCourseVideoPost(@PathVariable Integer id, HttpSession httpSession){
+    public String editCourseVideoPost(@PathVariable Integer id, HttpSession httpSession, @RequestParam("file") MultipartFile file){
         //check id and check whether it is the course owner
         Course validCourse = courseService.findCourseById(id);
         if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
-        return "pages/teacher_course_video_edit";
+        Integer userId = (Integer)httpSession.getAttribute("userId");
+        Boolean successful = storageService.store(file,FileType.VIDEO,userId+"");
+        String fileName = file.getOriginalFilename();
+        String extension = fileName.substring(fileName.lastIndexOf(".")+1).toUpperCase();
+        if(successful) courseService.update(validCourse,VideoType.valueOf(extension));
+        return successful? "redirect:/teacher/course/"+id+"/video/edit?edit=true" : "redirect:/teacher/course/"+id+"/video/edit?edit=false";
     }
 
     @GetMapping("/insert")

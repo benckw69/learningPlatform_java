@@ -13,7 +13,7 @@
         <hr>
         <table>
           <tr th:if="${course.photoType}"><td colspan="2">
-            <img th:src="'media/'+${session.userId}+'.'+${course.photoType.name()}" style="max-width: 500px;max-height: 500px;">
+            <img th:src="'../../media/'+${session.userId}+'.'+${course.photoType.name()}" style="max-width: 500px;max-height: 500px;">
           </td></tr>
           <tr><td>課程名稱</td><td th:if="${course}" th:text="${course.title}"></td> </li>
           <tr><td>簡介</td><td th:if="${course}" th:text="${course.introduction}"></td>
@@ -21,7 +21,7 @@
           <tr><td>作者介紹</td><td th:text="${introduction}"></td></tr>
           <tr><td>學習人群</td><td th:if="${course}" th:text="${course.peopleSuite}"></td></tr>
           <tr><td>內容</td><td th:if="${course}" th:text="${course.content}"></td>
-          <tr th:if="${course.videoType}"><td>影片</td><td><video controls><source th:src="'media/'+${session.userId}+'.'+${course.videoType.name()}"></video></td><td th:unless="${course.videoType}"></td></tr>
+          <tr th:if="${course.videoType}"><td>影片</td><td><video controls><source th:src="'../../media/'+${session.userId}+'.'+${course.videoType.name()}"></video></td><td th:unless="${course.videoType}"></td></tr>
           <tr><td>課程價錢</td><td th:if="${course}" th:text="'$'+${course.price}"></td></tr>
           <tr th:if="${course}"><td><button type="button" th:onclick="changePage([[${course.id}]],'photo')">編輯圖片</button></td><td><button type="button" th:onclick="changePage([[${course.id}]],'video')">編輯影片</button></td></tr>
         </table>

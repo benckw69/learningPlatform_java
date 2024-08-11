@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import com.benckw69.learningPlatform_java.Search.SearchCourseMethod;
 import com.benckw69.learningPlatform_java.Search.SearchCourseRequest;
 import com.benckw69.learningPlatform_java.User.User;
+import com.benckw69.learningPlatform_java.storage.FileType;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -53,5 +54,15 @@ public class CourseService {
             return courseRepository.findByUserAndCategory(user, searchCourseRequest.getCategory());
         }
         return null;
+    }
+
+    public void update(Course course, PhotoType extension){
+        course.setPhotoType(extension);
+        courseRepository.save(course);
+    }
+
+    public void update(Course course, VideoType extension){
+        course.setVideoType(extension);
+        courseRepository.save(course);
     }
 }
