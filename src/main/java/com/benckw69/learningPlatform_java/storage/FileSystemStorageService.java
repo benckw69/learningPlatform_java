@@ -58,9 +58,9 @@ public class FileSystemStorageService implements StorageService {
 			}
 			try (InputStream inputStream = file.getInputStream()) {
 				if(fileType == FileType.PHOTO){
-					if(inputStream.available()/1024/1024 > 5) return false;
+					if(file.getSize()/1024/1024 > 5) return false;
 				} else if (fileType == FileType.VIDEO){
-					if(inputStream.available()/1024/1024/1024 >= 5) return false;
+					if(file.getSize()/1024/1024/1024 >= 5) return false;
 				}
 				Files.copy(inputStream, destinationFile,
 					StandardCopyOption.REPLACE_EXISTING);
