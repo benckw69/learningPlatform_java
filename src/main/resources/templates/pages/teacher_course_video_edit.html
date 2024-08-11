@@ -47,6 +47,10 @@
       function changePage(id) {
         window.location.href='/teacher/course/'+id;
       }
+      const urlParams = new URLSearchParams(window.location.search);
+      const edit_param = urlParams.get('edit');
+      if(edit_param == "true") alert("更改影片成功");
+      else if(edit_param == "false") alert("更改資料失敗。請留意檔案大小及格式");
     </script>
     
   </body>

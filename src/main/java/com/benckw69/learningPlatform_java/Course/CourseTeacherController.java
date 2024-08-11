@@ -88,11 +88,17 @@ public class CourseTeacherController {
         Course validCourse = courseService.findCourseById(id);
         if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
         Integer userId = (Integer)httpSession.getAttribute("userId");
-        Boolean successful = storageService.store(file,FileType.PHOTO,userId+"");
-        String fileName = file.getOriginalFilename();
-        String extension = fileName.substring(fileName.lastIndexOf(".")+1).toUpperCase();
-        if(successful) courseService.update(validCourse,PhotoType.valueOf(extension));
-        return successful? "redirect:/teacher/course/"+id+"/photo/edit?edit=true" : "redirect:/teacher/course/"+id+"/photo/edit?edit=false";
+        if(!file.isEmpty()){
+            Boolean successful = storageService.store(file,FileType.PHOTO,userId+"");
+            String fileName = file.getOriginalFilename();
+            String extension = fileName.substring(fileName.lastIndexOf(".")+1).toUpperCase();
+            if(successful) courseService.update(validCourse,PhotoType.valueOf(extension));
+            return successful? "redirect:/teacher/course/"+id+"/photo/edit?edit=true" : "redirect:/teacher/course/"+id+"/photo/edit?edit=false";
+        } else {
+            PhotoType photoType = null;
+            courseService.update(validCourse,photoType);
+            return "redirect:/teacher/course/"+id+"/photo/edit?edit=true";
+        }
     }
 
     @GetMapping("/{id}/video/edit")
@@ -110,11 +116,18 @@ public class CourseTeacherController {
         Course validCourse = courseService.findCourseById(id);
         if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
         Integer userId = (Integer)httpSession.getAttribute("userId");
-        Boolean successful = storageService.store(file,FileType.VIDEO,userId+"");
-        String fileName = file.getOriginalFilename();
-        String extension = fileName.substring(fileName.lastIndexOf(".")+1).toUpperCase();
-        if(successful) courseService.update(validCourse,VideoType.valueOf(extension));
-        return successful? "redirect:/teacher/course/"+id+"/video/edit?edit=true" : "redirect:/teacher/course/"+id+"/video/edit?edit=false";
+        if(!file.isEmpty()){
+            Boolean successful = storageService.store(file,FileType.VIDEO,userId+"");
+            String fileName = file.getOriginalFilename();
+            String extension = fileName.substring(fileName.lastIndexOf(".")+1).toUpperCase();
+            if(successful) courseService.update(validCourse,VideoType.valueOf(extension));
+            return successful? "redirect:/teacher/course/"+id+"/video/edit?edit=true" : "redirect:/teacher/course/"+id+"/video/edit?edit=false";
+        } else {
+            VideoType videoType = null;
+            courseService.update(validCourse,videoType);
+            return "redirect:/teacher/course/"+id+"/video/edit?edit=true";
+        }
+        
     }
 
     @GetMapping("/insert")
