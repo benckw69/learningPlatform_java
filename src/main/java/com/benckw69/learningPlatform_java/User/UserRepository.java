@@ -13,22 +13,25 @@ import jakarta.transaction.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<User,Integer> {
     //login and register uses
-    User findByEmailAndLoginMethod(String email,LoginMethod loginMethod);
-    User findByEmailAndLoginMethodAndIsDeleted(String email, LoginMethod loginMethod, Boolean isDeleted);
+    User findByEmailIgnoreCaseAndLoginMethod(String email,LoginMethod loginMethod);
+    User findByEmailIgnoreCaseAndLoginMethodAndIsDeleted(String email, LoginMethod loginMethod, Boolean isDeleted);
 
     //searching
-    List<User> findByEmailContainsAndType(String email,Type type);
-    List<User> findByUsernameContainsAndType(String username,Type type);
+    List<User> findByEmailContainsIgnoreCaseAndType(String email,Type type);
+    List<User> findByUsernameContainsIgnoreCaseAndType(String username,Type type);
 
     //register: check for referral
     Optional<User> findByIdAndIsDeleted(Integer id,Boolean isDeleted);
+
+    //student searching: search by teacher name
+    List<User> findByUsernameContainsIgnoreCaseAndIsDeleted(String Username, Boolean isDeleted);
 
     List<User> findBySpecificId(String specificId);
 
     //admin: check accounts that are deleted
     List<User> findByIsDeletedOrderByUpdatedTimeDesc(Boolean isDeleted);
-    List<User> findByUsernameContainsAndIsDeletedOrderByUpdatedTimeDesc(String username, Boolean isDeleted);
-    List<User> findByEmailContainsAndIsDeletedOrderByUpdatedTimeDesc(String email, Boolean isDeleted);
+    List<User> findByUsernameContainsIgnoreCaseAndIsDeletedOrderByUpdatedTimeDesc(String username, Boolean isDeleted);
+    List<User> findByEmailContainsIgnoreCaseAndIsDeletedOrderByUpdatedTimeDesc(String email, Boolean isDeleted);
     List<User> findByIdAndIsDeletedOrderByUpdatedTimeDesc(Integer id, Boolean isDeleted);
 
     @Transactional

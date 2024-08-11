@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.benckw69.learningPlatform_java.User.User user = userRepository.findByEmailAndLoginMethodAndIsDeleted(username,LoginMethod.email,false);
+        com.benckw69.learningPlatform_java.User.User user = userRepository.findByEmailIgnoreCaseAndLoginMethodAndIsDeleted(username,LoginMethod.email,false);
         if (user == null) {
             throw new UsernameNotFoundException("Can't find member: " + username);
         }

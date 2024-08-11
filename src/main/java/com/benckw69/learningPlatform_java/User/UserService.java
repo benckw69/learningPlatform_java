@@ -42,7 +42,7 @@ public class UserService {
     }
 
     public Boolean emailExist(String email,Model model){
-        User existEmail = userRepository.findByEmailAndLoginMethod(email,LoginMethod.email);
+        User existEmail = userRepository.findByEmailIgnoreCaseAndLoginMethod(email,LoginMethod.email);
         if(existEmail != null) {
             model.addAttribute("emailError", "此電郵地址已被註冊");
             return true;
@@ -74,6 +74,10 @@ public class UserService {
         return (User)httpSession.getAttribute("user");
     }
 
+    public List<User> getUsersByUsernameOrderByDate(String username){
+        return userRepository.findByUsernameContainsIgnoreCaseAndIsDeleted(username, false);
+    }
+
     public List<User> getDeletedUsersOrderByDate(){
         return userRepository.findByIsDeletedOrderByUpdatedTimeDesc(true);
     }
@@ -83,11 +87,11 @@ public class UserService {
     }
 
     public List<User> getDeletedUsersByUsernameOrderByDate(String username){
-        return userRepository.findByUsernameContainsAndIsDeletedOrderByUpdatedTimeDesc(username, true);
+        return userRepository.findByUsernameContainsIgnoreCaseAndIsDeletedOrderByUpdatedTimeDesc(username, true);
     }
 
     public List<User> getDeletedUsersByEmailOrderByDate(String email){
-        return userRepository.findByEmailContainsAndIsDeletedOrderByUpdatedTimeDesc(email, true);
+        return userRepository.findByEmailContainsIgnoreCaseAndIsDeletedOrderByUpdatedTimeDesc(email, true);
     }
 
     public void resetDeletedUser(Integer id){

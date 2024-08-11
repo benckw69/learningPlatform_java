@@ -1,8 +1,13 @@
 package com.benckw69.learningPlatform_java.Course;
 
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.benckw69.learningPlatform_java.User.User;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +32,10 @@ public class BuyRecord {
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
+
+    @Column(nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
+    @CreationTimestamp
+    private Timestamp createdTime;
 
     @OneToOne(mappedBy = "buyRecord", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn

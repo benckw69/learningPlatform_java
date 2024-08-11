@@ -17,15 +17,15 @@ public class MoneyTicketController {
 
     @GetMapping("/moneyTicket/use")
     public String useMoneyTickets(MoneyTicket moneyTicket){
-        return "pages/user_money_ticket_use";
+        return "pages/student_money_ticket_use";
     }
 
     @PostMapping("/moneyTicket/use")
     public String useMoneyTickets(MoneyTicket moneyTicket, Model model, HttpSession httpSession){
         Boolean validation = moneyTicketService.validMoneyTicket(moneyTicket, model);
-        if(!validation) return "pages/user_money_ticket_use";
+        if(!validation) return "pages/student_money_ticket_use";
         Boolean success = moneyTicketService.useMoneyTicket(moneyTicket,httpSession);
-        if(success) return "redirect:/user/moneyTicket/use?use=true";
+        if(success) return "redirect:/student/moneyTicket/use?use=true";
         else return "redirect:/logout";
         
     }

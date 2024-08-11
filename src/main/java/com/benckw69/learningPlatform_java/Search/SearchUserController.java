@@ -25,9 +25,9 @@ public class SearchUserController {
     @PostMapping("/teacher/studentSearch")
     public String searchStudents(SearchUserRequest searchUserRequest, Model model){
         if(searchUserRequest.getSearchUserMethod()==SearchUserMethod.EMAIL){
-            model.addAttribute("result", userRepository.findByEmailContainsAndType(searchUserRequest.getSearchWords(),Type.student));
+            model.addAttribute("result", userRepository.findByEmailContainsIgnoreCaseAndType(searchUserRequest.getSearchWords().trim(),Type.student));
         } else {
-            model.addAttribute("result", userRepository.findByUsernameContainsAndType(searchUserRequest.getSearchWords(),Type.student));
+            model.addAttribute("result", userRepository.findByUsernameContainsIgnoreCaseAndType(searchUserRequest.getSearchWords().trim(),Type.student));
         }
         return "pages/student_search";
     }
@@ -40,9 +40,9 @@ public class SearchUserController {
     @PostMapping("/student/teacherSearch")
     public String searchTeachers(SearchUserRequest searchUserRequest, Model model){
         if(searchUserRequest.getSearchUserMethod()==SearchUserMethod.EMAIL){
-            model.addAttribute("result", userRepository.findByEmailContainsAndType(searchUserRequest.getSearchWords(),Type.teacher));
+            model.addAttribute("result", userRepository.findByEmailContainsIgnoreCaseAndType(searchUserRequest.getSearchWords().trim(),Type.teacher));
         } else {
-            model.addAttribute("result", userRepository.findByUsernameContainsAndType(searchUserRequest.getSearchWords(),Type.teacher));
+            model.addAttribute("result", userRepository.findByUsernameContainsIgnoreCaseAndType(searchUserRequest.getSearchWords().trim(),Type.teacher));
         }
         return "pages/teacher_search";
     }
