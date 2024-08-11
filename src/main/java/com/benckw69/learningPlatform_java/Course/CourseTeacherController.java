@@ -32,11 +32,11 @@ public class CourseTeacherController {
     @Autowired
     StorageService storageService;
 
-    //check whether it is the owner of the course
+    
     @GetMapping({"/{id}","/{id}/info/view"})
     public String viewCourse(@PathVariable Integer id, Model model, HttpSession httpSession){
+        //check whether it is the owner of the course
         Course course = courseService.findCourseById(id);
-        //not stable.  need check
         if(course == null || (course != null && course.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
         model.addAttribute("course", course);
         model.addAttribute("introduction", userService.getIntroductionBySession(httpSession).getIntrodution());
@@ -48,6 +48,8 @@ public class CourseTeacherController {
         //check id and check whether it is the course owner
         Course validCourse = courseService.findCourseById(id);
         if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        
+        //set the column value
         course.setCategory(validCourse.getCategory());
         course.setContent(validCourse.getContent());
         course.setIntroduction(validCourse.getIntroduction());

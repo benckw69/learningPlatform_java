@@ -164,3 +164,8 @@ ul.course li, ul#courses{
 .registerbtn:hover {
   opacity:1;
 }
+
+.courseImage{
+  max-width: 400px;
+  max-height: 400px;
+}

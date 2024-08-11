@@ -9,7 +9,7 @@
             <h1 th:text="${title}"></h1>
             <div th:replace="~{fragements/header}"></div> 
             <div class="container">
-                <form action="/admin/moneyTickets/insert" method="post" th:object="${moneyTicket}">
+                <form action="/admin/moneyTickets/insert" method="post" th:object="${moneyTicket}" class="form">
                     <div class="container">
                     <h2>添加使用卷</h2>
                     <hr>

@@ -20,7 +20,7 @@ public class SearchCourseController {
     @Autowired
     CourseService courseService;
 
-    //done
+    //not done
     @GetMapping("/student/course/search")
     public String viewAllCourses(SearchCourseRequest searchCourseRequest, Model model){
         List<Course> courses = courseService.findAllCourse();
@@ -28,6 +28,7 @@ public class SearchCourseController {
         return "/pages/student_course_search";
     }
 
+    //done. need testing
     @PostMapping("/student/course/search")
     public String searchAllCourses(SearchCourseRequest searchCourseRequest, Model model){
         searchCourseRequest.setSearchWords(searchCourseRequest.getSearchWords().trim());
@@ -53,6 +54,7 @@ public class SearchCourseController {
         return "/pages/student_course_own";
     }
 
+    //done
     @GetMapping("/teacher/course/own")
     public String ownCourses(SearchCourseRequest searchCourseRequest, Model model, HttpSession httpSession){
         List<Course> courses = courseService.findOwnCourseByTeacherId(httpSession);
@@ -60,6 +62,7 @@ public class SearchCourseController {
         return "/pages/teacher_course_own";
     }
 
+    //done
     @PostMapping("/teacher/course/own")
     public String SearchOwnCourses(SearchCourseRequest searchCourseRequest, Model model, HttpSession httpSession){
         List<Course> courses = courseService.teacherSearchOwnCourse(searchCourseRequest, httpSession);

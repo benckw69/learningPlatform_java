@@ -15,4 +15,12 @@ public class BuyRecordService {
     List<BuyRecord> findBuyRecordByUserId(User user){
         return buyRecordRepository.findByUserOrderByCreatedTimeDesc(user);
     };
+
+    BuyRecord getBuyRecordByUserIdAndCourseId(Course course, User user){
+        return buyRecordRepository.findByUserAndCourse(user, course);
+    }
+
+    BuyRecord updateBuyRecord(BuyRecord buyRecord){
+        return buyRecordRepository.save(buyRecord);
+    }
 }

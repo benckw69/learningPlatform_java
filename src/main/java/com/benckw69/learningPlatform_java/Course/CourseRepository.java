@@ -25,10 +25,12 @@ public interface CourseRepository extends JpaRepository<Course,Integer> {
     List<Course> findByUserInAndIdInOrderByIdDesc(List<User> users, List<Integer> ids);
 
     //find by user id
-    List<Course> findByUserOrderByIdDesc(User user);
+    List<Course> findByUserAndIsDeletedOrderByIdDesc(User user, Boolean isDeleted);
 
     //Teacher: find by category or title
-    List<Course> findByUserAndCategoryOrderByIdDesc(User user, Category category);
+    List<Course> findByUserAndCategoryAndIsDeletedOrderByIdDesc(User user, Category category, Boolean isDeleted);
     // @Query(value = "Select * FROM course where teacher_id=?1 AND UPPER(title) LIKE ?2", nativeQuery = true)
-    List<Course> findByUserAndTitleContainsIgnoreCaseOrderByIdDesc(User user, String title);
+    List<Course> findByUserAndTitleContainsIgnoreCaseAndIsDeletedOrderByIdDesc(User user, String title, Boolean isDeleted);
+
+    Course findByIdAndIsDeleted(Integer id, Boolean isDeleted);
 }

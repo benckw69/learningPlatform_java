@@ -10,4 +10,6 @@ import com.benckw69.learningPlatform_java.User.User;
 @Repository
 public interface BuyRecordRepository extends JpaRepository<BuyRecord, Integer> {
     List<BuyRecord> findByUserOrderByCreatedTimeDesc(User user);
+
+    BuyRecord findByUserAndCourse(User user, Course course);
 }

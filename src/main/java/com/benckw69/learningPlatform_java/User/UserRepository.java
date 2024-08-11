@@ -28,6 +28,9 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     List<User> findBySpecificId(String specificId);
 
+    //get admin data
+    User findByType(Type type);
+
     //admin: check accounts that are deleted
     List<User> findByIsDeletedOrderByUpdatedTimeDesc(Boolean isDeleted);
     List<User> findByUsernameContainsIgnoreCaseAndIsDeletedOrderByUpdatedTimeDesc(String username, Boolean isDeleted);

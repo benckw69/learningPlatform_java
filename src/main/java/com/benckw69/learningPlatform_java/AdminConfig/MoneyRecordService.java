@@ -17,5 +17,7 @@ public class MoneyRecordService {
         return moneyRecordRepository.findByUserId(userId);
     }
 
-    
+    public MoneyRecord updateMoneyRecord(MoneyRecord moneyRecord){
+        return moneyRecordRepository.save(moneyRecord);
+    }
 }

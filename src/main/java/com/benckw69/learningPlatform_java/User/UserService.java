@@ -12,6 +12,7 @@ import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecord;
 import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecordRepository;
 import com.benckw69.learningPlatform_java.AdminConfig.Referral;
 import com.benckw69.learningPlatform_java.AdminConfig.ReferralRepository;
+import com.benckw69.learningPlatform_java.Course.Course;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -70,8 +71,20 @@ public class UserService {
         return introductionRepository.findById((Integer)httpSession.getAttribute("userId")).orElse(null);
     }
 
+    public User updateUser(User user){
+        return userRepository.save(user);
+    }
+
     public User getUserBySession(HttpSession httpSession){
         return (User)httpSession.getAttribute("user");
+    }
+
+    public User getAdmin(){
+        return userRepository.findByType(Type.admin);
+    }
+
+    public Introduction getIntroductionByCourseProducer(Course course){
+        return introductionRepository.findById(course.getUser().getId()).orElse(null);
     }
 
     public List<User> getUsersByUsernameOrderByDate(String username){

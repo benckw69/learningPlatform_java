@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.benckw69.learningPlatform_java.AdminConfig.EventCategory;
+import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecord;
+import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecordService;
+import com.benckw69.learningPlatform_java.AdminConfig.MoneySeperation;
+import com.benckw69.learningPlatform_java.AdminConfig.MoneySeperationService;
 import com.benckw69.learningPlatform_java.Search.SearchCourseMethod;
 import com.benckw69.learningPlatform_java.Search.SearchCourseRequest;
 import com.benckw69.learningPlatform_java.User.User;
 import com.benckw69.learningPlatform_java.User.UserService;
-import com.benckw69.learningPlatform_java.storage.FileType;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -28,6 +32,12 @@ public class CourseService {
     @Autowired
     UserService userservice;
 
+    @Autowired
+    MoneyRecordService moneyRecordService;
+
+    @Autowired
+    MoneySeperationService moneySeperationService;
+
     public Course insertCourse(Course course){
         return courseRepository.save(course);
     }
@@ -39,12 +49,12 @@ public class CourseService {
     }
 
     public Course findCourseById(Integer Id){
-        return courseRepository.findById(Id).orElse(null);
+        return courseRepository.findByIdAndIsDeleted(Id,false);
     }
 
     public List<Course> findOwnCourseByTeacherId(HttpSession httpSession){
         User user = (User)httpSession.getAttribute("user");
-        return courseRepository.findByUserOrderByIdDesc(user);
+        return courseRepository.findByUserAndIsDeletedOrderByIdDesc(user,false);
     }
 
     public List<Course> findOwnCourseByStudentId(HttpSession httpSession){
@@ -58,19 +68,23 @@ public class CourseService {
     }
 
     public List<Course> findAllCourse(){
-        return courseRepository.findAllByOrderByIdDesc();
+        List<Course> courses =  courseRepository.findAllByOrderByIdDesc();
+        List<Course> coursesWithNotDeletedUser = courses.stream().filter(course->course.getUser().getIsDeleted()==false).collect(Collectors.toList());
+        return coursesWithNotDeletedUser;
     }
 
     public List<Course> findAllCourseBySearch(SearchCourseRequest searchCourseRequest){
+        List<Course> courses = new ArrayList<>();
         if(searchCourseRequest.getSearchCourseMethod() == SearchCourseMethod.NAME){
-            return courseRepository.findByTitleContainsIgnoreCaseOrderByIdDesc(searchCourseRequest.getSearchWords());
+            courses = courseRepository.findByTitleContainsIgnoreCaseOrderByIdDesc(searchCourseRequest.getSearchWords());
         } else if(searchCourseRequest.getSearchCourseMethod() == SearchCourseMethod.CATEGORY) {
-            return courseRepository.findByCategoryOrderByIdDesc(searchCourseRequest.getCategory());
+            courses = courseRepository.findByCategoryOrderByIdDesc(searchCourseRequest.getCategory());
         } else if(searchCourseRequest.getSearchCourseMethod() == SearchCourseMethod.TEACHER) {
             List<User> users = userservice.getUsersByUsernameOrderByDate(searchCourseRequest.getSearchWords());
-            return courseRepository.findByUserInOrderByIdDesc(users);
+            courses = courseRepository.findByUserInOrderByIdDesc(users);
         }
-        return null;
+        List<Course> coursesWithNotDeletedUser = courses.stream().filter(course->course.getUser().getIsDeleted()==false).collect(Collectors.toList());
+        return coursesWithNotDeletedUser;
     }
 
     public void editCourse(Course original, Course edited){
@@ -86,9 +100,9 @@ public class CourseService {
     public List<Course> teacherSearchOwnCourse(SearchCourseRequest searchCourseRequest, HttpSession httpSession){
         User user = (User)httpSession.getAttribute("user");
         if(searchCourseRequest.getSearchCourseMethod() == SearchCourseMethod.NAME){
-            return courseRepository.findByUserAndTitleContainsIgnoreCaseOrderByIdDesc(user, searchCourseRequest.getSearchWords().trim());
+            return courseRepository.findByUserAndTitleContainsIgnoreCaseAndIsDeletedOrderByIdDesc(user, searchCourseRequest.getSearchWords().trim(),false);
         } else if(searchCourseRequest.getSearchCourseMethod() == SearchCourseMethod.CATEGORY) {
-            return courseRepository.findByUserAndCategoryOrderByIdDesc(user, searchCourseRequest.getCategory());
+            return courseRepository.findByUserAndCategoryAndIsDeletedOrderByIdDesc(user, searchCourseRequest.getCategory(),false);
         }
         return null;
     }
@@ -119,8 +133,79 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public List<Course> findCourseByStudentId(User user){
-        
-        return null;
+    public Course getCourse(Integer id){
+        return courseRepository.findById(id).orElse(null);
+    }
+
+    public Boolean paid(User user, Course course){
+        return buyRecordService.getBuyRecordByUserIdAndCourseId(course, user) == null? false : true;
+    }
+
+    public Boolean validShowCourseToStudent(Course course,HttpSession httpSession){
+        //first, check whether it is null
+        if(course==null) return false;
+
+        //second, check whether the student bought the course
+        User user = (User)httpSession.getAttribute("user");
+        if(paid(user,course)) return true;
+
+        //third, check whether the course is not deleted yet and user is not deleted yet
+        if(course.getIsDeleted() == false && course.getUser().getIsDeleted() == false) return true;
+        return false;
+    }
+
+    public Boolean buyCourse(Course course, HttpSession httpSession){
+        User user = (User)httpSession.getAttribute("user");
+        if(user.getBalance() >= course.getPrice()){
+            //buy the course. Insert buy record and insert money records.  Update balance of student, teacher and admin.
+
+            //1. insert buy record
+            BuyRecord buyRecord = new BuyRecord();
+            buyRecord.setCourse(course);
+            buyRecord.setUser(user);
+            buyRecordService.updateBuyRecord(buyRecord);
+
+            //2. update student's balance and insert student's money record
+            user.setBalance(user.getBalance()-course.getPrice());
+            userservice.updateUser(user);
+            MoneyRecord studentMoneyRecord = new MoneyRecord();
+            studentMoneyRecord.setMoneyChange(-course.getPrice());
+            studentMoneyRecord.setEventCategory(EventCategory.BUY_COURSE);
+            studentMoneyRecord.setEventConsequence(1);
+            studentMoneyRecord.setUser(user);
+            studentMoneyRecord.setEventText(EventCategory.BUY_COURSE, user, course);
+            moneyRecordService.updateMoneyRecord(studentMoneyRecord);
+
+            //3. update teacher's balance and insert teacher's money record
+
+            //load money seperation setting
+            MoneySeperation moneySeperation = moneySeperationService.getMoneySeperation();
+            Integer teacherProfit = course.getPrice() * moneySeperation.getTeacherMoneyPercentage() / 100;
+            Integer adminProfit = course.getPrice() - teacherProfit;
+
+            User teacher = course.getUser();
+            teacher.setBalance(teacher.getBalance() + teacherProfit);
+            userservice.updateUser(teacher);
+            MoneyRecord teacherMoneyRecord = new MoneyRecord();
+            teacherMoneyRecord.setMoneyChange(teacherProfit);
+            teacherMoneyRecord.setEventCategory(EventCategory.BUY_COURSE);
+            teacherMoneyRecord.setEventConsequence(2);
+            teacherMoneyRecord.setUser(teacher);
+            teacherMoneyRecord.setEventText(EventCategory.BUY_COURSE, user, teacher, course, moneySeperation);
+            moneyRecordService.updateMoneyRecord(teacherMoneyRecord);
+
+            //4. update admin's balance and insert admin's money record
+            User admin = userservice.getAdmin();
+            admin.setBalance(admin.getBalance() + adminProfit);
+            userservice.updateUser(admin);
+            MoneyRecord adminMoneyRecord = new MoneyRecord();
+            adminMoneyRecord.setMoneyChange(adminProfit);
+            adminMoneyRecord.setEventCategory(EventCategory.BUY_COURSE);
+            adminMoneyRecord.setEventConsequence(3);
+            adminMoneyRecord.setUser(admin);
+            adminMoneyRecord.setEventText(EventCategory.BUY_COURSE, user, admin, course, moneySeperation);
+            moneyRecordService.updateMoneyRecord(adminMoneyRecord);
+            return true;
+        } else return false;
     }
 }

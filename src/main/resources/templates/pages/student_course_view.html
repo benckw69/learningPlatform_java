@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title th:text="${title}+' 觀看課程'"></title>
+    <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
+  </head>
+  <body>
+    <div class="content">
+      <h1 th:text="${title}"></h1>
+      <div th:replace="~{fragements/header}"></div>
+      <div class="container">
+        <h2>課程</h2>
+        <hr>
+        <table>
+          <tr th:if="${course.photoType}"><td colspan="2">
+            <img th:src="'../../media/'+${session.userId}+'.'+${course.photoType.name()}" class="courseImage">
+          </td></tr>
+          <tr><td>課程名稱</td><td th:if="${course}" th:text="${course.title}"></td> </li>
+          <tr><td>簡介</td><td th:if="${course}" th:text="${course.introduction}"></td>
+          <tr><td>作者</td><td th:text="${course.user.username}"></td></tr>
+          <tr><td>作者介紹</td><td th:text="${introduction}"></td></tr>
+          <tr><td>學習人群</td><td th:if="${course}" th:text="${course.peopleSuite}"></td></tr>
+          <tr th:if="${paid}"><td>內容</td><td th:if="${course}" th:text="${course.content}"></td>
+          <tr th:if="${course.videoType != null and paid}"><td>影片</td><td><video controls><source th:src="'../../media/'+${session.userId}+'.'+${course.videoType.name()}"></video></td><td th:unless="${course.videoType}"></td></tr>
+          <tr th:if="${!paid}"><td>課程價錢</td><td th:if="${course}" th:text="'$'+${course.price}"></td></tr>
+        </table>
+        <hr>
+        <button th:if="${!paid}" type="button" class="registerbtn" style="background-color: rgb(6, 204, 49);" th:onclick="changePage([[${course.id}]])">購買課程</button>
+        <button type="button" class="registerbtn" style="background-color: rgb(9, 9, 112);" onclick="window.location.href='/student/course/search'">回到上一頁</button>
+      </div>
+    </div>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const paid_param = urlParams.get('paid');
+      if(paid_param == "true") alert("成功付費");
+      else if(paid_param == "false") alert("付款失敗。請檢查是否有足夠的金錢購買課程");
+      const rate_param = urlParams.get('rate');
+      if(rate_param == "true") alert("評分成功");
+      else if(rate_param == "false") alert("評分失敗");
+
+      function postData(path, params, method) { 
+  
+        // Create form 
+        const hidden_form = document.createElement('form'); 
+
+        // Set method to post by default 
+        hidden_form.method = method || 'post'; 
+          
+        // Set path 
+        hidden_form.action = path; 
+          
+        for (const key in params) { 
+            if (params.hasOwnProperty(key)) { 
+                const hidden_input = document.createElement 
+                    ('input'); 
+                hidden_input.type = 'hidden'; 
+                hidden_input.name = key; 
+                hidden_input.value = params[key]; 
+
+                hidden_form.appendChild(hidden_input); 
+            } 
+        } 
+
+        document.body.appendChild(hidden_form); 
+        hidden_form.submit(); 
+      } 
+      function changePage(id){
+        postData('/student/course/'+id+'/buy',{},"post");
+      }
+    </script>
+
+  </body>
+</html>
+
+
