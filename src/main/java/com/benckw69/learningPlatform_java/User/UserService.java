@@ -134,11 +134,13 @@ public class UserService {
         //referral system. Get the settings at database first, then apply the settings
         MoneyRecord moneyRecord2 = new MoneyRecord();
         Boolean moneyRecord2Set = false;
+        Referral referralSetting = referralRepository.findById(1).orElse(null);
+        User referral = new User();
+
         if(registerRequest.getReferral()!=null && registerRequest.getReferral()!=""){
             Integer referralId = Integer.parseInt(registerRequest.getReferral());
-            User referral = userRepository.findByIdAndIsDeleted(referralId,false).orElse(null);
+            referral = userRepository.findByIdAndIsDeleted(referralId,false).orElse(null);
             if(referral != null) {
-                Referral referralSetting = referralRepository.findById(1).orElse(null);
                 Integer newUserAmount = referralSetting.getNewUserAmount();
                 Integer referralAmount = referralSetting.getNewUserAmount();
                 if(referralSetting.getReferralGet()){
@@ -158,7 +160,6 @@ public class UserService {
                     Integer consequence = referralSetting.getReferralGet()? 2:1;
                     moneyRecord2.setEventConsequence(consequence);
                     moneyRecord2.setEventCategory(EventCategory.REFERRAL_BONUS);
-                    moneyRecord2.setEventText(EventCategory.REFERRAL_BONUS,newUser,referral,referralSetting);
                     moneyRecord2.setMoneyChange(referralSetting.getNewUserAmount());
                     moneyRecord2.setUser(newUser);
 
@@ -182,6 +183,7 @@ public class UserService {
         //save money record(s)
         if(moneyRecord2Set){
             moneyRecord2.setUser(newUser);
+            moneyRecord2.setEventText(EventCategory.REFERRAL_BONUS,newUser,referral,referralSetting);
             moneyRecordRepository.save(moneyRecord2);
         }
         
