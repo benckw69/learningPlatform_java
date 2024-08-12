@@ -2,6 +2,8 @@ package com.benckw69.learningPlatform_java;
 
 import java.util.Arrays;
 
+import com.benckw69.learningPlatform_java.AdminConfig.MoneySeperationService;
+import com.benckw69.learningPlatform_java.AdminConfig.ReferralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +22,12 @@ public class LearningPlatformJavaApplication {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	MoneySeperationService moneySeperationService;
+
+	@Autowired
+	ReferralService referralService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LearningPlatformJavaApplication.class, args);
@@ -45,6 +53,9 @@ public class LearningPlatformJavaApplication {
 		return (args) -> {
 			storageService.init();
 			userService.init();
+			moneySeperationService.init();
+			referralService.init();
+
 		};
 	}
 }

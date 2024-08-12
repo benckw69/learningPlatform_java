@@ -15,4 +15,15 @@ public class ReferralService {
     public void saveReferral(Referral referral){
         referralRepository.save(referral);
     }
+
+    public void init() {
+        if(getReferralConfig()==null){
+            Referral referral = new Referral();
+            referral.setReferralAmount(10);
+            referral.setReferralGet(true);
+            referral.setNewUserAmount(10);
+            referral.setNewUserGet(true);
+            saveReferral(referral);
+        }
+    }
 }

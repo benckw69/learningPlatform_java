@@ -17,4 +17,12 @@ public class MoneySeperationService {
         moneySeperation.setId(1);
         moneySeperationRepository.save(moneySeperation);
     }
+
+    public void init(){
+        if(getMoneySeperation() == null) {
+            MoneySeperation moneySeperation = new MoneySeperation();
+            moneySeperation.setTeacherMoneyPercentage(80);
+            editMoneySeperation(moneySeperation);
+        }
+    }
 }

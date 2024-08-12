@@ -224,6 +224,7 @@ public class CourseService {
             List<Rating> ratings = ratingService.getRatingsByBuyRecords(buyRecords);
             courseWithDetails.setNoOfRates(ratings.size());
             Double rating = ratings.stream().map(Rating::getRate).mapToDouble(a->a).average().orElse(-1);
+            if(rating != -1 ) rating = ((double)Math.round(rating*10)) / 10;
             courseWithDetails.setRate(rating);
             coursesWithDetails.add(courseWithDetails);
         }
