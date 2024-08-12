@@ -11,7 +11,6 @@ import com.benckw69.learningPlatform_java.AdminConfig.EventCategory;
 import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecord;
 import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecordService;
 import com.benckw69.learningPlatform_java.AdminConfig.Referral;
-import com.benckw69.learningPlatform_java.AdminConfig.ReferralRepository;
 import com.benckw69.learningPlatform_java.AdminConfig.ReferralService;
 
 import jakarta.servlet.http.HttpSession;
@@ -128,7 +127,9 @@ public class UserService {
         newUser.setLoginMethod(LoginMethod.email);
 
         //referral system. Get the settings at database first, then apply the settings
+        MoneyRecord moneyRecord = new MoneyRecord();
         MoneyRecord moneyRecord2 = new MoneyRecord();
+        Boolean moneyRecord1Set = false;
         Boolean moneyRecord2Set = false;
         Referral referralSetting = referralService.getReferralConfig();
         User referral = new User();
@@ -141,15 +142,13 @@ public class UserService {
                 Integer referralAmount = referralSetting.getNewUserAmount();
                 if(referralSetting.getReferralGet()){
                     //Set money record
-                    MoneyRecord moneyRecord = new MoneyRecord();
                     moneyRecord.setEventConsequence(1);
                     moneyRecord.setEventCategory(EventCategory.REFERRAL_BONUS);
-                    moneyRecord.setEventText(EventCategory.REFERRAL_BONUS, referral, referralSetting, newUser);
                     moneyRecord.setMoneyChange(referralSetting.getReferralAmount());
                     moneyRecord.setUser(referral);
-
                     userRepository.updateBalance(referralAmount, referralId);
                     moneyRecordService.updateMoneyRecord(moneyRecord);
+                    moneyRecord1Set = true;
                 }
                 if(referralSetting.getNewUserGet()){
                     //Set money record
@@ -157,8 +156,6 @@ public class UserService {
                     moneyRecord2.setEventConsequence(consequence);
                     moneyRecord2.setEventCategory(EventCategory.REFERRAL_BONUS);
                     moneyRecord2.setMoneyChange(referralSetting.getNewUserAmount());
-                    moneyRecord2.setUser(newUser);
-
                     newUser.setBalance(newUserAmount);
                     moneyRecord2Set = true;
                 }
@@ -177,6 +174,10 @@ public class UserService {
         }
 
         //save money record(s)
+        if(moneyRecord1Set){
+            moneyRecord.setEventText(EventCategory.REFERRAL_BONUS, referral, referralSetting, newUser);
+            moneyRecordService.updateMoneyRecord(moneyRecord);
+        }
         if(moneyRecord2Set){
             moneyRecord2.setUser(newUser);
             moneyRecord2.setEventText(EventCategory.REFERRAL_BONUS,newUser,referral,referralSetting);
