@@ -1,7 +1,5 @@
 package com.benckw69.learningPlatform_java;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.benckw69.learningPlatform_java.User.User;
 import com.benckw69.learningPlatform_java.User.UserRepository;
 
-import ch.qos.logback.core.model.Model;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

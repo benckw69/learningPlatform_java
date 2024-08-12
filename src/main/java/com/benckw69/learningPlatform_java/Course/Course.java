@@ -6,7 +6,6 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.benckw69.learningPlatform_java.Constrain.NotSameTitle;
 import com.benckw69.learningPlatform_java.User.User;
 
 import jakarta.persistence.CascadeType;
