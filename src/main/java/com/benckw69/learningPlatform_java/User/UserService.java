@@ -233,4 +233,19 @@ public class UserService {
         user.setIsDeleted(true);
         userRepository.save(user);
     }
+
+    public void init(){
+        //if there is no admin account, create one.  The default account is admin@gmail.com, password is adminadmin.
+        User admin = getAdmin();
+        if(admin==null){
+            admin = new User();
+            admin.setBalance(0);
+            admin.setEmail("admin@gmail.com");
+            admin.setPassword("$2a$12$fYrGx2KUfqaBKBQsNYQcs.Yowzb8iZQEWwy./8HhSsHRzZySskQ2y");
+            admin.setLoginMethod(LoginMethod.email);
+            admin.setType(Type.admin);
+            admin.setUsername("admin");
+            userRepository.save(admin);
+        }
+    }
 }
