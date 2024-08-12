@@ -1,7 +1,7 @@
 # Learning Platform
-Web application using EJS, NodeJS, MongoDB
+Web application using Thymeleaf, Java Spring, MySQL
 
-A learning platform for students to join, teacher to produce the course and admin to 
+A learning platform for students to join the course, teacher to produce the course and admin to manage the website.
 Similar as 'learningPlatform' in the repository, but using java spring as backend.
 
 ## Tech that is used
