@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.benckw69.learningPlatform_java.Course.Course;
 import com.benckw69.learningPlatform_java.Course.CourseService;
-import com.benckw69.learningPlatform_java.User.User;
+import com.benckw69.learningPlatform_java.Course.CourseWithDetails;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -24,7 +24,8 @@ public class SearchCourseController {
     @GetMapping("/student/course/search")
     public String viewAllCourses(SearchCourseRequest searchCourseRequest, Model model){
         List<Course> courses = courseService.findAllCourse();
-        model.addAttribute("courses",courses);
+        List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
+        model.addAttribute("courses",courseWithDetails);
         return "/pages/student_course_search";
     }
 
@@ -33,7 +34,8 @@ public class SearchCourseController {
     public String searchAllCourses(SearchCourseRequest searchCourseRequest, Model model){
         searchCourseRequest.setSearchWords(searchCourseRequest.getSearchWords().trim());
         List<Course> courses = courseService.findAllCourseBySearch(searchCourseRequest);
-        model.addAttribute("courses",courses);
+        List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
+        model.addAttribute("courses",courseWithDetails);
         return "/pages/student_course_search";
     }
 
@@ -41,7 +43,8 @@ public class SearchCourseController {
     @GetMapping("/student/course/own")
     public String viewOwnCourses(SearchCourseRequest searchCourseRequest, HttpSession httpSession, Model model){
         List<Course> courses = courseService.findOwnCourseByStudentId(httpSession);
-        model.addAttribute("courses",courses);
+        List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
+        model.addAttribute("courses",courseWithDetails);
         return "/pages/student_course_own";
     }
 
@@ -50,7 +53,8 @@ public class SearchCourseController {
     public String searchOwnCourses(SearchCourseRequest searchCourseRequest, HttpSession httpSession, Model model){
         searchCourseRequest.setSearchWords(searchCourseRequest.getSearchWords().trim());
         List<Course> courses = courseService.studentSearchOwnCourse(searchCourseRequest, httpSession);
-        model.addAttribute("courses",courses);
+        List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
+        model.addAttribute("courses",courseWithDetails);
         return "/pages/student_course_own";
     }
 
@@ -58,7 +62,8 @@ public class SearchCourseController {
     @GetMapping("/teacher/course/own")
     public String ownCourses(SearchCourseRequest searchCourseRequest, Model model, HttpSession httpSession){
         List<Course> courses = courseService.findOwnCourseByTeacherId(httpSession);
-        model.addAttribute("courses", courses);
+        List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
+        model.addAttribute("courses", courseWithDetails);
         return "/pages/teacher_course_own";
     }
 
@@ -66,7 +71,8 @@ public class SearchCourseController {
     @PostMapping("/teacher/course/own")
     public String SearchOwnCourses(SearchCourseRequest searchCourseRequest, Model model, HttpSession httpSession){
         List<Course> courses = courseService.teacherSearchOwnCourse(searchCourseRequest, httpSession);
-        model.addAttribute("courses", courses);
+        List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
+        model.addAttribute("courses", courseWithDetails);
         return "/pages/teacher_course_own";
     }
 }

@@ -21,7 +21,7 @@ public class Rating {
     @Min(value = 0, message = "最低評分不可低於 0")
     @Max(value = 5, message = "最高評分不可高於 5")
     @NotNull
-    private Integer rate;
+    private Double rate;
 
     @OneToOne
     @MapsId
@@ -36,11 +36,11 @@ public class Rating {
         this.id = id;
     }
 
-    public Integer getRate() {
+    public Double getRate() {
         return rate;
     }
 
-    public void setRate(Integer rate) {
+    public void setRate(Double rate) {
         this.rate = rate;
     }
 

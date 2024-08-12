@@ -21,8 +21,16 @@
           <tr><td>作者介紹</td><td th:text="${introduction}"></td></tr>
           <tr><td>學習人群</td><td th:if="${course}" th:text="${course.peopleSuite}"></td></tr>
           <tr th:if="${paid}"><td>內容</td><td th:if="${course}" th:text="${course.content}"></td>
-          <tr th:if="${course.videoType != null and paid}"><td>影片</td><td><video controls><source th:src="'../../media/'+${session.userId}+'.'+${course.videoType.name()}"></video></td><td th:unless="${course.videoType}"></td></tr>
+          <tr th:if="${course.videoType != null and paid}"><td>影片</td><td><video controls><source th:src="'../../media/'+${course.id}+'.'+${course.videoType.name()}"></video></td><td th:unless="${course.videoType}"></td></tr>
           <tr th:if="${!paid}"><td>課程價錢</td><td th:if="${course}" th:text="'$'+${course.price}"></td></tr>
+          <tr th:if="${paid and !rate}"><td colspan="2"><form method="post" th:action="'/student/course/'+${course.id}+'/rate'" th:object="${rating}">
+            <label for="rate">為課程評分：（０至５分）</label>
+            <input type="number" id="rateText" th:field="*{rate}" min="0" max="5" step="0.1" onchange="updateRating(this.value);" required><br/>
+            <span th:if="${#fields.hasErrors('rate')}"><ul class="error"><li th:each="err : ${#fields.errors('rate')}" th:text="${err}" >Rate Error</li></ul></span>
+            <input type="range" id="rateRange" min="0" max="5" step="0.1" onchange="updateRating(this.value);" required><br/>
+            <input type="submit" value="提交">
+          </form></td></tr>
+          <tr th:if="${paid and rate}"><td colspan="2" >你已經為此課程評分！</td></tr>
         </table>
         <hr>
         <button th:if="${!paid}" type="button" class="registerbtn" style="background-color: rgb(6, 204, 49);" th:onclick="changePage([[${course.id}]])">購買課程</button>
@@ -34,10 +42,15 @@
       const paid_param = urlParams.get('paid');
       if(paid_param == "true") alert("成功付費");
       else if(paid_param == "false") alert("付款失敗。請檢查是否有足夠的金錢購買課程");
-      const rate_param = urlParams.get('rate');
-      if(rate_param == "true") alert("評分成功");
-      else if(rate_param == "false") alert("評分失敗");
+      const success_param = urlParams.get('success');
+      if(success_param == "rate") alert("評分成功");
+      else if(success_param == "false") alert("評分失敗");
 
+      function updateRating(rate){
+        document.getElementById('rateText').value=rate; 
+        document.getElementById('rateRange').value=rate; 
+      }
+      document.getElementById('rateRange').value=document.getElementById('rateText').value;
       function postData(path, params, method) { 
   
         // Create form 

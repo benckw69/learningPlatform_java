@@ -25,14 +25,29 @@ public class CourseStudentController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/{courseId}")
+    @Autowired
+    BuyRecordService buyRecordService;
+
+    @Autowired
+    RatingService ratingService;
+
+    @GetMapping({"/{courseId}","/{courseId}/buy","/{courseId}/rate"})
     public String courseDetails(@PathVariable Integer courseId, Rating rating, Model model, HttpSession httpSession){
         //validate whether user can view the course
         Course course = courseService.getCourse(courseId);
         Boolean validation = courseService.validShowCourseToStudent(course,httpSession);
         if(course==null || !validation) return "redirect:/student/course/search";
 
+        rating.setRate(2.5);
+        //check whether student rate before.
         User user = (User)httpSession.getAttribute("user");
+        if(courseService.paid(user, course)){
+            BuyRecord buyRecord = buyRecordService.getBuyRecordByUserIdAndCourseId(course, user);
+            Rating ratingDatabase = ratingService.getRating(buyRecord);
+            //if(ratingDatabase!=null) rating.setRate(ratingDatabase.getRate());
+            model.addAttribute("rate", ratingDatabase != null);
+        }
+        
         model.addAttribute("paid", courseService.paid(user, course));
         model.addAttribute("course", course);
         model.addAttribute("introduction", userService.getIntroductionByCourseProducer(course).getIntrodution());
@@ -53,12 +68,31 @@ public class CourseStudentController {
     }
 
     @PostMapping("/{courseId}/rate")
-    public String rateCourse(@PathVariable Integer courseId, @Valid Rating rating, BindingResult bindingResult, HttpSession httpSession){
+    public String rateCourse(@PathVariable Integer courseId, @Valid Rating rating, BindingResult bindingResult, HttpSession httpSession, Model model){
         //validate whether user can view the course
+        User user = (User)httpSession.getAttribute("user");
         Course course = courseService.getCourse(courseId);
         Boolean validation = courseService.validShowCourseToStudent(course,httpSession);
         if(course==null || !validation) return "redirect:/student/course/search";
-        if(bindingResult.hasErrors()) return "pages/student_course_view";
-        return "redirect:/student/course/details?rate=true";
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("paid", courseService.paid(user, course));
+            model.addAttribute("course", course);
+            model.addAttribute("introduction", userService.getIntroductionByCourseProducer(course).getIntrodution());
+            return "pages/student_course_view";
+        }
+
+        //update rating.  Check whether there is buy record, then update the rating.
+        BuyRecord buyRecord = buyRecordService.getBuyRecordByUserIdAndCourseId(course, user);
+        if(buyRecord == null) return "redirect:/student/course/details?success=false";
+        Rating ratingDatabase = ratingService.getRating(buyRecord);
+        if(ratingDatabase == null) {
+            rating.setBuyRecord(buyRecord);
+            ratingService.updateRating(rating);
+        } 
+        //else {
+        //    ratingDatabase.setRate(rating.getRate());
+        //    ratingService.updateRating(ratingDatabase);
+        //}
+        return "redirect:/student/course/"+courseId+"?success=rate";
     }
 }

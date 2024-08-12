@@ -2,7 +2,7 @@ package com.benckw69.learningPlatform_java.Course;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +37,9 @@ public class CourseService {
 
     @Autowired
     MoneySeperationService moneySeperationService;
+
+    @Autowired
+    RatingService ratingService;
 
     public Course insertCourse(Course course){
         return courseRepository.save(course);
@@ -207,5 +210,23 @@ public class CourseService {
             moneyRecordService.updateMoneyRecord(adminMoneyRecord);
             return true;
         } else return false;
+    }
+
+    public List<CourseWithDetails> calcDetails(List<Course> courses){
+        List<CourseWithDetails> coursesWithDetails = new ArrayList<>();
+        for(Course course : courses){
+            //calculate how many people bought the course and the average rating of people
+            CourseWithDetails courseWithDetails = new CourseWithDetails(course);
+
+            courseWithDetails.setNoOfStudents(courseWithDetails.getBuyRecord().size());
+
+            Set<BuyRecord> buyRecords = courseWithDetails.getBuyRecord();
+            List<Rating> ratings = ratingService.getRatingsByBuyRecords(buyRecords);
+            courseWithDetails.setNoOfRates(ratings.size());
+            Double rating = ratings.stream().map(Rating::getRate).mapToDouble(a->a).average().orElse(-1);
+            courseWithDetails.setRate(rating);
+            coursesWithDetails.add(courseWithDetails);
+        }
+        return coursesWithDetails;
     }
 }

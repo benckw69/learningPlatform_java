@@ -31,20 +31,11 @@
       </div>
     </div>
     <script>
-      function redirectExpired(date) {
-        now = new Date();
-        date = new Date(date)
-        if (date < now) {
-          window.location.replace('/courses');
-        }
-      }
       function changePage(id,type) {
         if(type=='photo') window.location.href='/teacher/course/'+id+'/photo/edit';
         else if(type=='video') window.location.href='/teacher/course/'+id+'/video/edit';
         else window.location.href='/teacher/course/'+id+'/info/edit';
       }
-      
-      
     </script>
 
   </body>
