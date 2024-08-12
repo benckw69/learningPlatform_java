@@ -74,3 +74,5 @@ DATABASE_PASSWORD=
 ```
 After all of this setups, you are able to run!
 
+(There is one default account for admin.  Admin's email address is admin@gmail.com, password is adminadmin.
+
