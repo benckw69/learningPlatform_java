@@ -89,9 +89,8 @@ public class CourseTeacherController {
         //check id and check whether it is the course owner
         Course validCourse = courseService.findCourseById(id);
         if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
-        Integer userId = (Integer)httpSession.getAttribute("userId");
         if(!file.isEmpty()){
-            Boolean successful = storageService.store(file,FileType.PHOTO,userId+"");
+            Boolean successful = storageService.store(file,FileType.PHOTO,id+"");
             String fileName = file.getOriginalFilename();
             String extension = fileName.substring(fileName.lastIndexOf(".")+1).toUpperCase();
             if(successful) courseService.update(validCourse,PhotoType.valueOf(extension));
@@ -117,9 +116,8 @@ public class CourseTeacherController {
         //check id and check whether it is the course owner
         Course validCourse = courseService.findCourseById(id);
         if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
-        Integer userId = (Integer)httpSession.getAttribute("userId");
         if(!file.isEmpty()){
-            Boolean successful = storageService.store(file,FileType.VIDEO,userId+"");
+            Boolean successful = storageService.store(file,FileType.VIDEO,id+"");
             String fileName = file.getOriginalFilename();
             String extension = fileName.substring(fileName.lastIndexOf(".")+1).toUpperCase();
             if(successful) courseService.update(validCourse,VideoType.valueOf(extension));

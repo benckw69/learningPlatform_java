@@ -22,7 +22,7 @@
           <input type="file" accept="video/*" name="file" id="videoUpload">
           <button type="button" onclick="resetVideo()">重設影片</button>
           <div id="video">
-            <video th:if="${course.videoType}" th:src="'../../../../media/'+${session.userId}+'.'+${course.videoType}" controls id="videoPreview" ></video>
+            <video th:if="${course.videoType}" th:src="'../../../../media/'+${course.id}+'.'+${course.videoType}" controls id="videoPreview" ></video>
             <video th:unless="${course.videoType}" th:src="''" controls id="videoPreview"></video>
           </div>
           <hr>

@@ -16,7 +16,7 @@
           <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="imageUpload">
           <button type="button" onclick="resetImage()">重設圖片</button><br>
           <div id="image">
-            <img th:if="${course.photoType}" th:src="'../../../../media/'+${session.userId}+'.'+${course.photoType}" style="max-width: 500px;max-height: 500px;" id="imagePreview">
+            <img th:if="${course.photoType}" th:src="'../../../../media/'+${course.id}+'.'+${course.photoType}" style="max-width: 500px;max-height: 500px;" id="imagePreview">
             <img th:unless="${course.photoType}" th:src="''" style="max-width: 500px;max-height: 500px;" id="imagePreview">
           </div>
           <hr>
