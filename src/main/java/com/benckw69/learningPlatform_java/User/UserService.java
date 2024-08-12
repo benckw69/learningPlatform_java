@@ -9,10 +9,10 @@ import org.springframework.ui.Model;
 
 import com.benckw69.learningPlatform_java.AdminConfig.EventCategory;
 import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecord;
-import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecordRepository;
+import com.benckw69.learningPlatform_java.AdminConfig.MoneyRecordService;
 import com.benckw69.learningPlatform_java.AdminConfig.Referral;
 import com.benckw69.learningPlatform_java.AdminConfig.ReferralRepository;
-import com.benckw69.learningPlatform_java.Course.Course;
+import com.benckw69.learningPlatform_java.AdminConfig.ReferralService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -23,16 +23,16 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private IntroductionRepository introductionRepository;
+    private IntroductionService introductionService;
 
     @Autowired
-    private ReferralRepository referralRepository;
+    private ReferralService referralService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private MoneyRecordRepository moneyRecordRepository;
+    private MoneyRecordService moneyRecordService;
 
     public Boolean isSamePassword(String password, String password_repeat, Model model){
         if(!password.equals(password_repeat)) {
@@ -67,9 +67,7 @@ public class UserService {
         return false;
     }
 
-    public Introduction getIntroductionBySession(HttpSession httpSession){
-        return introductionRepository.findById((Integer)httpSession.getAttribute("userId")).orElse(null);
-    }
+    
 
     public User updateUser(User user){
         return userRepository.save(user);
@@ -83,9 +81,7 @@ public class UserService {
         return userRepository.findByType(Type.admin);
     }
 
-    public Introduction getIntroductionByCourseProducer(Course course){
-        return introductionRepository.findById(course.getUser().getId()).orElse(null);
-    }
+    
 
     public List<User> getUsersByUsernameOrderByDate(String username){
         return userRepository.findByUsernameContainsIgnoreCaseAndIsDeleted(username, false);
@@ -134,7 +130,7 @@ public class UserService {
         //referral system. Get the settings at database first, then apply the settings
         MoneyRecord moneyRecord2 = new MoneyRecord();
         Boolean moneyRecord2Set = false;
-        Referral referralSetting = referralRepository.findById(1).orElse(null);
+        Referral referralSetting = referralService.getReferralConfig();
         User referral = new User();
 
         if(registerRequest.getReferral()!=null && registerRequest.getReferral()!=""){
@@ -153,7 +149,7 @@ public class UserService {
                     moneyRecord.setUser(referral);
 
                     userRepository.updateBalance(referralAmount, referralId);
-                    moneyRecordRepository.save(moneyRecord);
+                    moneyRecordService.updateMoneyRecord(moneyRecord);
                 }
                 if(referralSetting.getNewUserGet()){
                     //Set money record
@@ -177,14 +173,14 @@ public class UserService {
             Introduction newIntroduction = new Introduction();
             newIntroduction.setUser(newUser);
             newIntroduction.setDefaultIntroduction(newUser);
-            introductionRepository.save(newIntroduction);
+            introductionService.updateIntroduction(newIntroduction);
         }
 
         //save money record(s)
         if(moneyRecord2Set){
             moneyRecord2.setUser(newUser);
             moneyRecord2.setEventText(EventCategory.REFERRAL_BONUS,newUser,referral,referralSetting);
-            moneyRecordRepository.save(moneyRecord2);
+            moneyRecordService.updateMoneyRecord(moneyRecord2);
         }
         
     }
@@ -201,13 +197,13 @@ public class UserService {
     }
 
     public void updateInfoTeacher(TeacherEdit teacherEdit, HttpSession httpSession){
-        Introduction introduction = getIntroductionBySession(httpSession);
+        Introduction introduction = introductionService.getIntroductionBySession(httpSession);
         User user = getUserBySession(httpSession);
         user.setEmail(teacherEdit.getEmail().trim());
         user.setUsername(teacherEdit.getUsername().trim());
         introduction.setIntrodution(teacherEdit.getIntroduction());
         userRepository.save(user);
-        introductionRepository.save(introduction);
+        introductionService.updateIntroduction(introduction);
     }
 
     public void updateInfoStudentOrAdmin(StudentOrAdminEdit studentOrAdminEdit, HttpSession httpSession){

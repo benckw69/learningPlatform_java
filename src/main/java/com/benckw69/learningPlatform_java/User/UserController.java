@@ -17,12 +17,15 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    IntroductionService introductionService;
     
     @GetMapping
     public String showUserInfomation(Model model,HttpSession httpSession){
         //retrive introduction if user type is teacher
         if((User)httpSession.getAttribute("user") != null && ((User)httpSession.getAttribute("user")).getType()==Type.teacher){
-            Introduction introduction = userService.getIntroductionBySession(httpSession);
+            Introduction introduction = introductionService.getIntroductionBySession(httpSession);
             model.addAttribute("introduction", introduction.getIntrodution());
         }
         return "pages/user_info_view";
@@ -34,7 +37,7 @@ public class UserController {
         Type type = user.getType();
 
         if((User)httpSession.getAttribute("user") != null && (type==Type.teacher)){
-            Introduction introduction = userService.getIntroductionBySession(httpSession);
+            Introduction introduction = introductionService.getIntroductionBySession(httpSession);
             teacherEdit.setUsername(user.getUsername());
             teacherEdit.setEmail(user.getEmail());
             teacherEdit.setIntroduction(introduction.getIntrodution());

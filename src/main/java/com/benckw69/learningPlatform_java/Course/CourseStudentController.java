@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.benckw69.learningPlatform_java.User.IntroductionService;
 import com.benckw69.learningPlatform_java.User.User;
 import com.benckw69.learningPlatform_java.User.UserService;
 
@@ -31,6 +32,9 @@ public class CourseStudentController {
     @Autowired
     RatingService ratingService;
 
+    @Autowired
+    IntroductionService introductionService;
+
     @GetMapping({"/{courseId}","/{courseId}/buy","/{courseId}/rate"})
     public String courseDetails(@PathVariable Integer courseId, Rating rating, Model model, HttpSession httpSession){
         //validate whether user can view the course
@@ -50,7 +54,7 @@ public class CourseStudentController {
         
         model.addAttribute("paid", courseService.paid(user, course));
         model.addAttribute("course", course);
-        model.addAttribute("introduction", userService.getIntroductionByCourseProducer(course).getIntrodution());
+        model.addAttribute("introduction", introductionService.getIntroductionByCourseProducer(course).getIntrodution());
         return "pages/student_course_view";
     }
 
@@ -77,7 +81,7 @@ public class CourseStudentController {
         if(bindingResult.hasErrors()) {
             model.addAttribute("paid", courseService.paid(user, course));
             model.addAttribute("course", course);
-            model.addAttribute("introduction", userService.getIntroductionByCourseProducer(course).getIntrodution());
+            model.addAttribute("introduction", introductionService.getIntroductionByCourseProducer(course).getIntrodution());
             return "pages/student_course_view";
         }
 

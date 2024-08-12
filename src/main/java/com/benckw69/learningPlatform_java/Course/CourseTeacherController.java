@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.benckw69.learningPlatform_java.User.IntroductionService;
 import com.benckw69.learningPlatform_java.User.User;
 import com.benckw69.learningPlatform_java.User.UserService;
 import com.benckw69.learningPlatform_java.storage.FileType;
@@ -32,6 +33,9 @@ public class CourseTeacherController {
     @Autowired
     StorageService storageService;
 
+    @Autowired
+    IntroductionService introductionService;
+
     
     @GetMapping({"/{id}","/{id}/info/view"})
     public String viewCourse(@PathVariable Integer id, Model model, HttpSession httpSession){
@@ -39,7 +43,7 @@ public class CourseTeacherController {
         Course course = courseService.findCourseById(id);
         if(course == null || (course != null && course.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
         model.addAttribute("course", course);
-        model.addAttribute("introduction", userService.getIntroductionBySession(httpSession).getIntrodution());
+        model.addAttribute("introduction", introductionService.getIntroductionBySession(httpSession).getIntrodution());
         return "pages/teacher_course_view";
     }
 
