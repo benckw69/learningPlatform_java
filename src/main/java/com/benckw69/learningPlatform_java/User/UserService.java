@@ -134,8 +134,8 @@ public class UserService {
         Referral referralSetting = referralService.getReferralConfig();
         User referral = new User();
 
-        if(registerRequest.getReferral()!=null && registerRequest.getReferral()!=""){
-            Integer referralId = Integer.parseInt(registerRequest.getReferral());
+        if(registerRequest.getReferral()!=null){
+            Integer referralId = registerRequest.getReferral();
             referral = userRepository.findByIdAndIsDeleted(referralId,false).orElse(null);
             if(referral != null) {
                 Integer newUserAmount = referralSetting.getNewUserAmount();

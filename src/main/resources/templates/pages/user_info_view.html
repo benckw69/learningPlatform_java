@@ -27,7 +27,7 @@
           </textarea></p>
 
           <label for="username"><b>推薦碼</b></label>
-          <input type="text" th:value="'http://localhost:8888/register?ref='+${session.user.id}" readonly>
+          <input type="text" th:value="'http://localhost:8080/register?ref='+${session.user.id}" readonly>
         
           <button type="button" class="registerbtn" onclick="window.location.href='/user/info/edit'">編輯資料</button>
           <button type="button" class="registerbtn" th:if="${session.user.loginMethod.name()} eq 'email'" onclick="window.location.href='/user/pw/edit'">更改密碼</button>

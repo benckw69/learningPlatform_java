@@ -45,7 +45,7 @@
           <ul class="error"><li th:each="err : ${#fields.errors('password_repeat')}" th:text="${err}" >Repeat password Error</li><li th:if="${passwordRepeatError}" th:text="${passwordRepeatError}"></li></ul>
           
           <p><label for="psw-repeat"><b>推薦碼</b></label></p>
-          <input type="text" placeholder="推薦碼" th:field="*{referral}" name="referral" id="referral">
+          <input type="number" placeholder="推薦碼" th:field="*{referral}" name="referral" id="referral" min="1" step="1">
 
           <hr>
           <button type="submit" class="registerbtn">註冊</button>

@@ -38,7 +38,7 @@ public class IndexController {
     }
 
     @GetMapping("/register")
-    public String form(RegisterRequest registerRequest,@RequestParam(required = false) String ref){
+    public String form(RegisterRequest registerRequest,@RequestParam(required = false) Integer ref){
         registerRequest.setReferral(ref);
         return "pages/register";
     }

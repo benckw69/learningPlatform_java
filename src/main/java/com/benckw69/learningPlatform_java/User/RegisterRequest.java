@@ -20,7 +20,7 @@ public class RegisterRequest {
     private String password;
     @NotEmpty(message = "確認密碼不能為空")
     private String password_repeat;
-    private String referral;
+    private Integer referral;
 
     public Type getType() {
         return type;
@@ -52,10 +52,10 @@ public class RegisterRequest {
     public void setPassword_repeat(String password_repeat) {
         this.password_repeat = password_repeat;
     }
-    public String getReferral() {
+    public Integer getReferral() {
         return referral;
     }
-    public void setReferral(String referral) {
+    public void setReferral(Integer referral) {
         this.referral = referral;
     }
 }
