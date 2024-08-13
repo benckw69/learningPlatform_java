@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title th:text="${title}+' - 搜尋學生'"></title>
+    <title th:text="${title}+' - 搜尋老師'"></title>
     <link rel='stylesheet' href='/css/style.css' th:href="@{/css/style.css}"/>
   </head>
   <body>
     <div class="content">
       <h1 th:text="${title}"></h1>
-      <div th:replace="~{fragements/header}"></div> 
+      <div th:replace="~{fragements/header}"></div>
       <div class="container">
         <h2>搜尋老師</h2> 
-        <form action="/teacher/studentSearch" method="post" class="searchUser" th:object="${searchUserRequest}">
+        <form action="/student/teacherSearch" method="post" class="searchUser" th:object="${searchUserRequest}">
           <select th:field="*{searchUserMethod}">
             <option value="USERNAME">用戶名稱</option>
             <option value="EMAIL">電郵地址</option>
           </select>
           <input type="text" th:field="*{searchWords}">
-          <input type="submit" value="提交" class="searchUser">
+          
+          <input type="submit" value="提交">
         </form> 
         <hr>
-        <ul id="courses" th:each="student:${result}">
+        <ul id="courses" th:each="teacher:${result}">
           <li><ul class="course">
-            <li style="font-size: 26px;" th:text="${student.username}"></li>
-            <li th:text="'電郵地址：'+${student.email}"></li>
+            <li style="font-size: 26px;" th:text="${teacher.username}"></li>
+            <li th:text="'電郵地址：'+${teacher.email}"></li>
           </ul></li>
         </ul>
       </div>

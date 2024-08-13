@@ -147,7 +147,6 @@ public class UserService {
                     moneyRecord.setMoneyChange(referralSetting.getReferralAmount());
                     moneyRecord.setUser(referral);
                     userRepository.updateBalance(referralAmount, referralId);
-                    moneyRecordService.updateMoneyRecord(moneyRecord);
                     moneyRecord1Set = true;
                 }
                 if(referralSetting.getNewUserGet()){

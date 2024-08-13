@@ -13,7 +13,7 @@
         <hr>
         <table>
           <tr th:if="${course.photoType}"><td colspan="2">
-            <img th:src="'../../media/'+${session.userId}+'.'+${course.photoType.name()}" class="courseImage">
+            <img th:src="'../../media/'+${course.id}+'.'+${course.photoType.name()}" class="courseImage">
           </td></tr>
           <tr><td>課程名稱</td><td th:if="${course}" th:text="${course.title}"></td> </li>
           <tr><td>簡介</td><td th:if="${course}" th:text="${course.introduction}"></td>

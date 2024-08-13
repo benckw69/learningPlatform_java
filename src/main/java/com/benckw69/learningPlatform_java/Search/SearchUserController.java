@@ -19,7 +19,7 @@ public class SearchUserController {
 
     @GetMapping("/teacher/studentSearch")
     public String searchStudents(SearchUserRequest searchUserRequest){
-        return "pages/student_search";
+        return "pages/teacher_searchStudent";
     }
 
     @PostMapping("/teacher/studentSearch")
@@ -29,12 +29,12 @@ public class SearchUserController {
         } else {
             model.addAttribute("result", userRepository.findByUsernameContainsIgnoreCaseAndType(searchUserRequest.getSearchWords().trim(),Type.student));
         }
-        return "pages/student_search";
+        return "pages/teacher_searchStudent";
     }
 
     @GetMapping("/student/teacherSearch")
     public String searchTeachers(SearchUserRequest searchUserRequest){
-        return "pages/teacher_search";
+        return "pages/student_searchTeacher";
     }
 
     @PostMapping("/student/teacherSearch")
@@ -44,6 +44,6 @@ public class SearchUserController {
         } else {
             model.addAttribute("result", userRepository.findByUsernameContainsIgnoreCaseAndType(searchUserRequest.getSearchWords().trim(),Type.teacher));
         }
-        return "pages/teacher_search";
+        return "pages/student_searchTeacher";
     }
 }

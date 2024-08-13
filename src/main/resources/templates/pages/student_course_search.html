@@ -33,7 +33,7 @@
         <li><ul class="course">
           <li><a th:text="${course.title}+' - '+${course.category.name}" th:href="'/student/course/'+${course.id}"></a></li>
           <li th:text="'作者：'+${course.user.username}"></li>
-          <li th:text="'價錢：'+${course.price}"></li>
+          <li th:text="'價錢：$'+${course.price}"></li>
           <li th:if="${course.noOfRates} != 0" th:text="'評價：'+${course.rate}+' (' +${course.noOfRates}+')'"></li>
           <li th:if="${course.noOfRates} == 0" th:text="'評價：沒有評分'"></li>
           <li th:text="'上課人數：'+${course.noOfStudents}"></li>
