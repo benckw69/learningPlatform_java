@@ -54,8 +54,8 @@ For admin:
 
 ## Installation
 To use this repository, [MySQL](https://dev.mysql.com/downloads/mysql/) has to be installed.
-!!!You have to create database at your MySQL server first to run!!!
-You have to install [Java 21](https://www.oracle.com/hk/java/technologies/downloads/#java21) to run the server.
+Database has to be created at your MySQL server first to run! If you want to run a local MySQL server, you can first create a database named as 'learningplatform' as the database url mentioned below.
+Also, you have to install [Java 21](https://www.oracle.com/hk/java/technologies/downloads/#java21) to run the Java application.
 Firstly, clone this repository
 ```
 git clone https://www.github.com/benckw69/learningPlatform_java.git
@@ -66,7 +66,7 @@ cd learningPlatform_java
 ```
 After that, use IDE and load maven
 
-There is an example file called .env.example at 'src/main/resources', you can take this as an example of .env file to input mysql server details such as username, password and server url.
+There is an example file called .env.example at 'src/main/resources', change the name to .env, input mysql server details such as username, password and server url.
 ```
 database_url=jdbc:mysql://localhost:3306/learningplatform
 DATABASE_USERNAME=root
