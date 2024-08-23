@@ -14,35 +14,35 @@
                     <h2 id="registerText">編輯課程</h2>
                     <hr>
                     
-                    <label for="name"><b>課程名稱</b></label>
-                    <input type="text" placeholder="名稱" th:field="*{title}" required>
+                    <label for="title"><b>課程名稱</b></label>
+                    <input id="title" type="text" placeholder="名稱" th:field="*{title}" required>
                     <ul class="error"><li th:each="err : ${#fields.errors('title')}" th:text="${err}" >Title Error</li><li th:if="${titleError}" th:text="${titleError}"></li></ul>
                     
-                    <p><label for="name"><b>簡介</b></label></p>
-                    <textarea rows = "5" cols = "60" maxlength="1000" th:field="*{introduction}"></textarea> <br/>
+                    <p><label for="introduction"><b>簡介</b></label></p>
+                    <textarea id="introduction" rows = "5" cols = "60" maxlength="1000" th:field="*{introduction}"></textarea> <br/>
 
-                    <p><label for="name"><b>內容</b></label></p>
-                    <textarea rows = "5" cols = "60" maxlength="4000000" th:field="*{content}"></textarea> <br/>
+                    <p><label for="content"><b>內容</b></label></p>
+                    <textarea id="content" rows = "5" cols = "60" maxlength="4000000" th:field="*{content}"></textarea> <br/>
 
-                    <p><label for="name"><b>學習人群</b></label></p>
-                    <textarea rows = "5" cols = "60" maxlength="200" placeholder="學習人群" th:field="*{peopleSuite}"></textarea> <br/>
+                    <p><label for="peopleSuite"><b>學習人群</b></label></p>
+                    <textarea id="peopleSuite" rows = "5" cols = "60" maxlength="200" placeholder="學習人群" th:field="*{peopleSuite}"></textarea> <br/>
 
                     <p>圖片：可按「編輯圖片」</p>
 
                     <p>影片：可按「編輯影片」</p>
 
-                    <p><label for="name"><b>課程價錢</b></label></p>
-                    <input type="number" placeholder="價錢" min="0" step="1" th:field="*{price}" required><br/>
+                    <p><label for="price"><b>課程價錢</b></label></p>
+                    <input id="price" type="number" placeholder="價錢" min="0" step="1" th:field="*{price}" required><br/>
                 
-                    <p><label for="name"><b>課程分類</b></label></p>
-                    <select th:field="*{category}" class="categorySelect">
+                    <p><label for="categorySelect"><b>課程分類</b></label></p>
+                    <select id="categorySelect" th:field="*{category}" class="categorySelect">
                         <option th:each="categoryStatic : ${T(com.benckw69.learningPlatform_java.Course.Category).values()}" 
                             th:value="${categoryStatic}" th:text="${categoryStatic.name}"></option>
                     </select>
                     <ul class="error"><li th:each="err : ${#fields.errors('category')}" th:text="${err}" >Category Error</li></ul>
                     <hr>
-                    <button type="submit" class="registerbtn">更改資料</button>
-                    <button type="button" class="registerbtn" style="background-color: rgb(9, 9, 112);" th:onclick="changePage([[${course.id}]])">回到上一頁</button>
+                    <button type="submit" class="btn">更改資料</button>
+                    <button type="button" class="btn toLastPage" th:onclick="changePage([[${course.id}]])">回到上一頁</button>
                     
                 </form> 
             </div>

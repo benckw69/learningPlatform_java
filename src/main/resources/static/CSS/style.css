@@ -93,6 +93,9 @@ table, td {
   min-width: 200px;
 }
 
+.searchUserName {
+  font-size: 26px;
+}
 .categorySelect {
   min-width: 200px;
   min-height: 35px;
@@ -150,7 +153,7 @@ ul.course li, ul#courses{
 }
 
 /* Set a style for the submit/register button */
-.registerbtn {
+.btn {
   background-color: rgb(56, 55, 55);
   color: white;
   padding: 16px 20px;
@@ -168,4 +171,20 @@ ul.course li, ul#courses{
 .courseImage{
   max-width: 400px;
   max-height: 400px;
+}
+
+.toLastPage {
+  background-color: rgb(9, 9, 112);
+}
+
+.deleteAc {
+  background-color: red;
+}
+
+.middleText {
+  text-align: center;
+}
+
+.buyCourse{
+  background-color: rgb(6, 204, 49);
 }

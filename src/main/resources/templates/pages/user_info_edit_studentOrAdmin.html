@@ -15,20 +15,20 @@
             <hr>
         
             <label for="email"><b>電郵地址</b></label>
-            <input type="email" th:field="*{email}" maxlength="256" required>
+            <input id="email" type="email" th:field="*{email}" maxlength="256" required>
             <ul class="error"><li th:each="err : ${#fields.errors('email')}" th:text="${err}" >Email Error</li><li th:if="${emailError}" th:text="${emailError}"></li></ul>
         
             <label for="username"><b>用戶名稱</b></label>
-            <input type="text" th:field="*{username}" minlength="4" maxlength="20" required>
+            <input id="username" type="text" th:field="*{username}" minlength="4" maxlength="20" required>
             <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li><li th:if="${usernameError}" th:text="${usernameError}"></li></ul>
 
-            <label for="username" id="passwordText"><b>密碼</b></label>
-            <input type="password" th:field="*{password}" required>
+            <label for="password" id="passwordText"><b>密碼</b></label>
+            <input id="password" type="password" th:field="*{password}" required>
             <ul class="error"><li th:if="${passwordError}" th:text="${passwordError}"></li></ul>
 
             <p class="success" th:if="${ChangeSuccess}"><b th:text="${ChangeSuccess}"></b></p>
-            <button type="submit" class="registerbtn">更改資料</button>
-            <button type="button" class="registerbtn" style="background-color:blue" onclick="window.location.href='/user'">回到上一頁</button>
+            <button type="submit" class="btn">更改資料</button>
+            <button type="button" class="btn toLastPage" onclick="window.location.href='/user'">回到上一頁</button>
           </div>
         </form>
       </div>

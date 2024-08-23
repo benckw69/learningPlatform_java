@@ -12,7 +12,7 @@
         <h2>編輯圖片</h2>
         <hr>
         <form th:action="'/teacher/course/'+${course.id}+'/photo/edit'" method="post" enctype="multipart/form-data">
-          <p><label for="name"><b>上傳圖片</b></label></p>
+          <p><label for="imageUpload"><b>上傳圖片</b></label></p>
           <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="imageUpload">
           <button type="button" onclick="resetImage()">重設圖片</button><br>
           <div id="image">
@@ -20,8 +20,8 @@
             <img th:unless="${course.photoType}" th:src="''" style="max-width: 500px;max-height: 500px;" id="imagePreview">
           </div>
           <hr>
-          <button type="submit" class="registerbtn">更新圖片</button>
-          <button type="button" class="registerbtn" style="background-color: rgb(9, 9, 112);" th:onclick="changePage([[${course.id}]])">回到上一頁</button>
+          <button type="submit" class="btn">更新圖片</button>
+          <button type="button" class="btn toLastPage" th:onclick="changePage([[${course.id}]])">回到上一頁</button>
         </form>
       </div>
     </div>

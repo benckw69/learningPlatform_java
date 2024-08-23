@@ -29,26 +29,26 @@
           <span class="error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
 
           <p><label for="email"><b>電郵地址</b></label></p>
-          <input type="email" placeholder="輸入電郵" name="email" th:field="*{email}" maxlength="256" required>
+          <input id="email" type="email" placeholder="輸入電郵" name="email" th:field="*{email}" maxlength="256" required>
           <ul class="error"><li th:each="err : ${#fields.errors('email')}" th:text="${err}" >Email Error</li><li th:if="${emailError}" th:text="${emailError}"></li></ul>
 
           <p><label for="username"><b>用戶名稱</b></label></p>
-          <input type="text" placeholder="輸入用戶名稱" name="username" th:field="*{username}" minlength="4" maxlength="20" required>
+          <input id="username" type="text" placeholder="輸入用戶名稱" name="username" th:field="*{username}" minlength="4" maxlength="20" required>
           <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li><li th:if="${usernameError}" th:text="${usernameError}"></li></ul>
 
-          <p><label for="psw"><b>密碼（必須等於或長於8位字元）</b></label></p>
-          <input type="password" placeholder="輸入密碼" name="password" th:field="*{password}" minlength="8" maxlength="20" required>
+          <p><label for="password"><b>密碼（必須等於或長於8位字元）</b></label></p>
+          <input id="password" type="password" placeholder="輸入密碼" name="password" th:field="*{password}" minlength="8" maxlength="20" required>
           <ul class="error"><li th:each="err : ${#fields.errors('password')}" th:text="${err}" >Password Error</li></ul>
 
-          <p><label for="psw-repeat"><b>重覆輸入密碼</b></label></p>
-          <input type="password" placeholder="輸入密碼" name="password_repeat" th:field="*{password_repeat}" minlength="8" maxlength="20" required>
+          <p><label for="password_repeat"><b>重覆輸入密碼</b></label></p>
+          <input id="password_repeat" type="password" placeholder="輸入密碼" name="password_repeat" th:field="*{password_repeat}" minlength="8" maxlength="20" required>
           <ul class="error"><li th:each="err : ${#fields.errors('password_repeat')}" th:text="${err}" >Repeat password Error</li><li th:if="${passwordRepeatError}" th:text="${passwordRepeatError}"></li></ul>
           
-          <p><label for="psw-repeat"><b>推薦碼</b></label></p>
+          <p><label for="referral"><b>推薦碼</b></label></p>
           <input type="number" placeholder="推薦碼" th:field="*{referral}" name="referral" id="referral" min="1" step="1">
 
           <hr>
-          <button type="submit" class="registerbtn">註冊</button>
+          <button type="submit" class="btn">註冊</button>
 
         </form> 
         <p>已經有帳戶?請<a href="/login" id="loginAction">登入</a></p>

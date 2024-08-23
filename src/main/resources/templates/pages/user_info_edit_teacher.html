@@ -21,17 +21,17 @@
           <input type="text" th:field="*{username}" minlength="4" maxlength="20" required>
           <ul class="error"><li th:each="err : ${#fields.errors('username')}" th:text="${err}" >Username Error</li><li th:if="${usernameError}" th:text="${usernameError}"></li></ul>
 
-          <label for="username"><b>個人簡介</b></label>
-          <p><textarea rows="4" cols="50" style="width: 100%;"  th:field="*{introduction}" required>
+          <label for="introduction"><b>個人簡介</b></label>
+          <p><textarea id="introduction" rows="4" cols="50" style="width: 100%;"  th:field="*{introduction}" required>
           </textarea></p>
           <ul class="error"><li th:each="err : ${#fields.errors('introduction')}" th:text="${err}" >Introduction Error</li></ul>
 
-          <label for="username" id="passwordText"><b>密碼</b></label>
-          <input type="password" th:field="*{password}" required>
+          <label for="password" id="passwordText"><b>密碼</b></label>
+          <input id="password" type="password" th:field="*{password}" required>
           <ul class="error"><li th:if="${passwordError}" th:text="${passwordError}"></li></ul>
 
-          <button type="submit" class="registerbtn">更改資料</button>
-          <button type="button" class="registerbtn" style="background-color:blue" onclick="window.location.href='/user'">回到上一頁</button>
+          <button type="submit" class="btn">更改資料</button>
+          <button type="button" class="btn toLastPage" onclick="window.location.href='/user'">回到上一頁</button>
         
         </div>
       </form>

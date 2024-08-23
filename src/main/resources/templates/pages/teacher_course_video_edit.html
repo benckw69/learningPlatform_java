@@ -18,7 +18,7 @@
         <h2>編輯影片</h2>
         <hr>
         <form th:action="'/teacher/course/'+${course.id}+'/video/edit'" method="post" enctype="multipart/form-data">
-          <p><label for="name"><b>上傳影片</b></label></p>
+          <p><label for="videoUpload"><b>上傳影片</b></label></p>
           <input type="file" accept="video/MP4,video/WebM,video/Ogg" name="file" id="videoUpload">
           <button type="button" onclick="resetVideo()">重設影片</button>
           <div id="video">
@@ -26,8 +26,8 @@
             <video th:unless="${course.videoType}" th:src="''" controls id="videoPreview"></video>
           </div>
           <hr>
-          <button type="submit" class="registerbtn">更新影片</button>
-          <button type="button" class="registerbtn" style="background-color: rgb(9, 9, 112);" th:onclick="changePage([[${course.id}]])">回到上一頁</button>
+          <button type="submit" class="btn">更新影片</button>
+          <button type="button" class="btn toLastPage" th:onclick="changePage([[${course.id}]])">回到上一頁</button>
         </form>
       </div>
     </div>

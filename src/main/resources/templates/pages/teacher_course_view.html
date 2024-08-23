@@ -26,8 +26,8 @@
           <tr th:if="${course}"><td><button type="button" th:onclick="changePage([[${course.id}]],'photo')">編輯圖片</button></td><td><button type="button" th:onclick="changePage([[${course.id}]],'video')">編輯影片</button></td></tr>
         </table>
         <hr>
-        <button type="button" th:onclick="changePage([[${course.id}]],'info')" class="registerbtn">編輯資料</button>
-        <button type="button" class="registerbtn" style="background-color: rgb(9, 9, 112);" onclick="window.location.href='/teacher/course/own'">回到上一頁</button>
+        <button type="button" th:onclick="changePage([[${course.id}]],'info')" class="btn">編輯資料</button>
+        <button type="button" class="btn toLastPage" onclick="window.location.href='/teacher/course/own'">回到上一頁</button>
       </div>
     </div>
     <script>

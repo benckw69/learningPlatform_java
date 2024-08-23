@@ -8,26 +8,26 @@
     <div class="content">
       <h1 th:text="${title}"></h1>
       <div th:replace="~{fragements/header}"></div> 
-      <form action="/user/pw/edit" method="post" th:object="${passwordEdit}">
+      <form action="/user/pw/edit" method="post" th:object="${passwordEdit}" class="form">
         <div class="container">
           <h2>更改密碼</h2>
           <hr>
       
-          <label for="email"><b>原始密碼</b></label>
-          <input type="password" th:field="*{oldPassword}" required>
+          <label for="password"><b>原始密碼</b></label>
+          <input id="password" type="password" th:field="*{oldPassword}" required>
           <ul class="error"><li th:if="${passwordError}" th:text="${passwordError}"></li></ul>
       
-          <label for="username"><b>新密碼</b></label>
-          <input type="password" th:field="*{newPassword}" minlength="8" maxlength="20" required>
+          <label for="newPassword"><b>新密碼</b></label>
+          <input id="newPassword" type="password" th:field="*{newPassword}" minlength="8" maxlength="20" required>
           <ul class="error"><li th:each="err : ${#fields.errors('newPassword')}" th:text="${err}" >Password Error</li></ul>
 
-          <label for="username"><b>再輸入新密碼</b></label>
-          <input type="password" th:field="*{newPasswordRepeat}" minlength="8" maxlength="20" required>
+          <label for="newPasswordRepeat"><b>再輸入新密碼</b></label>
+          <input id="newPasswordRepeat" type="password" th:field="*{newPasswordRepeat}" minlength="8" maxlength="20" required>
           <ul class="error"><li th:each="err : ${#fields.errors('newPasswordRepeat')}" th:text="${err}" >Repeat password Error</li><li th:if="${passwordRepeatError}" th:text="${passwordRepeatError}"></li></ul>
 
-          <button type="submit" class="registerbtn">更改密碼</button>
+          <button type="submit" class="btn">更改密碼</button>
 
-          <button type="button" class="registerbtn" style="background-color:blue" onclick="window.location.href='/user'">回到上一頁</button>
+          <button type="button" class="btn toLastPage" onclick="window.location.href='/user'">回到上一頁</button>
         
         </div>
       

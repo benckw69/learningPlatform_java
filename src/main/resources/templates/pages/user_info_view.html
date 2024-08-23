@@ -14,24 +14,26 @@
           <hr>
       
           <label for="email"><b>電郵地址</b></label>
-          <input type="email" th:value="${session.user.email}" readonly>
+          <input id="email" type="email" th:value="${session.user.email}" readonly>
       
           <label for="username"><b>用戶名稱</b></label>
-          <input type="text" th:value="${session.user.username}" readonly>
+          <input id="username" type="text" th:value="${session.user.username}" readonly>
 
           <label for="balance"><b>餘額</b></label>
-          <input type="number" th:value="${session.user.balance}" readonly>
+          <input id="balance" type="number" th:value="${session.user.balance}" readonly>
 
           <label for="introduction" th:if="${session.user.type.name()} eq 'teacher'"><b>個人簡介</b></label>
-          <p th:if="${session.user.type.name()} eq 'teacher'"><textarea rows="4" cols="50" style="width: 100%;"  th:text="${introduction}" readonly>
+          <p th:if="${session.user.type.name()} eq 'teacher'"><textarea id="introduction" rows="4" cols="50" style="width: 100%;"  th:text="${introduction}" readonly>
           </textarea></p>
 
-          <label for="username"><b>推薦碼</b></label>
-          <input type="text" th:value="'http://localhost:8080/register?ref='+${session.user.id}" readonly>
+          <label for="referralWebsite"><b>推薦碼</b></label>
+          <input id="referralWebsite" type="text" th:value="'http://localhost:8080/register?ref='+${session.user.id}" readonly>
         
-          <button type="button" class="registerbtn" onclick="window.location.href='/user/info/edit'">編輯資料</button>
-          <button type="button" class="registerbtn" th:if="${session.user.loginMethod.name()} eq 'email'" onclick="window.location.href='/user/pw/edit'">更改密碼</button>
-          <button type="button" class="registerbtn" style="background-color: red;" th:if="${session.user.type.name()} != 'admin'" onclick="deleteUser()">刪除帳戶</button>
+          <button type="button" class="btn" onclick="window.location.href='/user/info/edit'">編輯資料</button>
+          <button type="button" class="btn" th:if="${session.user.loginMethod.name()} eq 'email'"
+            onclick="window.location.href='/user/pw/edit'">更改密碼</button>
+          <button type="button" class="btn deleteAc" th:if="${session.user.type.name()} != 'admin'"
+            onclick="deleteUser()">刪除帳戶</button>
         
         </form>
       </div>

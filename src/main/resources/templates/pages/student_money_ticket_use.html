@@ -15,11 +15,11 @@
           <h1>輸入現金卷</h1>
           <hr>
       
-          <label for="email"><b>現金卷號碼</b></label>
-          <input type="text" placeholder="輸入現金卷號碼" th:field="*{ticketString}" required>
+          <label for="ticketString"><b>現金卷號碼</b></label>
+          <input id="ticketString" type="text" placeholder="輸入現金卷號碼" th:field="*{ticketString}" required>
           <ul class="error"><li th:if="${ticketStringError}" th:text="${ticketStringError}"></li></ul>
         
-          <button type="submit" class="registerbtn">送出</button>
+          <button type="submit" class="btn">送出</button>
         </div>
       
       </form>

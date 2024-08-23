@@ -13,20 +13,20 @@
                     <div class="container">
                     <h2>添加使用卷</h2>
                     <hr>
-                    <label for="email"><b>換領代碼</b></label>
+                    <label for="ticketString"><b>換領代碼</b></label>
                     <input type="button" name="randomCode" value="隨機生成字串" id="checkbox" onclick="codebox()">
-                    <input type="text" id="code" th:field="*{ticketString}" required>
+                    <input type="text" id="ticketString" th:field="*{ticketString}" required>
                     <ul class="error"><li th:each="err : ${#fields.errors('ticketString')}" th:text="${err}" >Ticket String Error</li><li th:if="${ticketStringError}" th:text="${ticketStringError}"></li></ul>
             
-                    <label for="name"><b>面額</b></label>
+                    <label for="amount"><b>面額</b></label>
                     <input type="button" value="100" onclick="changeValue(100)">
                     <input type="button" value="200" onclick="changeValue(200)">
                     <input type="button" value="500" onclick="changeValue(500)">
                     <input type="button" value="1000" onclick="changeValue(1000)">
-                    <input type="number" min="0" id="money" th:field="*{amount}" required>
+                    <input type="number" min="0" id="amount" th:field="*{amount}" required>
                     <ul class="error"><li th:each="err : ${#fields.errors('amount')}" th:text="${err}" >Value Error</li></ul>
                     <hr>
-                    <button type="submit" class="registerbtn" >添加使用卷</button>
+                    <button type="submit" class="btn">添加使用卷</button>
                     </div>
                 </form>
             </div>
@@ -34,10 +34,10 @@
     </body>
     <script>
         function changeValue(amount){
-            document.getElementById('money').value = amount;
+            document.getElementById('amount').value = amount;
         }
         function codebox(){
-            document.getElementById('code').value = generateRandomString();
+            document.getElementById('ticketString').value = generateRandomString();
         }
         function generateRandomString() {
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

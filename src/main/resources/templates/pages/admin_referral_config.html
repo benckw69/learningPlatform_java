@@ -13,22 +13,20 @@
           <div class="container">
             <h2>更改介紹獎勵設定</h2>
             <hr>
-            <label for="newUserReward"><b>新用戶可獲得的獎勵</b></label>
-            <input type="number" th:field="*{newUserAmount}" min="0" required>
-            
-            <label for="checkbox"><b>允許新用戶獲得獎勵</b></label>
-            <input type="checkbox"th:field="*{newUserGet}">
-            <ul class="error"><li th:each="err : ${#fields.errors('newUserAmount')}" th:text="${err}" >New User Reward Error</li></ul>
+            <label for="newUserAmount"><b>新用戶可獲得的獎勵</b></label>
+            <input id="newUserAmount" type="number" th:field="*{newUserAmount}" min="0" required>
+            <ul class="error" th:if="${#fields.hasErrors('newUserAmount')}"><li th:each="err : ${#fields.errors('newUserAmount')}" th:text="${err}" >New User Reward Error</li></ul>
+            <label for="newUserGet"><b>允許新用戶獲得獎勵</b></label>
+            <input id="newUserGet" type="checkbox" th:field="*{newUserGet}"><br/><br/>
 
-            <label for="newUserReward"><b>推薦用戶可獲得的獎勵</b></label>
-            <input type="number" th:field="*{referralAmount}" min="0" required>
+            <label for="referralAmount"><b>推薦用戶可獲得的獎勵</b></label>
+            <input id="referralAmount" type="number" th:field="*{referralAmount}" min="0" required>
+            <ul class="error" th:if="${#fields.hasErrors('referralAmount')}"><li th:each="err : ${#fields.errors('referralAmount')}" th:text="${err}">Referral Reward Error</li></ul>
 
-            <label for="checkbox"><b>允許推薦用戶獲得獎勵</b></label>
-            <input type="checkbox" th:field="*{referralGet}">
-            <ul class="error"><li th:each="err : ${#fields.errors('referralAmount')}" th:text="${err}" >New User Reward Error</li></ul>
+            <label for="referralGet"><b>允許推薦用戶獲得獎勵</b></label>
+            <input id="referralGet" type="checkbox" th:field="*{referralGet}"><br/><br/>
 
-            <button type="submit" class="registerbtn">更改資料</button>
-            <button type="button" class="registerbtn" style="background-color:blue" onclick="window.location.href='/users'">回到上一頁</button>
+            <button type="submit" class="btn">更改資料</button>
           
           </div>
         </form>

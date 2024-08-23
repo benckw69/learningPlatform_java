@@ -21,7 +21,7 @@
         <hr>
         <ul id="courses" th:each="student:${result}">
           <li><ul class="course">
-            <li style="font-size: 26px;" th:text="${student.username}"></li>
+            <li class="searchUserName" th:text="${student.username}"></li>
             <li th:text="'電郵地址：'+${student.email}"></li>
           </ul></li>
         </ul>

@@ -29,7 +29,7 @@
               <td th:text="${moneyticket.createdTime}"></td>
               <td><button th:onclick="deleteMoneyTicket([[${moneyticket.id}]],[[${moneyticket.amount}]],[[${moneyticket.ticketString}]])">刪除</button></td>
             </tr>
-            <tr th:if="${moneyTickets.size() == 0}"><td colspan="8" style="text-align: center;" th:text="沒有任何現金卷"></td></tr>
+            <tr th:if="${moneyTickets.size() == 0}"><td colspan="8" class="middleText" th:text="沒有任何現金卷"></td></tr>
         </tbody>
         </table>
       </div>
