@@ -12,14 +12,14 @@
         <h2>刪除帳戶紀錄</h2>
         <hr>
         <div id="form">
-          <form action="/admin/userDeleteRecords" method="post" th:object="${searchUserRequest}">
-            <select id="searchMethod" name="searchMethod" class="inputFields" th:field="*{searchUserMethod}">
+          <form action="/admin/userDeleteRecords" method="post" class="searchUser" th:object="${searchUserRequest}">
+            <select id="searchMethod" name="searchMethod" th:field="*{searchUserMethod}">
               <option value="USERNAME">用戶名稱</option>
               <option value="EMAIL">電郵地址</option>
               <option value="ID">用戶編號</option>
             </select>
-            <input type="text" id="searchWords" name="searchWords" class="inputFields" th:field="*{searchWords}">
-            <input type="submit" value="提交" id="submit" class="inputFields">
+            <input type="text" id="searchWords" name="searchWords" th:field="*{searchWords}">
+            <input type="submit" value="提交" id="submit">
           </form> 
         </div>
         <hr>

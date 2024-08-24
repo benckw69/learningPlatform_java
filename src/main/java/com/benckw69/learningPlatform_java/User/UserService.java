@@ -215,8 +215,9 @@ public class UserService {
 
     public Boolean validNewPassword(PasswordEdit passwordEdit,String hashPassword, Model model){
         Boolean validation = isSamePassword(passwordEdit.getNewPassword(), passwordEdit.getNewPasswordRepeat(), model);
-        if(passwordMatch(passwordEdit.getOldPassword(), hashPassword, model)) return false;
-        return validation;
+        if(!passwordMatch(passwordEdit.getOldPassword(), hashPassword, model)) return false;
+        if(!validation) return false;
+        return true;
     }
 
     public void updatePassword(PasswordEdit passwordEdit,HttpSession httpSession){
