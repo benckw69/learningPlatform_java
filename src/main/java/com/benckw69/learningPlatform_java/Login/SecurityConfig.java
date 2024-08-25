@@ -33,6 +33,7 @@ public class SecurityConfig{
                                 .logoutSuccessUrl("/login"))
                         .authorizeHttpRequests(requests -> requests
                                 //.shouldFilterAllDispatcherTypes(false)
+                                .requestMatchers("/media/**").hasAnyAuthority("student","teacher")
                                 .requestMatchers("/error").permitAll()
                                 .requestMatchers("/teacher/moneySeperation").hasAuthority("teacher")
                                 .requestMatchers("/student/course/search","/student/course/own").hasAuthority("student")
@@ -49,7 +50,6 @@ public class SecurityConfig{
                                 .requestMatchers("/admin/referral","/admin/userDeleteRecords","/admin/userDeleteRecords/*").hasAuthority("admin")
                                 .requestMatchers("/admin/moneyTickets/view","/admin/moneyTickets/delete/*","/admin/moneyTickets/insert","/admin/moneySeperation").hasAuthority("admin")
                                 .requestMatchers("/moneyRecords").hasAnyAuthority("teacher", "admin","student")
-                                .requestMatchers("/media/*").hasAnyAuthority("student","teacher")
                                 .anyRequest().authenticated()
                         )
                         

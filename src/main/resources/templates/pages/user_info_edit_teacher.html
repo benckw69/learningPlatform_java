@@ -15,7 +15,7 @@
       
           <label for="email"><b>電郵地址</b></label>
           <input type="email" th:field="*{email}" maxlength="256" required>
-          <ul class="error"><li th:each="err : ${#fields.errors('email')}" th:text="${err}" >Email Error</li><li th:if="${email_error}" th:text="${email_error}"></li></ul>
+          <ul class="error"><li th:each="err : ${#fields.errors('email')}" th:text="${err}" >Email Error</li><li th:if="${emailError}" th:text="${emailError}"></li></ul>
       
           <label for="username"><b>用戶名稱</b></label>
           <input type="text" th:field="*{username}" minlength="4" maxlength="20" required>
