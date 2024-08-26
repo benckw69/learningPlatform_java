@@ -34,7 +34,7 @@ public class SecurityConfig{
                         .authorizeHttpRequests(requests -> requests
                                 //.shouldFilterAllDispatcherTypes(false)
                                 .requestMatchers("/media/**").hasAnyAuthority("student","teacher")
-                                .requestMatchers("/error").permitAll()
+                                .requestMatchers("/error","/static").permitAll()
                                 .requestMatchers("/teacher/moneySeperation").hasAuthority("teacher")
                                 .requestMatchers("/student/course/search","/student/course/own").hasAuthority("student")
                                 .requestMatchers("/teacher/course/own").hasAuthority("teacher")

@@ -20,59 +20,59 @@ public class SearchCourseController {
     @Autowired
     CourseService courseService;
 
-    //not done
+
     @GetMapping("/student/course/search")
     public String viewAllCourses(SearchCourseRequest searchCourseRequest, Model model){
         List<Course> courses = courseService.findAllCourse();
         List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
         model.addAttribute("courses",courseWithDetails);
-        return "/pages/student_course_search";
+        return "pages/student_course_search";
     }
 
-    //done. need testing
+
     @PostMapping("/student/course/search")
     public String searchAllCourses(SearchCourseRequest searchCourseRequest, Model model){
         searchCourseRequest.setSearchWords(searchCourseRequest.getSearchWords().trim());
         List<Course> courses = courseService.findAllCourseBySearch(searchCourseRequest);
         List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
         model.addAttribute("courses",courseWithDetails);
-        return "/pages/student_course_search";
+        return "pages/student_course_search";
     }
 
-    //should be done.  need more testing
+
     @GetMapping("/student/course/own")
     public String viewOwnCourses(SearchCourseRequest searchCourseRequest, HttpSession httpSession, Model model){
         List<Course> courses = courseService.findOwnCourseByStudentId(httpSession);
         List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
         model.addAttribute("courses",courseWithDetails);
-        return "/pages/student_course_own";
+        return "pages/student_course_own";
     }
 
-    //done.  need testing
+
     @PostMapping("/student/course/own")
     public String searchOwnCourses(SearchCourseRequest searchCourseRequest, HttpSession httpSession, Model model){
         searchCourseRequest.setSearchWords(searchCourseRequest.getSearchWords().trim());
         List<Course> courses = courseService.studentSearchOwnCourse(searchCourseRequest, httpSession);
         List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
         model.addAttribute("courses",courseWithDetails);
-        return "/pages/student_course_own";
+        return "pages/student_course_own";
     }
 
-    //done
+
     @GetMapping("/teacher/course/own")
     public String ownCourses(SearchCourseRequest searchCourseRequest, Model model, HttpSession httpSession){
         List<Course> courses = courseService.findOwnCourseByTeacherId(httpSession);
         List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
         model.addAttribute("courses", courseWithDetails);
-        return "/pages/teacher_course_own";
+        return "pages/teacher_course_own";
     }
 
-    //done
+
     @PostMapping("/teacher/course/own")
     public String SearchOwnCourses(SearchCourseRequest searchCourseRequest, Model model, HttpSession httpSession){
         List<Course> courses = courseService.teacherSearchOwnCourse(searchCourseRequest, httpSession);
         List<CourseWithDetails> courseWithDetails = courseService.calcDetails(courses);
         model.addAttribute("courses", courseWithDetails);
-        return "/pages/teacher_course_own";
+        return "pages/teacher_course_own";
     }
 }

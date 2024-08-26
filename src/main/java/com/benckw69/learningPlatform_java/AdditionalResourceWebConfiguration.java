@@ -10,5 +10,6 @@ public class AdditionalResourceWebConfiguration implements WebMvcConfigurer {
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/media/**").addResourceLocations("file:media/");
+    registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
   }
 }
