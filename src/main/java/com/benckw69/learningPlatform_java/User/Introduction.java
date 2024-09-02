@@ -27,11 +27,11 @@ public class Introduction {
     public void setId(Integer id) {
         this.id = id;
     }
-    public String getIntrodution() {
+    public String getIntroduction() {
         return introduction;
     }
-    public void setIntrodution(String introdution) {
-        this.introduction = introdution;
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
     public void setDefaultIntroduction(User user) {
         this.introduction = "Hello I am "+user.getUsername()+".";

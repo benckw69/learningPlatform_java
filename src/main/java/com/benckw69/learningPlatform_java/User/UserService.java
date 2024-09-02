@@ -59,7 +59,7 @@ public class UserService {
     }
 
     public Boolean usernameBlank(String username, Model model){
-        if(username.trim().equals("")) {
+        if(username.trim().isEmpty()) {
             model.addAttribute("usernameError", "用戶名稱不能為空");
             return true;
         }
@@ -104,12 +104,13 @@ public class UserService {
 
     public void resetDeletedUser(Integer id){
         User user = userRepository.findById(id).orElse(null);
+        assert user != null;
         user.setIsDeleted(false);
         userRepository.save(user);
     }
 
     public Boolean validRegister(RegisterRequest registerRequest,Model model){
-        //Validation: confirm password and email existance
+        //Validation: confirm password and email existence
         Boolean validation1 = !emailExist(registerRequest.getEmail(), model);
         Boolean validation2 = isSamePassword(registerRequest.getPassword(), registerRequest.getPassword_repeat(), model);
         Boolean validation3 = !usernameBlank(registerRequest.getUsername(), model);
@@ -129,8 +130,8 @@ public class UserService {
         //referral system. Get the settings at database first, then apply the settings
         MoneyRecord moneyRecord = new MoneyRecord();
         MoneyRecord moneyRecord2 = new MoneyRecord();
-        Boolean moneyRecord1Set = false;
-        Boolean moneyRecord2Set = false;
+        boolean moneyRecord1Set = false;
+        boolean moneyRecord2Set = false;
         Referral referralSetting = referralService.getReferralConfig();
         User referral = new User();
 
@@ -191,7 +192,7 @@ public class UserService {
         User user = getUserBySession(httpSession);
         //check valid password, whether the email address has been used and trimmed username are blank or not
         Boolean validation1 = passwordMatch(password, user.getPassword(), model);
-        Boolean validation2 = (!studentOrAdminEdit.getEmail().equals(user.getEmail()) && emailExist(studentOrAdminEdit.getEmail(), model))? false:true;
+        Boolean validation2 = studentOrAdminEdit.getEmail().equals(user.getEmail()) || !emailExist(studentOrAdminEdit.getEmail(), model);
         Boolean validation3 = !usernameBlank(studentOrAdminEdit.getUsername(), model);
         return validation1 && validation2 && validation3;
     }
@@ -201,7 +202,7 @@ public class UserService {
         User user = getUserBySession(httpSession);
         user.setEmail(teacherEdit.getEmail().trim());
         user.setUsername(teacherEdit.getUsername().trim());
-        introduction.setIntrodution(teacherEdit.getIntroduction());
+        introduction.setIntroduction(teacherEdit.getIntroduction());
         userRepository.save(user);
         introductionService.updateIntroduction(introduction);
     }

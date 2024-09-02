@@ -15,7 +15,7 @@ public class TeacherController {
     MoneySeperationService moneySeperationService; 
 
     @GetMapping("/moneySeperation")
-    public String moneySeperationEdit(Model model){
+    public String moneySeparationEdit(Model model){
         model.addAttribute("moneySeperation", moneySeperationService.getMoneySeperation());
         return "pages/teacher_money_seperation";
     }

@@ -29,7 +29,6 @@ public interface CourseRepository extends JpaRepository<Course,Integer> {
 
     //Teacher: find by category or title
     List<Course> findByUserAndCategoryAndIsDeletedOrderByIdDesc(User user, Category category, Boolean isDeleted);
-    // @Query(value = "Select * FROM course where teacher_id=?1 AND UPPER(title) LIKE ?2", nativeQuery = true)
     List<Course> findByUserAndTitleContainsIgnoreCaseAndIsDeletedOrderByIdDesc(User user, String title, Boolean isDeleted);
 
     Course findByIdAndIsDeleted(Integer id, Boolean isDeleted);

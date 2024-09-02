@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.benckw69.learningPlatform_java.User.IntroductionService;
 import com.benckw69.learningPlatform_java.User.User;
-import com.benckw69.learningPlatform_java.User.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -22,9 +21,6 @@ public class CourseStudentController {
 
     @Autowired
     CourseService courseService;
-
-    @Autowired
-    UserService userService;
 
     @Autowired
     BuyRecordService buyRecordService;
@@ -48,13 +44,12 @@ public class CourseStudentController {
         if(courseService.paid(user, course)){
             BuyRecord buyRecord = buyRecordService.getBuyRecordByUserIdAndCourseId(course, user);
             Rating ratingDatabase = ratingService.getRating(buyRecord);
-            //if(ratingDatabase!=null) rating.setRate(ratingDatabase.getRate());
             model.addAttribute("rate", ratingDatabase != null);
         }
         
         model.addAttribute("paid", courseService.paid(user, course));
         model.addAttribute("course", course);
-        model.addAttribute("introduction", introductionService.getIntroductionByCourseProducer(course).getIntrodution());
+        model.addAttribute("introduction", introductionService.getIntroductionByCourseProducer(course).getIntroduction());
         return "pages/student_course_view";
     }
 
@@ -81,7 +76,7 @@ public class CourseStudentController {
         if(bindingResult.hasErrors()) {
             model.addAttribute("paid", courseService.paid(user, course));
             model.addAttribute("course", course);
-            model.addAttribute("introduction", introductionService.getIntroductionByCourseProducer(course).getIntrodution());
+            model.addAttribute("introduction", introductionService.getIntroductionByCourseProducer(course).getIntroduction());
             return "pages/student_course_view";
         }
 
@@ -92,11 +87,7 @@ public class CourseStudentController {
         if(ratingDatabase == null) {
             rating.setBuyRecord(buyRecord);
             ratingService.updateRating(rating);
-        } 
-        //else {
-        //    ratingDatabase.setRate(rating.getRate());
-        //    ratingService.updateRating(ratingDatabase);
-        //}
+        }
         return "redirect:/student/course/"+courseId+"?success=rate";
     }
 }

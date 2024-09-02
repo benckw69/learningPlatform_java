@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MoneyTicketRepository extends JpaRepository<MoneyTicket,Integer> {
-    //check whether there is duplicate moneytickets
+    //check whether there is duplicate money tickets
     public MoneyTicket findByTicketStringAndIsUsed(String tickeString, Boolean isUsed);
 
-    public List<MoneyTicket> findByisUsedOrderByIdDesc(Boolean isUsed);
+    public List<MoneyTicket> findByIsUsedOrderByIdDesc(Boolean isUsed);
 }

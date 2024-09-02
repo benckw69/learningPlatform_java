@@ -48,7 +48,7 @@ public class CourseService {
     public Boolean sameTitle(String title, Model model){
         Course course = courseRepository.findByTitle(title);
         if(course!=null) model.addAttribute("titleError", "標題已被使用");
-        return course == null? false : true;
+        return course != null;
     }
 
     public Course findCourseById(Integer Id){
@@ -72,7 +72,7 @@ public class CourseService {
 
     public List<Course> findAllCourse(){
         List<Course> courses =  courseRepository.findAllByOrderByIdDesc();
-        List<Course> coursesWithNotDeletedUser = courses.stream().filter(course->course.getUser().getIsDeleted()==false).collect(Collectors.toList());
+        List<Course> coursesWithNotDeletedUser = courses.stream().filter(course->!course.getUser().getIsDeleted()).collect(Collectors.toList());
         return coursesWithNotDeletedUser;
     }
 
@@ -86,7 +86,7 @@ public class CourseService {
             List<User> users = userservice.getUsersByUsernameOrderByDate(searchCourseRequest.getSearchWords());
             courses = courseRepository.findByUserInOrderByIdDesc(users);
         }
-        List<Course> coursesWithNotDeletedUser = courses.stream().filter(course->course.getUser().getIsDeleted()==false).collect(Collectors.toList());
+        List<Course> coursesWithNotDeletedUser = courses.stream().filter(course->!course.getUser().getIsDeleted()).collect(Collectors.toList());
         return coursesWithNotDeletedUser;
     }
 
@@ -113,7 +113,7 @@ public class CourseService {
     public List<Course> studentSearchOwnCourse(SearchCourseRequest searchCourseRequest, HttpSession httpSession){
         User user = (User)httpSession.getAttribute("user");
         List<BuyRecord> buyRecords = buyRecordService.findBuyRecordByUserId(user);
-        List<Course> courseBought = buyRecords.stream().map(BuyRecord::getCourse).collect(Collectors.toList());
+        List<Course> courseBought = buyRecords.stream().map(BuyRecord::getCourse).toList();
         List<Integer> courseId = courseBought.stream().map(Course::getId).collect(Collectors.toList());
         if(searchCourseRequest.getSearchCourseMethod() == SearchCourseMethod.NAME){
             return courseRepository.findByTitleContainsIgnoreCaseAndIdInOrderByIdDesc(searchCourseRequest.getSearchWords(),courseId);
@@ -126,13 +126,7 @@ public class CourseService {
         return null;
     }
 
-    public void update(Course course, PhotoType extension){
-        course.setPhotoType(extension);
-        courseRepository.save(course);
-    }
-
-    public void update(Course course, VideoType extension){
-        course.setVideoType(extension);
+    public void update(Course course){
         courseRepository.save(course);
     }
 
@@ -141,7 +135,7 @@ public class CourseService {
     }
 
     public Boolean paid(User user, Course course){
-        return buyRecordService.getBuyRecordByUserIdAndCourseId(course, user) == null? false : true;
+        return buyRecordService.getBuyRecordByUserIdAndCourseId(course, user) != null;
     }
 
     public Boolean validShowCourseToStudent(Course course,HttpSession httpSession){
@@ -153,7 +147,7 @@ public class CourseService {
         if(paid(user,course)) return true;
 
         //third, check whether the course is not deleted yet and user is not deleted yet
-        if(course.getIsDeleted() == false && course.getUser().getIsDeleted() == false) return true;
+        if(!course.getIsDeleted() && !course.getUser().getIsDeleted()) return true;
         return false;
     }
 
@@ -181,7 +175,7 @@ public class CourseService {
 
             //3. update teacher's balance and insert teacher's money record
 
-            //load money seperation setting
+            //load money separation setting
             MoneySeperation moneySeperation = moneySeperationService.getMoneySeperation();
             Integer teacherProfit = course.getPrice() * moneySeperation.getTeacherMoneyPercentage() / 100;
             Integer adminProfit = course.getPrice() - teacherProfit;

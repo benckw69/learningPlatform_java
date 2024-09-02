@@ -7,7 +7,7 @@ public enum SearchCourseMethod {
 
     private final String name;
 
-    private SearchCourseMethod(String name){
+    SearchCourseMethod(String name){
         this.name = name;
     }
 

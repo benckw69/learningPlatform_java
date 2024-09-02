@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.benckw69.learningPlatform_java.User.IntroductionService;
 import com.benckw69.learningPlatform_java.User.User;
-import com.benckw69.learningPlatform_java.User.UserService;
 import com.benckw69.learningPlatform_java.storage.FileType;
 import com.benckw69.learningPlatform_java.storage.StorageService;
 
@@ -28,9 +27,6 @@ public class CourseTeacherController {
     CourseService courseService;
 
     @Autowired
-    UserService userService;
-
-    @Autowired
     StorageService storageService;
 
     @Autowired
@@ -41,9 +37,9 @@ public class CourseTeacherController {
     public String viewCourse(@PathVariable Integer id, Model model, HttpSession httpSession){
         //check whether it is the owner of the course
         Course course = courseService.findCourseById(id);
-        if(course == null || (course != null && course.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        if(course == null || course.getUser().getId() != (int)httpSession.getAttribute("userId")) return "redirect:/teacher/course/own";
         model.addAttribute("course", course);
-        model.addAttribute("introduction", introductionService.getIntroductionBySession(httpSession).getIntrodution());
+        model.addAttribute("introduction", introductionService.getIntroductionBySession(httpSession).getIntroduction());
         return "pages/teacher_course_view";
     }
 
@@ -51,7 +47,7 @@ public class CourseTeacherController {
     public String editCourseInfo(@PathVariable Integer id, HttpSession httpSession, Course course, Model model){
         //check id and check whether it is the course owner
         Course validCourse = courseService.findCourseById(id);
-        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        if(validCourse == null || validCourse.getUser().getId() != ((int)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
         
         //set the column value
         course.setCategory(validCourse.getCategory());
@@ -68,10 +64,10 @@ public class CourseTeacherController {
     public String editCourseInfo(@PathVariable Integer id, @Valid Course course, Model model, HttpSession httpSession, BindingResult bindingResult){
         //check id and check whether it is the course owner
         Course validCourse = courseService.findCourseById(id);
-        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        if(validCourse == null || validCourse.getUser().getId() != (int)httpSession.getAttribute("userId")) return "redirect:/teacher/course/own";
         
         //check validation
-        Boolean validation = validCourse.getTitle().equals(course.getTitle()) || !courseService.sameTitle(course.getTitle(), model);
+        boolean validation = validCourse.getTitle().equals(course.getTitle()) || !courseService.sameTitle(course.getTitle(), model);
         if(!validation || bindingResult.hasErrors()) return "pages/teacher_course_info_edit";
         
         //set new value
@@ -83,7 +79,7 @@ public class CourseTeacherController {
     public String editCoursePhoto(@PathVariable Integer id, Model model, HttpSession httpSession){
         //check id and check whether it is the course owner
         Course validCourse = courseService.findCourseById(id);
-        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        if(validCourse == null || validCourse.getUser().getId() != (int)httpSession.getAttribute("userId")) return "redirect:/teacher/course/own";
         model.addAttribute("course", validCourse);
         return "pages/teacher_course_photo_edit";
     }
@@ -92,16 +88,19 @@ public class CourseTeacherController {
     public String editCoursePhotoPost(@PathVariable Integer id, HttpSession httpSession, @RequestParam("file") MultipartFile file){
         //check id and check whether it is the course owner
         Course validCourse = courseService.findCourseById(id);
-        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        if(validCourse == null || validCourse.getUser().getId() != (int)httpSession.getAttribute("userId")) return "redirect:/teacher/course/own";
         if(!file.isEmpty()){
             Boolean successful = storageService.store(file,FileType.PHOTO,id+"");
             String fileName = file.getOriginalFilename();
             String extension = fileName.substring(fileName.lastIndexOf(".")+1).toUpperCase();
-            if(successful) courseService.update(validCourse,PhotoType.valueOf(extension));
+            if(successful) {
+                validCourse.setPhotoType(PhotoType.valueOf(extension));
+                courseService.update(validCourse);
+            }
             return successful? "redirect:/teacher/course/"+id+"/photo/edit?edit=true" : "redirect:/teacher/course/"+id+"/photo/edit?edit=false";
         } else {
-            PhotoType photoType = null;
-            courseService.update(validCourse,photoType);
+            validCourse.setPhotoType(null);
+            courseService.update(validCourse);
             return "redirect:/teacher/course/"+id+"/photo/edit?edit=true";
         }
     }
@@ -110,7 +109,7 @@ public class CourseTeacherController {
     public String editCourseVideo(@PathVariable Integer id, Model model, HttpSession httpSession){
         //check id and check whether it is the course owner
         Course validCourse = courseService.findCourseById(id);
-        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        if(validCourse == null || validCourse.getUser().getId() != (int)httpSession.getAttribute("userId")) return "redirect:/teacher/course/own";
         model.addAttribute("course", validCourse);
         return "pages/teacher_course_video_edit";
     }
@@ -119,16 +118,17 @@ public class CourseTeacherController {
     public String editCourseVideoPost(@PathVariable Integer id, HttpSession httpSession, @RequestParam("file") MultipartFile file){
         //check id and check whether it is the course owner
         Course validCourse = courseService.findCourseById(id);
-        if(validCourse == null || (validCourse != null && validCourse.getUser().getId() != (Integer)httpSession.getAttribute("userId"))) return "redirect:/teacher/course/own";
+        if(validCourse == null || validCourse.getUser().getId() != (int)httpSession.getAttribute("userId")) return "redirect:/teacher/course/own";
         if(!file.isEmpty()){
             Boolean successful = storageService.store(file,FileType.VIDEO,id+"");
             String fileName = file.getOriginalFilename();
             String extension = fileName.substring(fileName.lastIndexOf(".")+1).toUpperCase();
-            if(successful) courseService.update(validCourse,VideoType.valueOf(extension));
+            validCourse.setVideoType(VideoType.valueOf(extension));
+            if(successful) courseService.update(validCourse);
             return successful? "redirect:/teacher/course/"+id+"/video/edit?edit=true" : "redirect:/teacher/course/"+id+"/video/edit?edit=false";
         } else {
-            VideoType videoType = null;
-            courseService.update(validCourse,videoType);
+            validCourse.setVideoType(null);
+            courseService.update(validCourse);
             return "redirect:/teacher/course/"+id+"/video/edit?edit=true";
         }
         
@@ -141,7 +141,7 @@ public class CourseTeacherController {
 
     @PostMapping("/insert")
     public String insertCourse(@Valid Course course, BindingResult bindingResult, Model model, HttpSession httpSession){
-        Boolean validation = !courseService.sameTitle(course.getTitle(),model);
+        boolean validation = !courseService.sameTitle(course.getTitle(),model);
         if(bindingResult.hasErrors() || !validation) return "pages/teacher_course_insert";
         User user = (User)httpSession.getAttribute("user");
         course.setUser(user);

@@ -39,7 +39,7 @@ public class MoneyTicketService {
     }
 
     public List<MoneyTicket> findAllAvailableMoneyTickets(){
-        return moneyTicketRepository.findByisUsedOrderByIdDesc(false);
+        return moneyTicketRepository.findByIsUsedOrderByIdDesc(false);
     }
 
     public void deleteMoneyTicket(Integer id){

@@ -18,7 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    private HttpSession httpSession;
+    private final HttpSession httpSession;
 
     public UserDetailsServiceImpl (HttpSession httpSession){
         this.httpSession = httpSession;

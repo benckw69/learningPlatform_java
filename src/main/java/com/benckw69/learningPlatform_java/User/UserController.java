@@ -22,17 +22,17 @@ public class UserController {
     IntroductionService introductionService;
     
     @GetMapping
-    public String showUserInfomation(Model model,HttpSession httpSession){
-        //retrive introduction if user type is teacher
+    public String showUserInformation(Model model,HttpSession httpSession){
+        //retrieve introduction if user type is teacher
         if((User)httpSession.getAttribute("user") != null && ((User)httpSession.getAttribute("user")).getType()==Type.teacher){
             Introduction introduction = introductionService.getIntroductionBySession(httpSession);
-            model.addAttribute("introduction", introduction.getIntrodution());
+            model.addAttribute("introduction", introduction.getIntroduction());
         }
         return "pages/user_info_view";
     }
 
     @GetMapping({"/info/edit","/info/edit/teacher","/info/edit/studentOrAdmin"})
-    public String editUserInfomation(StudentOrAdminEdit studentOrAdminEdit, TeacherEdit teacherEdit, HttpSession httpSession){
+    public String editUserInformation(StudentOrAdminEdit studentOrAdminEdit, TeacherEdit teacherEdit, HttpSession httpSession){
         User user = (User)httpSession.getAttribute("user");
         Type type = user.getType();
 
@@ -40,7 +40,7 @@ public class UserController {
             Introduction introduction = introductionService.getIntroductionBySession(httpSession);
             teacherEdit.setUsername(user.getUsername());
             teacherEdit.setEmail(user.getEmail());
-            teacherEdit.setIntroduction(introduction.getIntrodution());
+            teacherEdit.setIntroduction(introduction.getIntroduction());
             return "pages/user_info_edit_teacher";
         } else {
             studentOrAdminEdit.setUsername(user.getUsername());
