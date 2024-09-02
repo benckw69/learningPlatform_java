@@ -72,7 +72,11 @@ database_url=jdbc:mysql://localhost:3306/learningplatform
 DATABASE_USERNAME=root
 DATABASE_PASSWORD=
 ```
-After all of this setups, you are able to run!
+After all of this setups, you are able to run the server using IDE, or run the server by creating the jar using maven.
 
+```
+java -jar your_jar_name
+```
+The server run at [http://localhost:8080](http://localhost:8080).
 (There is one default account for admin.  Admin's email address is admin@gmail.com, password is adminadmin.
 
